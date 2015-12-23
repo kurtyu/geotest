@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <style type="text/css">
+
+        /* Remove margins and HTML scrollbars */
+        BODY, HTML  {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>  
+
+	<title>SlotGame: EaselJS Version</title>
+
+    <!-- 風格 -->
+	<link href="GameStyles.css" rel="stylesheet" type="text/css" />
+
+    <!-- CreateJS -->
+	 <script type="text/javascript" src="https://code.createjs.com/createjs-2015.11.26.min.js"></script> 
+
+    <!-- Tween -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/plugins/EaselPlugin.min.js"></script>
+
+    <script type="text/javascript" src="geolocator.js"></script>
+
+    <script type="text/javascript" src="Resource.js"></script>
+    <script type="text/javascript" src="SlotMachine.js"></script>          
+
+	<script>
+
+        // Success Callback
+        function onGeoSuccess(location) {
+            console.log(location);
+            var strLocation = '<b>Latitude:</b> ' + location.coords.latitude + '<br />' +
+                            '<b>Longitude:</b> ' + location.coords.longitude + '<br />' +
+                            '<b>City:</b> ' + location.address.city + '<br />' +
+                            '<b>Country:</b> ' + location.address.country + '<br />' +
+                            '<b>Country Code:</b> ' + location.address.countryCode + '<br />' +
+                            '<b>Region:</b> ' + location.address.region + '<br />' +
+                            '<br /><span class="info">See console logs for the full properties of the "location" object.</span>'
+            document.getElementById('geo-details').innerHTML = strLocation;
+        }
+        // Error Callback
+        function onGeoError(error) {
+            console.log(error);
+            // To check if this is a HTML5 `PositionError`:
+            // console.log(geolocator.isPositionError(error));
+        }
+
+   window.onload = function () {
+        //geolocator.locateByIP(onGeoSuccess, onGeoError, 2, 'map-canvas');
+        var html5Options = { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 };
+        geolocator.locate(onGeoSuccess, onGeoError, true, html5Options, 'map-canvas');
+    };
+
+    // 舞台
+    var stage;
+    // 舞台畫面原始寬高
+    var stageWidth;
+    var stageHeight;   
+
+
+    // 玩家數值
+    // 下注單位
+    var g_nBet = 0;
+    // 下注線(PayLines)
+    var g_nPayLines = 0;
+    
+ 
+    // 載入物件
+    // var loadingImg;
+    var loaderBar;
+    var barShape; 
+    var bar;   
+    var barWidth;   
+
+    // 背景顏色
+    // var bg;
+
+    // 遊戲大廳
+    var lobbyContainer;
+    // 遊戲畫面
+    var gameContainer;
+    // 滾輪
+    // var slotRools;
+    // 老虎機
+    var slotMachine;
+    // 贏錢線
+    var g_PayLines;
+
+    // 資源
+    var assets;
+    // 圖示資源(1~9)(10:WILD)(11:BONUS)(12:SCATTER)
+    var iconAssets;
+
+    //  註冊畫面大小改變
+    window.addEventListener('resize', resize, false);
+    function resize()
+    {
+        var rate = stageWidth / stageHeight;
+        
+        stage.canvas.height = window.innerHeight;                   
+        stage.canvas.width = window.innerHeight * rate;
+
+        stage.scaleY = stage.canvas.height / stageHeight;  
+        stage.scaleX = stage.canvas.width / stageWidth;
+    }
+
+	function init() 
+    {
+        // Image陣列物件
+        assets = [];
+        iconAssets = []
+
+    
+		// Stage物件：Display List 最底層的物件
+		var canvas = document.getElementById("GameCanvas");
+		stage = new createjs.Stage(canvas); 
+
+
+        stageWidth = stage.canvas.width;
+        stageHeight = stage.canvas.height;        
+
+
+        // 滾輪物件
+        slotRools = []
+
+
+        // 經典的你好世界
+		// var text = new createjs.Text("Hello World!", "36px Arial", "#777");
+		// stage.addChild(text);
+
+
+        // 讀取進度條
+        // =================================================================
+        barWidth = 300;
+        var barHeight = 20;
+        // 外框距離
+        var padding = 3        
+
+        // getRGB() 回傳字串  EX: "rgb(255, 255, 255)"        
+        var loaderColor = createjs.Graphics.getRGB(247,247,247);
+
+        // 畫框線
+        bar = new createjs.Shape();
+        bar.graphics.beginFill(loaderColor).drawRect(0, 0, 1, 20).endFill();        
+
+        // 填滿顏色
+        var bgBar = new createjs.Shape();
+        bgBar.graphics.setStrokeStyle(1).beginStroke(loaderColor).drawRect(-padding/2, -padding/2, barWidth+padding, barHeight+padding);        
+
+        loaderBar = new createjs.Container();
+        loaderBar.x = stageWidth - barWidth>>1;
+        loaderBar.y = stageHeight - barHeight>>1; 
+        loaderBar.addChild(bar, bgBar);     
+        // loaderBar.visible = false;
+
+        stage.addChild(loaderBar);
+        // =================================================================
+
+        resize();
+
+        // 開始讀取
+        startLoading();       
+        
+        // TweenLite使用
+        TweenLite.ticker.addEventListener("tick", stage.update, stage);           
+	}
+
+    function tick() 
+    {
+        stage.update();
+    }           
+
+    function rollComplete()
+    {
+        console.log("rollComplete");
+        gameContainer.getChildAt(INDEX.btn_spin_disable).visible = false;
+
+    }
+
+    function updateScaleStage()
+    {
+        console.log("update");
+    }
+
+
+	</script>
+</head>
+	
+<body onload="init();">
+
+    <div id="container">
+        <div id="controls">
+            Geo IP Source: <select id="cmb-source">
+                <option value="0">Free GeoIP</option>
+                <option value="1">Geo Plugin</option>
+                <option selected value="2">Wikimedia</option>
+            </select>&nbsp;<button id="btn-locate-ip">Locate by IP</button> | <button id="btn-locate">Locate (HTML5)</button>
+            <input id="chk-fallback" type="checkbox" checked /> Fallback to IP
+            <br /><span class="info">(Geo IP Source is also used as a fallback when user rejects HTML5 Geo-location or timeout expires.)</span><br />
+        </div>
+        <div id="map-canvas"></div>
+        <div id="geo-details"></div>
+        <br />
+        Try <a href="https://rawgit.com/onury/geolocator/master/example/index.html">HTTPS</a>. (Note: GeoPlugin does not support HTTPS.)
+        <br />
+        View <a href="https://github.com/onury/geolocator">project page</a> (and documentation) at GitHub.<br />
+        Geolocator 1.2.9 - Copyright © Onur Yıldırım, 2015. MIT License.
+        <br /><br />
+
+            <div class="canvasHolder">
+        <canvas id="GameCanvas" width="640" height="480"></canvas>
+    </div>
+    </div>
+
+</body>
+</html>

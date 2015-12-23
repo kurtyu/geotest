@@ -25,37 +25,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/TweenLite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/plugins/EaselPlugin.min.js"></script>
 
-    <script type="text/javascript" src="geolocator.js"></script>
-
-    <script type="text/javascript" src="Resource.js"></script>
-    <script type="text/javascript" src="SlotMachine.js"></script>          
+  
+    <script type="text/javascript" src="MainStage.js"></script>          
 
 	<script>
 
-        // Success Callback
-        function onGeoSuccess(location) {
-            console.log(location);
-            var strLocation = '<b>Latitude:</b> ' + location.coords.latitude + '<br />' +
-                            '<b>Longitude:</b> ' + location.coords.longitude + '<br />' +
-                            '<b>City:</b> ' + location.address.city + '<br />' +
-                            '<b>Country:</b> ' + location.address.country + '<br />' +
-                            '<b>Country Code:</b> ' + location.address.countryCode + '<br />' +
-                            '<b>Region:</b> ' + location.address.region + '<br />' +
-                            '<br /><span class="info">See console logs for the full properties of the "location" object.</span>'
-            document.getElementById('geo-details').innerHTML = strLocation;
-        }
-        // Error Callback
-        function onGeoError(error) {
-            console.log(error);
-            // To check if this is a HTML5 `PositionError`:
-            // console.log(geolocator.isPositionError(error));
+        function success(position) {
+            console.log(position.coords.latitude+" x "+position.coords.longitude);
         }
 
-   window.onload = function () {
-        //geolocator.locateByIP(onGeoSuccess, onGeoError, 2, 'map-canvas');
-        var html5Options = { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 };
-        geolocator.locate(onGeoSuccess, onGeoError, true, html5Options, 'map-canvas');
-    };
+        function error(msg) {
+          // console.log(arguments);
+        }
+
+       window.onload = function () 
+       {
+        console.log("init");
+           init();
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(success, error);
+            } else {
+              error('not supported');
+            }
+         };
 
     // 舞台
     var stage;
@@ -165,7 +157,7 @@
         resize();
 
         // 開始讀取
-        startLoading();       
+        // startLoading();       
         
         // TweenLite使用
         TweenLite.ticker.addEventListener("tick", stage.update, stage);           
@@ -192,30 +184,11 @@
 	</script>
 </head>
 	
-<body onload="init();">
+<body>
 
-    <div id="container">
-        <div id="controls">
-            Geo IP Source: <select id="cmb-source">
-                <option value="0">Free GeoIP</option>
-                <option value="1">Geo Plugin</option>
-                <option selected value="2">Wikimedia</option>
-            </select>&nbsp;<button id="btn-locate-ip">Locate by IP</button> | <button id="btn-locate">Locate (HTML5)</button>
-            <input id="chk-fallback" type="checkbox" checked /> Fallback to IP
-            <br /><span class="info">(Geo IP Source is also used as a fallback when user rejects HTML5 Geo-location or timeout expires.)</span><br />
-        </div>
-        <div id="map-canvas"></div>
-        <div id="geo-details"></div>
-        <br />
-        Try <a href="https://rawgit.com/onury/geolocator/master/example/index.html">HTTPS</a>. (Note: GeoPlugin does not support HTTPS.)
-        <br />
-        View <a href="https://github.com/onury/geolocator">project page</a> (and documentation) at GitHub.<br />
-        Geolocator 1.2.9 - Copyright © Onur Yıldırım, 2015. MIT License.
-        <br /><br />
+    <div class="canvasHolder">
+    <canvas id="GameCanvas" width="640" height="480"></canvas>
 
-            <div class="canvasHolder">
-        <canvas id="GameCanvas" width="640" height="480"></canvas>
-    </div>
     </div>
 
 </body>

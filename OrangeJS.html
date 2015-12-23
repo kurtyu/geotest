@@ -30,8 +30,9 @@
 
 	<script>
 
-        function success(position) {
-            console.log(position.coords.latitude+" x "+position.coords.longitude);
+        function success(position) 
+        {
+            textGeoLocation.text = position.coords.latitude+" x "+position.coords.longitude;
         }
 
         function error(msg) {
@@ -96,6 +97,11 @@
         // 圖示資源(1~9)(10:WILD)(11:BONUS)(12:SCATTER)
         var iconAssets;
 
+
+        // 緯經度
+        var textGeoLocation;
+
+
         //  註冊畫面大小改變
         window.addEventListener('resize', resize, false);
         function resize()
@@ -119,11 +125,11 @@
     		// Stage物件：Display List 最底層的物件
     		var canvas = document.getElementById("GameCanvas");
     		stage = new createjs.Stage(canvas); 
-
-
             stageWidth = stage.canvas.width;
             stageHeight = stage.canvas.height;        
 
+            // 經緯度文字
+            addGeoLocationText();
 
             // 滾輪物件
             slotRools = []
@@ -166,9 +172,20 @@
             // 開始讀取
             // startLoading();       
             
+            createjs.Ticker.setFPS(30);
             createjs.Ticker.addEventListener("tick", tickFunction);
-        
+
+
+
     	}
+
+        function addGeoLocationText()
+        {
+            textGeoLocation = new createjs.Text("Hello World", "20px Arial", "#ff7700");
+            textGeoLocation.x = 10;
+            textGeoLocation.y = 10;
+            stage.addChild(textGeoLocation);  
+        }
 
         function tickFunction() 
         {

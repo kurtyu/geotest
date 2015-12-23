@@ -40,27 +40,35 @@
 
        window.onload = function () 
        {
-        console.log("init");
-           init();
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(success, error);
-            } else {
-              error('not supported');
-            }
+            console.log("init");
+            init();
          };
 
-    // 舞台
-    var stage;
-    // 舞台畫面原始寬高
-    var stageWidth;
-    var stageHeight;   
+
+        function getCurrentLocation()
+        {
+            if (navigator.geolocation) 
+            {
+              navigator.geolocation.getCurrentPosition(success, error);
+            } 
+            else 
+            {
+              error('not supported');
+            }
+        }
+
+        // 舞台
+        var stage;
+        // 舞台畫面原始寬高
+        var stageWidth;
+        var stageHeight;   
 
 
-    // 玩家數值
-    // 下注單位
-    var g_nBet = 0;
-    // 下注線(PayLines)
-    var g_nPayLines = 0;
+        // 玩家數值
+        // 下注單位
+        var g_nBet = 0;
+        // 下注線(PayLines)
+        var g_nPayLines = 0;
     
  
     // 載入物件
@@ -160,12 +168,14 @@
         // startLoading();       
         
         // TweenLite使用
-        TweenLite.ticker.addEventListener("tick", stage.update, stage);           
+        TweenLite.ticker.fps(30);
+        TweenLite.ticker.addEventListener("tick", tickFunction);           
 	}
 
-    function tick() 
+    function tickFunction() 
     {
         stage.update();
+        getCurrentLocation();
     }           
 
     function rollComplete()

@@ -38,12 +38,11 @@
           // console.log(arguments);
         }
 
-       window.onload = function () 
-       {
+        window.onload = function () 
+        {
             console.log("init");
             init();
-         };
-
+        };
 
         function getCurrentLocation()
         {
@@ -71,124 +70,116 @@
         var g_nPayLines = 0;
     
  
-    // 載入物件
-    // var loadingImg;
-    var loaderBar;
-    var barShape; 
-    var bar;   
-    var barWidth;   
+        // 載入物件
+        // var loadingImg;
+        var loaderBar;
+        var barShape; 
+        var bar;   
+        var barWidth;   
 
-    // 背景顏色
-    // var bg;
+        // 背景顏色
+        // var bg;
 
-    // 遊戲大廳
-    var lobbyContainer;
-    // 遊戲畫面
-    var gameContainer;
-    // 滾輪
-    // var slotRools;
-    // 老虎機
-    var slotMachine;
-    // 贏錢線
-    var g_PayLines;
+        // 遊戲大廳
+        var lobbyContainer;
+        // 遊戲畫面
+        var gameContainer;
+        // 滾輪
+        // var slotRools;
+        // 老虎機
+        var slotMachine;
+        // 贏錢線
+        var g_PayLines;
 
-    // 資源
-    var assets;
-    // 圖示資源(1~9)(10:WILD)(11:BONUS)(12:SCATTER)
-    var iconAssets;
+        // 資源
+        var assets;
+        // 圖示資源(1~9)(10:WILD)(11:BONUS)(12:SCATTER)
+        var iconAssets;
 
-    //  註冊畫面大小改變
-    window.addEventListener('resize', resize, false);
-    function resize()
-    {
-        var rate = stageWidth / stageHeight;
+        //  註冊畫面大小改變
+        window.addEventListener('resize', resize, false);
+        function resize()
+        {
+            var rate = stageWidth / stageHeight;
+            
+            stage.canvas.height = window.innerHeight;                   
+            stage.canvas.width = window.innerHeight * rate;
+
+            stage.scaleY = stage.canvas.height / stageHeight;  
+            stage.scaleX = stage.canvas.width / stageWidth;
+        }
+
+    	function init() 
+        {
+            // Image陣列物件
+            assets = [];
+            iconAssets = []
+
         
-        stage.canvas.height = window.innerHeight;                   
-        stage.canvas.width = window.innerHeight * rate;
-
-        stage.scaleY = stage.canvas.height / stageHeight;  
-        stage.scaleX = stage.canvas.width / stageWidth;
-    }
-
-	function init() 
-    {
-        // Image陣列物件
-        assets = [];
-        iconAssets = []
-
-    
-		// Stage物件：Display List 最底層的物件
-		var canvas = document.getElementById("GameCanvas");
-		stage = new createjs.Stage(canvas); 
+    		// Stage物件：Display List 最底層的物件
+    		var canvas = document.getElementById("GameCanvas");
+    		stage = new createjs.Stage(canvas); 
 
 
-        stageWidth = stage.canvas.width;
-        stageHeight = stage.canvas.height;        
+            stageWidth = stage.canvas.width;
+            stageHeight = stage.canvas.height;        
 
 
-        // 滾輪物件
-        slotRools = []
+            // 滾輪物件
+            slotRools = []
 
 
-        // 經典的你好世界
-		// var text = new createjs.Text("Hello World!", "36px Arial", "#777");
-		// stage.addChild(text);
+            // 經典的你好世界
+    		// var text = new createjs.Text("Hello World!", "36px Arial", "#777");
+    		// stage.addChild(text);
 
 
-        // 讀取進度條
-        // =================================================================
-        barWidth = 300;
-        var barHeight = 20;
-        // 外框距離
-        var padding = 3        
+            // 讀取進度條
+            // =================================================================
+            barWidth = 300;
+            var barHeight = 20;
+            // 外框距離
+            var padding = 3        
 
-        // getRGB() 回傳字串  EX: "rgb(255, 255, 255)"        
-        var loaderColor = createjs.Graphics.getRGB(247,247,247);
+            // getRGB() 回傳字串  EX: "rgb(255, 255, 255)"        
+            var loaderColor = createjs.Graphics.getRGB(247,247,247);
 
-        // 畫框線
-        bar = new createjs.Shape();
-        bar.graphics.beginFill(loaderColor).drawRect(0, 0, 1, 20).endFill();        
+            // 畫框線
+            bar = new createjs.Shape();
+            bar.graphics.beginFill(loaderColor).drawRect(0, 0, 1, 20).endFill();        
 
-        // 填滿顏色
-        var bgBar = new createjs.Shape();
-        bgBar.graphics.setStrokeStyle(1).beginStroke(loaderColor).drawRect(-padding/2, -padding/2, barWidth+padding, barHeight+padding);        
+            // 填滿顏色
+            var bgBar = new createjs.Shape();
+            bgBar.graphics.setStrokeStyle(1).beginStroke(loaderColor).drawRect(-padding/2, -padding/2, barWidth+padding, barHeight+padding);        
 
-        loaderBar = new createjs.Container();
-        loaderBar.x = stageWidth - barWidth>>1;
-        loaderBar.y = stageHeight - barHeight>>1; 
-        loaderBar.addChild(bar, bgBar);     
-        // loaderBar.visible = false;
+            loaderBar = new createjs.Container();
+            loaderBar.x = stageWidth - barWidth>>1;
+            loaderBar.y = stageHeight - barHeight>>1; 
+            loaderBar.addChild(bar, bgBar);     
+            // loaderBar.visible = false;
 
-        stage.addChild(loaderBar);
-        // =================================================================
+            stage.addChild(loaderBar);
+            // =================================================================
 
-        resize();
+            resize();
 
-        // 開始讀取
-        // startLoading();       
+            // 開始讀取
+            // startLoading();       
+            
+            createjs.Ticker.addEventListener("tick", tickFunction);
         
-        // TweenLite使用
-        TweenLite.ticker.fps(30);
-        TweenLite.ticker.addEventListener("tick", tickFunction);           
-	}
+    	}
 
-    function tickFunction() 
-    {
-        stage.update();
-        getCurrentLocation();
-    }           
+        function tickFunction() 
+        {
+            stage.update();
+            getCurrentLocation();
+        }           
 
-    function rollComplete()
-    {
-        console.log("rollComplete");
-        gameContainer.getChildAt(INDEX.btn_spin_disable).visible = false;
-
-    }
-
-    function updateScaleStage()
-    {
-        console.log("update");
-    }
+        function updateScaleStage()
+        {
+            console.log("update");
+        }
 
 
 	</script>

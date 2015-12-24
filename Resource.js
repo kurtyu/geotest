@@ -155,7 +155,10 @@ function handleComplete(event) {
     stage.addChild(gameContainer); 
     addGeoLocationText();  
     addOrientationText();
-    addGeoLocationDiffText();               
+    addGeoLocationDiffText(); 
+
+    myPuzzleContainer = new createjs.Container();
+    stage.addChild(myPuzzleContainer);                  
 
     var i = 0;
     for(i=0;i<assets.length;i++) {
@@ -203,7 +206,6 @@ function handleComplete(event) {
                 puzzle03Bitmap = new createjs.Bitmap(result);
                 puzzle03Bitmap.name = "puzzle03";      
 
-                myPuzzleContainer = new createjs.Container();
                 myPuzzleContainer.addChild(puzzle03Bitmap);        
 
                 myPuzzleContainer.x = screenWidth / 2;
@@ -212,7 +214,7 @@ function handleComplete(event) {
                 puzzle03Bitmap.regX = puzzleSize/2;
                 puzzle03Bitmap.regY = puzzleSize/2;
 
-                stage.addChild(myPuzzleContainer);
+                
 
             break;
             case "puzzle_line_4x4":
@@ -263,11 +265,9 @@ function handleComplete(event) {
                 role.scaleY = 0.6;
             break;
             case "background":
-                var backgroundBitmap = new createjs.Bitmap(result);
+                backgroundBitmap = new createjs.Bitmap(result);
                 backgroundBitmap.name = "background";
-                
                 mapConatainer.addChild(backgroundBitmap);       
-
                 backgroundBitmap.regX = 480/2;
                 backgroundBitmap.regY = 480/2;
             break;
@@ -421,12 +421,6 @@ function handleComplete(event) {
     // gameContainer.addChild(button);
 
  
-
-    // gameContainer.addChild(puzzle03Bitmap);
-    // puzzle03Bitmap.regX -= 50;
-    // puzzle03Bitmap.regY -= 50;
-    // puzzle03Bitmap.rotation = 45;
-    // puzzle03Bitmap.y =  100;
     // createjs.Ticker.addListener(this);
 
     mapConatainer.addChild(puzzleLine4x4Bitmap);

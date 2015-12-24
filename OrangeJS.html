@@ -101,7 +101,7 @@
             {
                  if(backgroundBitmap != null)
                 {
-                    backgroundBitmap.rotation = (360-alpha);
+                    backgroundBitmap.rotation = alpha;
                 }
                 // myPuzzleContainer.position.x = stage.canvas.width/2;
                 // myPuzzleContainer.position.y = stage.canvas.height/2-puzzle03Bitmap.height;
@@ -136,8 +136,8 @@
                 geoLocationDiffText.text = "緯度差距："+formatFloat(diffLatitude, 7)+" x 經度差距："+formatFloat(diffLongitude, 7);
 
                 // 等於橘子園的座標
-                mapConatainer.x = (screenWidth - 480)/2;
-                mapConatainer.y = (screenHeight - 480)/2;
+                mapConatainer.x = (screenWidth)/2;
+                mapConatainer.y = (screenHeight)/2;
 
                 // backgroundBitmap
         }    

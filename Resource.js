@@ -589,7 +589,9 @@ function handleComplete(event) {
 
     }
 
-    gameContainer.addChild(button);  
+    gameContainer.addChild(button);
+
+    addGeoLocationText();  
 
 
     // createjs.Ticker.addListener(this);

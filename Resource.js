@@ -14,6 +14,7 @@ function startLoading(){
         {src:"ui/puzzle03.png", id:"puzzle03"},
         {src:"ui/puzzle_line_4x4.png", id:"puzzle_line_4x4"},
         {src:"ui/role.png", id:"role"},
+        {src:"ui/background.png", id:"background"},
         // {src:"UI/panel.png", id:"panel"},
         // {src:"UI/btn_spin.png", id:"btn_spin"},
         // {src:"UI/btn_spin_disable.png", id:"btn_spin_disable"},
@@ -197,9 +198,9 @@ function handleComplete(event) {
                 myPuzzleContainer = new createjs.Container();
                 myPuzzleContainer.addChild(puzzle03Bitmap);        
 
-                myPuzzleContainer.x = stage.canvas.width / 2;
-                myPuzzleContainer.y = stage.canvas.height - puzzleSize;
-
+                myPuzzleContainer.x = screenWidth / 2;
+                myPuzzleContainer.y = (screenHeight - result.height);
+// 
                 puzzle03Bitmap.regX = puzzleSize/2;
                 puzzle03Bitmap.regY = puzzleSize/2;
 
@@ -253,9 +254,9 @@ function handleComplete(event) {
                 role.scaleX = 0.6;
                 role.scaleY = 0.6;
             break;
-            case "title":
-                var titleBmp = new createjs.Bitmap(result);
-                titleBmp.name = "title";
+            case "background":
+                var backgroundBitmap = new createjs.Bitmap(result);
+                backgroundBitmap.name = "background";
             break;
             case "panel":
                 var panelBmp = new createjs.Bitmap(result);
@@ -406,13 +407,17 @@ function handleComplete(event) {
 
     // gameContainer.addChild(button);
 
+    addBackground();
+
+    gameContainer.addChild(backgroundBitmap);
+
     addGeoLocationText();  
 
     addOrientationText();
 
     addGeoLocationDiffText();
 
-    gameContainer.addChild(puzzle03Bitmap);
+    // gameContainer.addChild(puzzle03Bitmap);
     // puzzle03Bitmap.regX -= 50;
     // puzzle03Bitmap.regY -= 50;
     // puzzle03Bitmap.rotation = 45;
@@ -423,11 +428,17 @@ function handleComplete(event) {
 
 
 
-
     gameContainer.addChild(role);
 
 
     resize();
+}
+
+function addBackground()
+{
+    var background = new createjs.Shape();
+    background.graphics.beginFill("#47a453").drawRect(0, 0, screenWidth, screenHeight);
+    gameContainer.addChild(background);
 }
 
 function addGeoLocationText()

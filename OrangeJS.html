@@ -31,6 +31,10 @@
 
 	<script>
 
+
+        var screenWidth = 480;
+        var screenHeight = 720;
+
         function success(position) 
         {
             textGeoLocation.text = "位置："+position.coords.latitude+" x "+position.coords.longitude;
@@ -290,6 +294,9 @@
 
             stage.addChild(loaderBar);
             // =================================================================
+
+
+
 
             resize();
 

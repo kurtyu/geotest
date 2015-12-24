@@ -143,7 +143,7 @@
 
                 var length = Math.sqrt((diffLatitude * diffLatitude) + (diffLongitude * diffLongitude));
 
-                geoLocationDiffText.text = "差距："+length;
+
 
             
                 // 等於橘子園的座標
@@ -152,6 +152,8 @@
 
                 var x = Math.sin(mapConatainer.rotation);
                 var y = Math.cos(mapConatainer.rotation);
+
+                geoLocationDiffText.text = "差距："+length+" X:"+x+" Y:"+y;
 
 
                 backgroundBitmap.regX = 480/2 + (x*length*10);

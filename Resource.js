@@ -260,7 +260,7 @@ function handleComplete(event) {
                 role.name = "role";
                 role.speed = 1;
                 role.x = (screenWidth - (96*0.6))/2;
-                role.y = (screenHeight - (96*0.6))/2;
+                role.y = (screenHeight - (96*0.6))/2 - 20;
                 role.scaleX = 0.6;
                 role.scaleY = 0.6;
             break;
@@ -427,6 +427,9 @@ function handleComplete(event) {
 
     gameContainer.addChild(role);
 
+    // 等於橘子園的座標
+    mapConatainer.x = (screenWidth)/2;
+    mapConatainer.y = (screenHeight)/2;
 
     resize();
 }

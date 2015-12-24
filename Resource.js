@@ -10,7 +10,7 @@ function startLoading(){
     // PreloadJS.js
     // =================================================================
     var manifest = [
-        {src:"ui/button.png", id:"button"},
+        // {src:"ui/button.png", id:"button"},
         {src:"ui/puzzle03.png", id:"puzzle03"},
         {src:"ui/puzzle_line_4x4.png", id:"puzzle_line_4x4"},
         {src:"ui/role.png", id:"role"},
@@ -192,7 +192,7 @@ function handleComplete(event) {
             case "puzzle03":
                 var puzzleSize = 100;
                 puzzle03Bitmap = new createjs.Bitmap(result);
-                puzzle03Bitmap.name = "puzzle";      
+                puzzle03Bitmap.name = "puzzle03";      
 
                 myPuzzleContainer = new createjs.Container();
                 myPuzzleContainer.addChild(puzzle03Bitmap);        

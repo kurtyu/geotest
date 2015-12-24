@@ -436,6 +436,8 @@ function handleComplete(event) {
 
     addGeoLocationText();  
 
+    addOrientationText();
+
     gameContainer.addChild(puzzle03Bitmap);
     // puzzle03Bitmap.regX -= 50;
     // puzzle03Bitmap.regY -= 50;
@@ -448,11 +450,20 @@ function handleComplete(event) {
 
 function addGeoLocationText()
 {
-    textGeoLocation = new createjs.Text("Hello World", "20px Arial", "#ff7700");
-    textGeoLocation.x = 10;
-    textGeoLocation.y = 10;
-    gameContainer.addChild(textGeoLocation);  
+    geoLocationText = new createjs.Text("位置", "20px Arial", "#ff7700");
+    geoLocationText.x = 10;
+    geoLocationText.y = 10;
+    gameContainer.addChild(geoLocationText);  
 }
+
+function addOrientationText()
+{
+    orientationText = new createjs.Text("方位", "20px Arial", "#ff7700");
+    orientationText.x = 10;
+    orientationText.y = 30;
+    gameContainer.addChild(orientationText);  
+}
+
 
 
 // 計算總下注金額

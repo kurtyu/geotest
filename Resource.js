@@ -190,7 +190,7 @@ function handleComplete(event) {
                 });
 
             case "puzzle03":
-                var puzzle03Bitmap = new createjs.Bitmap(result);
+                puzzle03Bitmap = new createjs.Bitmap(result);
                 puzzle03Bitmap.name = "puzzle";              
             break;
             case "bg":
@@ -442,8 +442,7 @@ function handleComplete(event) {
     // puzzle03Bitmap.regX -= 50;
     // puzzle03Bitmap.regY -= 50;
     puzzle03Bitmap.rotation = 45;
-
-
+    puzzle03Bitmap.y =  100;
     // createjs.Ticker.addListener(this);
     resize();
 }

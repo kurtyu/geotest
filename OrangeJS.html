@@ -33,7 +33,7 @@
 
         function success(position) 
         {
-            textGeoLocation.text = position.coords.latitude+" x "+position.coords.longitude;
+            textGeoLocation.text = "位置："+position.coords.latitude+" x "+position.coords.longitude;
         }
 
         function error(msg) {
@@ -79,7 +79,7 @@
         {
             if (window.DeviceOrientationEvent) 
             {
-                window.addEventListener("deviceorientation", handleOrientation, true);
+                window.addEventListener("deviceorientation", handleOrientation);
             } 
             else 
             {
@@ -96,7 +96,7 @@
             // Do stuff with the new orientation data
             puzzle03Bitmap.rotation = alpha;
 
-            orientationText.text =  alpha;
+            orientationText.text =  "方位："+alpha;
         }
 
         function displayPosition(position) 
@@ -159,6 +159,9 @@
         var orientationText;
 
 
+        var puzzle03Bitmap;
+
+
         //  註冊畫面大小改變
         window.addEventListener('resize', resize, false);
         function resize()
@@ -170,7 +173,7 @@
             stage.canvas.height = 960 * rate;
 
             stage.scaleX = stage.canvas.width / 480;
-            stage.scaleY = stage.scaleX;              
+            stage.scaleY = stage.scaleX;            
         }
 
     	function init() 

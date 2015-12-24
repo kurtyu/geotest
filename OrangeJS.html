@@ -139,7 +139,7 @@
 
                 console.log("緯度差距："+diffLatitude+" x 經度差距："+diffLongitude);
 
-                geoLocationDiffText.text = "緯度差距："+diffLatitude+" x 經度差距："+diffLongitude;
+                // geoLocationDiffText.text = "緯度差距："+diffLatitude+" x 經度差距："+diffLongitude;
 
                 var length = Math.sqrt((diffLatitude * diffLatitude) + (diffLongitude * diffLongitude));
 
@@ -156,8 +156,8 @@
                 geoLocationDiffText.text = "差距："+formatFloat(length, 6)+" X:"+formatFloat(x, 6)+" Y:"+formatFloat(y, 6);
 
 
-                backgroundBitmap.regX = 480/2 + (x*length*10);
-                backgroundBitmap.regY = 480/2 + (y*length*10);
+                backgroundBitmap.regX = 480/2 + (x*length*1000000);
+                backgroundBitmap.regY = 480/2 + (y*length*1000000);
 
 
                 // backgroundBitmap

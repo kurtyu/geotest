@@ -136,8 +136,8 @@
                 geoLocationDiffText.text = "緯度差距："+formatFloat(diffLatitude, 7)+" x 經度差距："+formatFloat(diffLongitude, 7);
 
                 // 等於橘子園的座標
-                mapConatainer.x = (screenWidth)/2;
-                mapConatainer.y = (screenHeight)/2;
+                mapConatainer.x = (screenWidth)/2 + formatFloat(diffLatitude, 7) * 1000000;
+                mapConatainer.y = (screenHeight)/2 + formatFloat(diffLongitude, 7) * 1000000;
 
                 // backgroundBitmap
         }    

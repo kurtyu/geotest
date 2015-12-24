@@ -148,7 +148,7 @@ function handleComplete(event) {
     // 地圖層
     mapConatainer = new createjs.Container();
     stage.addChild(mapConatainer);  
-    addBackground();    
+    // addBackground();    
 
     // 遊戲畫面
     gameContainer = new createjs.Container();
@@ -423,7 +423,7 @@ function handleComplete(event) {
  
     // createjs.Ticker.addListener(this);
 
-    mapConatainer.addChild(puzzleLine4x4Bitmap);
+    // mapConatainer.addChild(puzzleLine4x4Bitmap);
 
     gameContainer.addChild(role);
 

@@ -268,8 +268,8 @@ function handleComplete(event) {
                 
                 mapConatainer.addChild(backgroundBitmap);       
 
-                backgroundBitmap.regX = result.width/2;
-                backgroundBitmap.regY = result.height/2;
+                backgroundBitmap.regX = 480/2;
+                backgroundBitmap.regY = 480/2;
             break;
             case "panel":
                 var panelBmp = new createjs.Bitmap(result);

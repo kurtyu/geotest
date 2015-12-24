@@ -190,17 +190,27 @@ function handleComplete(event) {
                 });
 
             case "puzzle03":
+                var puzzleSize = 100;
                 puzzle03Bitmap = new createjs.Bitmap(result);
-                puzzle03Bitmap.name = "puzzle";              
+                puzzle03Bitmap.name = "puzzle";      
+
+                myPuzzleContainer = new createjs.Container();
+                myPuzzleContainer.addChild(puzzle03Bitmap);        
+
+                myPuzzleContainer.x = stage.canvas.width / 2;
+                myPuzzleContainer.y = stage.canvas.height - puzzleSize;
+
+                puzzle03Bitmap.regX = puzzleSize/2;
+                puzzle03Bitmap.regY = puzzleSize/2;
+
+                stage.addChild(myPuzzleContainer);
+
             break;
             case "puzzle_line_4x4":
                 puzzleLine4x4Bitmap = new createjs.Bitmap(result);
                 puzzleLine4x4Bitmap.name = "puzzle_line_4x4";
                 puzzleLine4x4Bitmap.scaleX = 0.5;
                 puzzleLine4x4Bitmap.scaleY = 0.5;
-
-     
-
 
             break;
 
@@ -405,8 +415,8 @@ function handleComplete(event) {
     gameContainer.addChild(puzzle03Bitmap);
     // puzzle03Bitmap.regX -= 50;
     // puzzle03Bitmap.regY -= 50;
-    puzzle03Bitmap.rotation = 45;
-    puzzle03Bitmap.y =  100;
+    // puzzle03Bitmap.rotation = 45;
+    // puzzle03Bitmap.y =  100;
     // createjs.Ticker.addListener(this);
 
     gameContainer.addChild(puzzleLine4x4Bitmap);

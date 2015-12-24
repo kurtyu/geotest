@@ -25,8 +25,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/TweenLite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/plugins/EaselPlugin.min.js"></script>
 
-  
-    <script type="text/javascript" src="MainStage.js"></script>          
+    <script src="Resource.js"></script>        
+    <script src="MainStage.js"></script>          
+
 
 	<script>
 
@@ -57,11 +58,53 @@
             }
         }
 
+        function watchDeviceLocation()
+        {
+            if (navigator.geolocation) 
+            {
+                var timeoutVal = 10 * 1000 * 1000;
+                navigator.geolocation.watchPosition(
+                    displayPosition, 
+                    displayError,
+                    { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+                );
+            }
+            else 
+            {
+                alert("Geolocation is not supported by this browser");
+            }
+        }
+
+        function watchDeviceOrientation()
+        {
+            if (window.DeviceOrientationEvent) 
+            {
+                window.addEventListener("deviceorientation", deviceOrientationListener);
+            } 
+            else 
+            {
+                alert("Sorry, your browser doesn't support Device Orientation");
+            }
+        }
+
+        function displayPosition(position) 
+        {
+            textGeoLocation.text = position.coords.latitude+" x "+position.coords.longitude;
+        }    
+
+        function displayError(error) 
+        {
+            var errors = 
+            { 
+                1: 'Permission denied',
+                2: 'Position unavailable',
+                3: 'Request timeout'
+            };
+            alert("Error: " + errors[error.code]);
+        }
+
         // 舞台
         var stage;
-        // 舞台畫面原始寬高
-        var stageWidth;
-        var stageHeight;   
 
 
         // 玩家數值
@@ -106,17 +149,22 @@
         window.addEventListener('resize', resize, false);
         function resize()
         {
-            var rate = stageWidth / stageHeight;
-            
-            stage.canvas.height = window.innerHeight;                   
-            stage.canvas.width = window.innerHeight * rate;
+            stage.canvas.width = window.innerWidth;                  
+            stage.canvas.height = window.innerHeight; 
 
-            stage.scaleY = stage.canvas.height / stageHeight;  
-            stage.scaleX = stage.canvas.width / stageWidth;
+            var rate = stage.canvas.width / 480;
+            stage.canvas.height = 960 * rate;
+
+            stage.scaleX = stage.canvas.width / 480;
+            stage.scaleY = stage.scaleX;              
         }
 
     	function init() 
         {
+
+      
+
+
             // Image陣列物件
             assets = [];
             iconAssets = []
@@ -125,8 +173,8 @@
     		// Stage物件：Display List 最底層的物件
     		var canvas = document.getElementById("GameCanvas");
     		stage = new createjs.Stage(canvas); 
-            stageWidth = stage.canvas.width;
-            stageHeight = stage.canvas.height;        
+            // stageWidth = stage.canvas.width;
+            // stageHeight = stage.canvas.height;        
 
             // 經緯度文字
             addGeoLocationText();
@@ -159,8 +207,8 @@
             bgBar.graphics.setStrokeStyle(1).beginStroke(loaderColor).drawRect(-padding/2, -padding/2, barWidth+padding, barHeight+padding);        
 
             loaderBar = new createjs.Container();
-            loaderBar.x = stageWidth - barWidth>>1;
-            loaderBar.y = stageHeight - barHeight>>1; 
+            loaderBar.x = (480 - barWidth)>>1;
+            loaderBar.y = (480 - barHeight)>>1; 
             loaderBar.addChild(bar, bgBar);     
             // loaderBar.visible = false;
 
@@ -170,12 +218,10 @@
             resize();
 
             // 開始讀取
-            // startLoading();       
+            startLoading();       
             
             createjs.Ticker.setFPS(60);
             createjs.Ticker.addEventListener("tick", tickFunction);
-
-
 
     	}
 
@@ -187,10 +233,11 @@
             stage.addChild(textGeoLocation);  
         }
 
+
         function tickFunction() 
         {
             stage.update();
-            getCurrentLocation();
+            // getCurrentLocation();
         }           
 
         function updateScaleStage()
@@ -205,8 +252,7 @@
 <body>
 
     <div class="canvasHolder">
-    <canvas id="GameCanvas" width="640" height="480"></canvas>
-
+    <canvas id="GameCanvas" width="480" height="960"></canvas>
     </div>
 
 </body>

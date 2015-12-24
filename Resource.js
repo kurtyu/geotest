@@ -10,7 +10,7 @@ function startLoading(){
     // PreloadJS.js
     // =================================================================
     var manifest = [
-        {src:"payline_config_lines25.png", id:"payline_config_lines25"},
+        {src:"ui/button.png", id:"button"},
         // {src:"UI/lobby_bg.jpg", id:"lobby_bg"},
         // {src:"UI/title.png", id:"title"},
         // {src:"UI/panel.png", id:"panel"},
@@ -155,14 +155,39 @@ function handleComplete(event) {
 
         switch(id)
         {
-            case "payline_config_lines25":
-                console.log("payline_config_lines25...");  
-                var paylineConfigLines25gBmp = new createjs.Bitmap(result);
-                paylineConfigLines25gBmp.name = "payline_config_lines25";   
-                paylineConfigLines25gBmp.x = (stageWidth-result.width)/2 - 16;
-                paylineConfigLines25gBmp.y = (stageHeight-result.height)/2 - 20;
-                paylineConfigLines25gBmp.visible = false;
-            break;
+            case "button":
+
+                var data = 
+                {
+                    images: ["assets/ui/button.png"],
+                    frames: {width:180, height:122},
+                    animations: {normal:[0], over:[1], clicked:[2]}
+                };
+                var spriteSheet = new createjs.SpriteSheet(data);
+                var button = new createjs.Sprite(spriteSheet);
+                var helper = new createjs.ButtonHelper(button, "normal", "over", "clicked");
+
+                button.name = "button";
+                button.x = 100;
+                button.y = 100;
+                button.gotoAndStop("normal");
+                
+                button.cache(0,0,result.width,result.height);                    
+                var buttonHitArea = new createjs.Shape();
+                // 指定點擊範圍 
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                button.hitArea = buttonHitArea;   
+                // 滑鼠按下事件
+                button.addEventListener("mousedown", function(evt) {
+                    console.log("bet mousedown");
+                    button.updateCache();                          
+                });
+                button.addEventListener("click", function(evt) {
+                    console.log("bet pressup");
+                    button.gotoAndStop("normal");
+                    button.updateCache();  
+                });
+
             case "lobby_bg":
                 var lobbyBgBmp = new createjs.Bitmap(result);
                 lobbyBgBmp.name = "lobby_bg";              
@@ -564,121 +589,9 @@ function handleComplete(event) {
 
     }
 
+    gameContainer.addChild(button);
+  
 
-        // 超怪：但是似乎取代了mouseup
-    stage.addEventListener("stagemouseup", function(evt) {
-        console.log("stage pressup");
-        if(!gameContainer.getChildAt(INDEX.btn_spin_disable).visible)
-        {
-            // var matrix = new createjs.ColorMatrix().adjustBrightness(0).adjustContrast(0);
-            // btnSpinBitmap.filters = [new createjs.ColorMatrixFilter(matrix)];
-            // btnSpinBitmap.updateCache();                            
-        }
-    });
-
-    // 下注文字
-    var btnBetText = new createjs.Text("$0.1", "28px Arial", "#000");
-    btnBetText.name = "btn_bet_text";
-    btnBetText.x = 316;
-    btnBetText.y = 528;
-
-    // 贏錢線文字
-    var btnLineText = new createjs.Text("1", "28px Arial", "#000");
-    btnLineText.name = "btn_line_text";
-    btnLineText.x = 190;
-    btnLineText.y = 526;
-
-    // 總共下注金額
-    var totalBetText = new createjs.Text("0", "24px Arial", "#FFFFFF");
-    totalBetText.name = "total_bet_text";
-    totalBetText.x = 558;
-    totalBetText.y = 524;
-
-
-       
-    // 建立場景
-    // 
-    // 背景
-    gameContainer.addChild(bgBmp);
-    // 分隔線
-    gameContainer.addChild(reelBmp);
-    // 
-    // 老虎機
-    slotMachine = new slotgame.SlotMachine();
-    gameContainer.addChild(slotMachine);
-
-    var rollWidth = stageWidth/5;
-    var rollHeight = stageHeight - 128 - 62;   
-
-    var j = 0;
-    for(i =0; i<5; i++){
-        var rool = new slotgame.SlotRoll(rollWidth, rollHeight, 5, 3);
-        // 以後應該會隨機決定
-        // ======================================================================= 
-        for(j=0; j<12; j++)
-        {           
-           rool.addIcon(new slotgame.SlotIcon(j, iconAssets[j].result, j));
-        }         
-        rool.pack(false); // 不用顯示半個圖示
-        // =======================================================================
-        rool.x = rollWidth * i;
-        rool.y = 62; // 因為有陰影 所以實際是62   panel實際是128
-        slotMachine.addRoll(rool);  
-        rool.resetStartIndex(Math.floor(Math.random()*(12+1)), false);
-    }  
-
-    // 贏錢線
-    g_PayLines = new slotgame.PayLines();
-    g_PayLines.addPayLine(1, On1Bitmap, Off1Bitmap, lockBitmap.clone(), line1Bitmap);
-    g_PayLines.addPayLine(2, On2Bitmap, Off2Bitmap, lockBitmap.clone(), line2Bitmap);  
-    g_PayLines.addPayLine(3, On3Bitmap, Off3Bitmap, lockBitmap.clone(), line3Bitmap);        
-    g_PayLines.addPayLine(4, On4Bitmap, Off4Bitmap, lockBitmap.clone(), line4Bitmap);
-    g_PayLines.addPayLine(5, On5Bitmap, Off5Bitmap, lockBitmap.clone(), line5Bitmap);   
-    g_PayLines.addPayLine(6, On6Bitmap, Off6Bitmap, lockBitmap.clone(), line6Bitmap); 
-    g_PayLines.addPayLine(7, On7Bitmap, Off7Bitmap, lockBitmap.clone(), line7Bitmap);   
-    g_PayLines.addPayLine(8, On8Bitmap, Off8Bitmap, lockBitmap.clone(), line8Bitmap); 
-    // g_PayLines.addPayLine(9, On9Bitmap, Off9Bitmap, lockBitmap.clone(), line9Bitmap);                    
-    g_PayLines.addPayLine(10, On10Bitmap, Off10Bitmap, lockBitmap.clone(), line10Bitmap);
-    g_PayLines.addPayLine(11, On11Bitmap, Off11Bitmap, lockBitmap.clone(), line11Bitmap);        
-    gameContainer.addChild(g_PayLines);
-
-
-    // 下方面板
-    gameContainer.addChild(panelBmp);
-    // 贏錢線按鈕
-    gameContainer.addChild(btnLineBitmap);
-    // 贏錢線文字
-    gameContainer.addChild(btnLineText);
-    // 下注按鈕
-    gameContainer.addChild(btnBetBitmap);
-    // 下注文字
-    gameContainer.addChild(btnBetText);
-    // 總下注金額文字
-    gameContainer.addChild(totalBetText);    
-    // 啟動滾輪按鈕
-    gameContainer.addChild(btnSpinBitmap);
-    // 啟動滾輪禁止按鈕
-    gameContainer.addChild(btnSpinDisableBitmap);
-    // 上方面板
-    gameContainer.addChild(titleBmp);
-    // 目前金幣按鈕
-    gameContainer.addChild(topCoinsBalanceBitmap);
-    // 首頁按鈕
-    gameContainer.addChild(btnLobbyBitmap);
-    // 贏錢線說明
-    gameContainer.addChild(paylineConfigLines25gBmp);
-
-    // 取得需要的索引
-    INDEX.btn_spin_disable = gameContainer.getChildIndex(btnSpinDisableBitmap);
-    INDEX.btn_bet = gameContainer.getChildIndex(btnBetBitmap);
-    INDEX.btn_bet_text = gameContainer.getChildIndex(btnBetText); 
-    INDEX.btn_line_text = gameContainer.getChildIndex(btnLineText);     
-    INDEX.total_bet_text = gameContainer.getChildIndex(totalBetText);
-    INDEX.btn_lobby = gameContainer.getChildIndex(btnLobbyBitmap);  
-    INDEX.payline_config_lines25 = gameContainer.getChildIndex(paylineConfigLines25gBmp);  
-
-    // 計算總下注金額
-    calcTotalBetMoney();
 
     // createjs.Ticker.addListener(this);
     resize();

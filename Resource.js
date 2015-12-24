@@ -145,9 +145,17 @@ function handleComplete(event) {
     lobbyContainer = new createjs.Container();
     stage.addChild(lobbyContainer);
 
+    // 地圖層
+    mapConatainer = new createjs.Container();
+    stage.addChild(mapConatainer);  
+    addBackground();    
+
     // 遊戲畫面
     gameContainer = new createjs.Container();
-    stage.addChild(gameContainer);            
+    stage.addChild(gameContainer); 
+    addGeoLocationText();  
+    addOrientationText();
+    addGeoLocationDiffText();               
 
     var i = 0;
     for(i=0;i<assets.length;i++) {
@@ -257,14 +265,11 @@ function handleComplete(event) {
             case "background":
                 var backgroundBitmap = new createjs.Bitmap(result);
                 backgroundBitmap.name = "background";
-
-                mapConatainer = new createjs.Container();
+                
                 mapConatainer.addChild(backgroundBitmap);       
 
                 backgroundBitmap.regX = result.width/2;
                 backgroundBitmap.regY = result.height/2;
-
-                stage.addChild(mapConatainer);                
             break;
             case "panel":
                 var panelBmp = new createjs.Bitmap(result);
@@ -415,15 +420,7 @@ function handleComplete(event) {
 
     // gameContainer.addChild(button);
 
-    addBackground();
-
-    gameContainer.addChild(backgroundBitmap);
-
-    addGeoLocationText();  
-
-    addOrientationText();
-
-    addGeoLocationDiffText();
+ 
 
     // gameContainer.addChild(puzzle03Bitmap);
     // puzzle03Bitmap.regX -= 50;
@@ -432,9 +429,7 @@ function handleComplete(event) {
     // puzzle03Bitmap.y =  100;
     // createjs.Ticker.addListener(this);
 
-    gameContainer.addChild(puzzleLine4x4Bitmap);
-
-
+    mapConatainer.addChild(puzzleLine4x4Bitmap);
 
     gameContainer.addChild(role);
 
@@ -446,7 +441,7 @@ function addBackground()
 {
     var background = new createjs.Shape();
     background.graphics.beginFill("#47a453").drawRect(0, 0, screenWidth, screenHeight);
-    gameContainer.addChild(background);
+    mapConatainer.addChild(background);
 }
 
 function addGeoLocationText()

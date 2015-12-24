@@ -99,11 +99,17 @@
             console.log("alpha = "+alpha);
             if(alpha != null)
             {
-                // backgroundBitmap.rotation = alpha;
+                 if(backgroundBitmap != null)
+                {
+                    backgroundBitmap.rotation = alpha;
+                }
                 // myPuzzleContainer.position.x = stage.canvas.width/2;
                 // myPuzzleContainer.position.y = stage.canvas.height/2-puzzle03Bitmap.height;
                 // puzzle03Bitmap.rotation = alpha;
-                orientationText.text = "方位："+alpha;
+                if(orientationText != null)
+                {
+                    orientationText.text = "方位："+alpha;
+                }
             }
         }
 

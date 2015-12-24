@@ -122,9 +122,15 @@
 
                 console.log("緯度差距："+diffLatitude+" x 經度差距："+diffLongitude);
 
-                geoLocationDiffText.text = "緯度差距："+diffLatitude+" x 經度差距："+diffLongitude;
+                geoLocationDiffText.text = "緯度差距："+formatFloat(diffLatitude, 7)+" x 經度差距："+formatFloat(diffLongitude, 7);
 
         }    
+
+        function formatFloat(num, pos)
+        {
+            var size = Math.pow(10, pos);
+            return Math.round(num * size) / size;
+        }
 
         function displayError(error) 
         {

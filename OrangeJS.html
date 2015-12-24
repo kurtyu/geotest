@@ -79,12 +79,22 @@
         {
             if (window.DeviceOrientationEvent) 
             {
-                window.addEventListener("deviceorientation", deviceOrientationListener);
+                window.addEventListener("deviceorientation", handleOrientation, true);
             } 
             else 
             {
                 alert("Sorry, your browser doesn't support Device Orientation");
             }
+        }
+
+        function handleOrientation(event) 
+        {
+             var absolute = event.absolute;
+             var alpha    = event.alpha; // Z  0~360
+             var beta     = event.beta; 
+             var gamma    = event.gamma;
+            // Do stuff with the new orientation data
+            puzzle03Bitmap.rotation = alpha;
         }
 
         function displayPosition(position) 
@@ -161,8 +171,6 @@
 
     	function init() 
         {
-
-      
             // Image陣列物件
             assets = [];
             iconAssets = []
@@ -173,9 +181,6 @@
     		stage = new createjs.Stage(canvas); 
             // stageWidth = stage.canvas.width;
             // stageHeight = stage.canvas.height;        
-
-
-       
 
             // 滾輪物件
             slotRools = []

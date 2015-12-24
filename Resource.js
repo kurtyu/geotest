@@ -11,6 +11,7 @@ function startLoading(){
     // =================================================================
     var manifest = [
         {src:"ui/button.png", id:"button"},
+        {src:"ui/puzzle03.png", id:"puzzle03"},
         // {src:"UI/lobby_bg.jpg", id:"lobby_bg"},
         // {src:"UI/title.png", id:"title"},
         // {src:"UI/panel.png", id:"panel"},
@@ -188,9 +189,9 @@ function handleComplete(event) {
                     button.updateCache();  
                 });
 
-            case "lobby_bg":
-                var lobbyBgBmp = new createjs.Bitmap(result);
-                lobbyBgBmp.name = "lobby_bg";              
+            case "puzzle03":
+                var puzzle03Bitmap = new createjs.Bitmap(result);
+                puzzle03Bitmap.name = "puzzle";              
             break;
             case "bg":
                 var bgBmp = new createjs.Bitmap(result);
@@ -422,169 +423,11 @@ function handleComplete(event) {
                 topCoinsBalanceBitmap.name = "top_coinsbalance-hd";
                 topCoinsBalanceBitmap.x = 4;
                 topCoinsBalanceBitmap.y = 4;
-            break;
-            case "1_on-hd":
-                var On1Bitmap = new createjs.Bitmap(result);
-                On1Bitmap.name = "1_on-hd";
-                // On1Bitmap.x = 0;
-                // On1Bitmap.y = 314;  
-            break;
-            case "2_on-hd":
-                var On2Bitmap = new createjs.Bitmap(result);
-                On2Bitmap.name = "4_on-hd";
-                break;             
-            case "3_on-hd":
-                var On3Bitmap = new createjs.Bitmap(result);
-                On3Bitmap.name = "3_on-hd";
-                break;               
-            case "4_on-hd":
-                var On4Bitmap = new createjs.Bitmap(result);
-                On4Bitmap.name = "4_on-hd";
-                break;            
-            case "5_on-hd":
-                var On5Bitmap = new createjs.Bitmap(result);
-                On5Bitmap.name = "5_on-hd";
-                break;               
-            case "6_on-hd":
-                var On6Bitmap = new createjs.Bitmap(result);
-                On6Bitmap.name = "6_on-hd";
-                break;              
-            case "7_on-hd":
-                var On7Bitmap = new createjs.Bitmap(result);
-                On7Bitmap.name = "7_on-hd";
-                break;                  
-            case "8_on-hd":
-                var On8Bitmap = new createjs.Bitmap(result);
-                On8Bitmap.name = "8_on-hd";
-                break;                
-            case "9_on-hd":
-            case "10_on-hd":
-                var On10Bitmap = new createjs.Bitmap(result);
-                On10Bitmap.name = "10_on-hd";
-                break;                
-            case "11_on-hd":
-                var On11Bitmap = new createjs.Bitmap(result);
-                On11Bitmap.name = "11_on-hd";
-                break;               
-            case "12_on-hd":
-            case "13_on-hd":
-            case "14_on-hd":
-            case "15_on-hd":
-            case "16_on-hd":
-            case "17_on-hd":
-            case "18_on-hd":
-            case "19_on-hd":
-            case "20_on-hd":
-            case "21_on-hd":
-            case "22_on-hd":
-            case "23_on-hd":
-            case "24_on-hd":
-            case "25_on-hd":
-            case "1_off-hd":
-                var Off1Bitmap = new createjs.Bitmap(result);
-                Off1Bitmap.name = "1_on-hd";
-                // Off1Bitmap.x = 0;
-                // Off1Bitmap.y = 274;  
-                break;            
-            case "2_off-hd":
-                var Off2Bitmap = new createjs.Bitmap(result);
-                Off2Bitmap.name = "2_off-hd";
-                break;             
-            case "3_off-hd":
-                var Off3Bitmap = new createjs.Bitmap(result);
-                Off3Bitmap.name = "3_off-hd";
-                break;                 
-            case "4_off-hd":
-                var Off4Bitmap = new createjs.Bitmap(result);
-                Off4Bitmap.name = "4_off-hd";
-                break;            
-            case "5_off-hd":
-                var Off5Bitmap = new createjs.Bitmap(result);
-                Off5Bitmap.name = "5_off-hd";
-                break;              
-            case "6_off-hd":
-                var Off6Bitmap = new createjs.Bitmap(result);
-                Off6Bitmap.name = "6_off-hd";
-                break;              
-            case "7_off-hd":
-                var Off7Bitmap = new createjs.Bitmap(result);
-                Off7Bitmap.name = "7_off-hd";        
-                break;                     
-            case "8_off-hd":
-                var Off8Bitmap = new createjs.Bitmap(result);
-                Off8Bitmap.name = "8_off-hd";        
-                break;              
-            case "9_off-hd":
-            case "10_off-hd":
-                var Off10Bitmap = new createjs.Bitmap(result);
-                Off10Bitmap.name = "10_off-hd";
-                // Off10Bitmap.x = 0;
-                // Off10Bitmap.y = 246;  
-                break;            
-            case "11_off-hd":
-                var Off11Bitmap = new createjs.Bitmap(result);
-                Off11Bitmap.name = "11_off-hd";
-                // Off11Bitmap.x = 0;
-                // Off11Bitmap.y = 302;  
-                break;            
-            case "12_off-hd":
-            case "13_off-hd":
-            case "14_off-hd":
-            case "15_off-hd":
-            case "16_off-hd":
-            case "17_off-hd":
-            case "18_off-hd":
-            case "19_off-hd":
-            case "20_off-hd":
-            case "21_off-hd":
-            case "22_off-hd":
-            case "23_off-hd":
-            case "24_off-hd":
-            case "25_off-hd": 
-            case "lock":
-               var lockBitmap  = new createjs.Bitmap(result); 
-                break;
+            break;          
             case "line1-hd": 
                var line1Bitmap  = new createjs.Bitmap(result); 
                line1Bitmap.name = "line1-hd";
-                break;      
-            case "line2-hd": 
-               var line2Bitmap  = new createjs.Bitmap(result); 
-               line2Bitmap.name = "line2-hd";
-                break;   
-            case "line3-hd": 
-               var line3Bitmap  = new createjs.Bitmap(result); 
-               line3Bitmap.name = "line3-hd";
-                break;   
-            case "line4-hd": 
-               var line4Bitmap  = new createjs.Bitmap(result); 
-               line4Bitmap.name = "line4-hd";
-                break;                                  
-            case "line5-hd": 
-               var line5Bitmap  = new createjs.Bitmap(result); 
-               line5Bitmap.name = "line5-hd";
-                break;                                 
-            case "line6-hd": 
-               var line6Bitmap  = new createjs.Bitmap(result); 
-               line6Bitmap.name = "line6-hd";
-                break;   
-            case "line7-hd": 
-               var line7Bitmap  = new createjs.Bitmap(result); 
-               line7Bitmap.name = "line7-hd";
-                break;  
-           case "line8-hd": 
-               var line8Bitmap  = new createjs.Bitmap(result); 
-               line8Bitmap.name = "line8-hd";
-                break;                                 
-            case "line10-hd": 
-               var line10Bitmap  = new createjs.Bitmap(result); 
-               line10Bitmap.name = "line10-hd";
-                break;    
-            case "line11-hd": 
-               var line11Bitmap  = new createjs.Bitmap(result); 
-               line11Bitmap.name = "line11-hd";
-                break;                                    
-
+                break;                                         
         }
 
     }
@@ -593,20 +436,23 @@ function handleComplete(event) {
 
     addGeoLocationText();  
 
+    gameContainer.addChild(puzzle03Bitmap);
+    // puzzle03Bitmap.regX -= 50;
+    // puzzle03Bitmap.regY -= 50;
+    puzzle03Bitmap.rotation = 45;
+
 
     // createjs.Ticker.addListener(this);
     resize();
 }
 
-
-
-    function addGeoLocationText()
-    {
-        textGeoLocation = new createjs.Text("Hello World", "20px Arial", "#ff7700");
-        textGeoLocation.x = 10;
-        textGeoLocation.y = 10;
-        gameContainer.addChild(textGeoLocation);  
-    }
+function addGeoLocationText()
+{
+    textGeoLocation = new createjs.Text("Hello World", "20px Arial", "#ff7700");
+    textGeoLocation.x = 10;
+    textGeoLocation.y = 10;
+    gameContainer.addChild(textGeoLocation);  
+}
 
 
 // 計算總下注金額

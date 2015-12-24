@@ -215,14 +215,14 @@ function handleComplete(event) {
                 puzzle03Bitmap.regY = puzzleSize/2;
 
                 
-
             break;
             case "puzzle_line_4x4":
                 puzzleLine4x4Bitmap = new createjs.Bitmap(result);
                 puzzleLine4x4Bitmap.name = "puzzle_line_4x4";
                 puzzleLine4x4Bitmap.scaleX = 0.5;
                 puzzleLine4x4Bitmap.scaleY = 0.5;
-
+                puzzleLine4x4Bitmap.regX = 320/2;
+                puzzleLine4x4Bitmap.regY = 315/2;                
             break;
 
             // 玩家

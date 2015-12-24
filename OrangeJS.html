@@ -153,7 +153,7 @@
                 var x = Math.sin(mapConatainer.rotation);
                 var y = Math.cos(mapConatainer.rotation);
 
-                geoLocationDiffText.text = "差距："+length+" X:"+x+" Y:"+y;
+                geoLocationDiffText.text = "差距："+formatFloat(length, 6)+" X:"+formatFloat(x, 6)+" Y:"+formatFloat(y, 6);
 
 
                 backgroundBitmap.regX = 480/2 + (x*length*10);

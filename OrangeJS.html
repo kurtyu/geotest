@@ -94,7 +94,10 @@
              var beta     = event.beta; 
              var gamma    = event.gamma;
             // Do stuff with the new orientation data
-            puzzle03Bitmap.rotation = alpha;
+            if(alpha != null)
+            {
+                puzzle03Bitmap.rotation = alpha;
+            }
 
             orientationText.text =  "方位："+alpha;
         }
@@ -103,7 +106,22 @@
         {
             geoLocationText.text = position.coords.latitude+" x "+position.coords.longitude;
 
-            displayGooglePosition(position);
+            // displayGooglePosition(position);
+
+
+           // 對應座標點
+
+                // 1. 取得自己的座標點
+                // 2. 比對橘子園的座標點（25.028895, 121.514731）
+                // 3. 計算出拼圖應該出現的位置
+
+                var diffLatitude = (position.coords.latitude - 25.028895);
+                var diffLongitude = (position.coords.longitude - 121.514731);
+
+                // puzzleLine4x4Bitmap
+
+                console.log("緯度差距："+diffLatitude+" x 經度差距："+diffLongitude);
+
         }    
 
         function displayError(error) 
@@ -117,32 +135,32 @@
             alert("Error: " + errors[error.code]);
         }
 
-        function displayGooglePosition(position) 
-        {            
-            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            var options = {
-                zoom: 10,
-                center: pos,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var map = new google.maps.Map(document.getElementById("map"), options);
-            // Remove the current marker, if there is one
-            if (typeof(marker) != "undefined") marker.setMap(null);
-            marker = new google.maps.Marker({
-                position: pos,
-                map: map,
-                title: "User location"
-            });
-            var contentString = "<b>Timestamp:</b> " + parseTimestamp(position.timestamp) + "<br/><b>User location:</b> lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
-            // Remove the current infoWindow, if there is one
-            if (typeof(infoWindow) != "undefined") infoWindow.setMap(null);
-            infowindow = new google.maps.InfoWindow({
-                content: contentString
-            });
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map,marker);
-            });
-        }        
+        // function displayGooglePosition(position) 
+        // {            
+        //     var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        //     var options = {
+        //         zoom: 10,
+        //         center: pos,
+        //         mapTypeId: google.maps.MapTypeId.ROADMAP
+        //     };
+        //     var map = new google.maps.Map(document.getElementById("map"), options);
+        //     // Remove the current marker, if there is one
+        //     if (typeof(marker) != "undefined") marker.setMap(null);
+        //     marker = new google.maps.Marker({
+        //         position: pos,
+        //         map: map,
+        //         title: "User location"
+        //     });
+        //     var contentString = "<b>Timestamp:</b> " + parseTimestamp(position.timestamp) + "<br/><b>User location:</b> lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
+        //     // Remove the current infoWindow, if there is one
+        //     if (typeof(infoWindow) != "undefined") infoWindow.setMap(null);
+        //     infowindow = new google.maps.InfoWindow({
+        //         content: contentString
+        //     });
+        //     google.maps.event.addListener(marker, 'click', function() {
+        //         infowindow.open(map,marker);
+        //     });
+        // }        
 
         // 舞台
         var stage;
@@ -189,6 +207,11 @@
 
 
         var puzzle03Bitmap;
+
+        var puzzleLine4x4Bitmap;
+
+        // 玩家陣列
+        var role;
 
 
         //  註冊畫面大小改變
@@ -281,13 +304,7 @@
         {
             console.log("update");
         }
-
-
 	</script>
-    <style>
-        #map { width:100%; height:800px; }
-    </style>    
-    <script src="http://maps.google.com/maps/api/js"></script>
 </head>
 	
 <body>

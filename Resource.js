@@ -12,8 +12,8 @@ function startLoading(){
     var manifest = [
         {src:"ui/button.png", id:"button"},
         {src:"ui/puzzle03.png", id:"puzzle03"},
-        // {src:"UI/lobby_bg.jpg", id:"lobby_bg"},
-        // {src:"UI/title.png", id:"title"},
+        {src:"ui/puzzle_line_4x4.png", id:"puzzle_line_4x4"},
+        {src:"ui/role.png", id:"role"},
         // {src:"UI/panel.png", id:"panel"},
         // {src:"UI/btn_spin.png", id:"btn_spin"},
         // {src:"UI/btn_spin_disable.png", id:"btn_spin_disable"},
@@ -193,15 +193,59 @@ function handleComplete(event) {
                 puzzle03Bitmap = new createjs.Bitmap(result);
                 puzzle03Bitmap.name = "puzzle";              
             break;
-            case "bg":
-                var bgBmp = new createjs.Bitmap(result);
-                bgBmp.name = "bg";
+            case "puzzle_line_4x4":
+                puzzleLine4x4Bitmap = new createjs.Bitmap(result);
+                puzzleLine4x4Bitmap.name = "puzzle_line_4x4";
+                puzzleLine4x4Bitmap.scaleX = 0.5;
+                puzzleLine4x4Bitmap.scaleY = 0.5;
+
+                // 對應座標點
+
+                // 1. 取得自己的座標點
+                // 2. 比對橘子園的座標點
+                // 3. 計算出拼圖應該出現的位置
+
+
             break;
-            case "reel":
-                var reelBmp = new createjs.Bitmap(result);
-                reelBmp.name = "reel";
-                reelBmp.x = (960-result.width)/2;
-                reelBmp.y = (628-result.height)/2;
+
+            // 玩家
+            case "role":
+                var roleData = 
+                {
+                    images: ["assets/ui/role.png"],
+                    frames: {width:96, height:96},
+                    animations: {
+                        stand:[1], 
+                        down:
+                        {
+                            frames: [0,1,2,1],
+                            speed:0.1
+                        },
+                        left:
+                        {
+                            frames: [3,4,5,4], 
+                            speed:0.1
+                        },
+                        right:
+                        {
+                            frames: [6,7,8,7], 
+                            speed:0.1
+                        },
+                        up:
+                        {
+                            frames: [9,10,11,10],
+                            speed:0.1
+                        }
+                    }
+                };
+                var spriteSheet = new createjs.SpriteSheet(roleData);
+                role = new createjs.Sprite(spriteSheet, "up");
+                role.name = "role";
+                role.speed = 1;
+                role.x = (480-result.width)/2;
+                role.y = (960-result.height)/2;
+                role.scaleX = 0.6;
+                role.scaleY = 0.6;
             break;
             case "title":
                 var titleBmp = new createjs.Bitmap(result);
@@ -260,79 +304,6 @@ function handleComplete(event) {
 
                 // TweenLite.to(spinBitmap, 1, {delay: 1, x:100, y:100, ease:Cubic.easeInOut});
 
-            break;
-            case "btn_spin_disable":
-                var btnSpinDisableBitmap = new createjs.Bitmap(result);
-                btnSpinDisableBitmap.name = "btn_spin_disable";
-                btnSpinDisableBitmap.x = 832;
-                btnSpinDisableBitmap.y = 510;  
-                btnSpinDisableBitmap.visible = false;                         
-            break;
-            case "btn_bet":
-                var btnBetBitmap = new createjs.Bitmap(result);
-                btnBetBitmap.name = "btn_bet";
-                btnBetBitmap.x = 272;
-                btnBetBitmap.y = 512;  
-
-                
-                btnBetBitmap.cache(0,0,result.width,result.height);                    
-                var btnBetHitArea = new createjs.Shape();
-                // 左上角（X, Y）  寬度 高度(W, H)
-                btnBetHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
-                // btnBetHitArea.x = result.width/2;
-                // btnBetHitArea.y = result.height/2;
-
-                // gameContainer.addChild(hitArea);
-
-                // 指定點擊範圍 
-                btnBetBitmap.hitArea = btnBetHitArea;   
-
-                // 滑鼠按下  
-                btnBetBitmap.addEventListener("mousedown", function(evt) {
-                    console.log("bet mousedown");
-
-                    // btnSpinBitmap.filters = [new createjs.ColorFilter(0, 0, 0, 1, 255, 0, 0)];
-
-                    // var matrix = new createjs.ColorMatrix().adjustBrightness(-40).adjustContrast(-40);
-                    // var blurFilter = new createjs.BoxBlurFilter(20,  20, 2);
-                    // btnBetBitmap.filters = [new createjs.ColorMatrixFilter(matrix)];
-                    btnBetBitmap.updateCache();                          
-                });
-
-                btnBetBitmap.addEventListener("click", function(evt) {
-                    console.log("bet pressup");
-
-                    // var matrix = new createjs.ColorMatrix().adjustBrightness(0).adjustContrast(0);
-                    // var blurFilter = new createjs.BoxBlurFilter(20,  20, 2);
-                    // btnBetBitmap.filters = [new createjs.ColorMatrixFilter(matrix)];
-                    btnBetBitmap.updateCache();
-
-                    // 切換下注單位
-                    g_nBet++;
-                    if(g_nBet == 7)
-                        g_nBet = 0;
-
-                    var btnBetText = gameContainer.getChildAt(INDEX.btn_bet_text);
-                    switch(g_nBet){
-                        case 0: btnBetText.text = "$0.1"; break;
-                        case 1: btnBetText.text = "$0.2"; break;
-                        case 2: btnBetText.text = "$0.5"; break;
-                        case 3: btnBetText.text = "$1.0"; break;
-                        case 4: btnBetText.text = "$2.0"; break;
-                        case 5: btnBetText.text = "$5.0"; break;
-                        case 6: btnBetText.text = "$10.0"; break;
-                    }
-                    if(g_nBet==6){
-                        btnBetText.x = 306;
-                    }else{
-                        btnBetText.x = 316;
-                    }   
-
-
-                    // 計算總下注金額
-                    calcTotalBetMoney();
-
-                });                
             break;
             case "btn_line":
                 var btnLineBitmap = new createjs.Bitmap(result);
@@ -418,12 +389,7 @@ function handleComplete(event) {
                     }
                 });             
             break;
-            case "top_coinsbalance":
-                var topCoinsBalanceBitmap = new createjs.Bitmap(result);
-                topCoinsBalanceBitmap.name = "top_coinsbalance-hd";
-                topCoinsBalanceBitmap.x = 4;
-                topCoinsBalanceBitmap.y = 4;
-            break;          
+         
             case "line1-hd": 
                var line1Bitmap  = new createjs.Bitmap(result); 
                line1Bitmap.name = "line1-hd";
@@ -432,7 +398,7 @@ function handleComplete(event) {
 
     }
 
-    gameContainer.addChild(button);
+    // gameContainer.addChild(button);
 
     addGeoLocationText();  
 
@@ -444,6 +410,15 @@ function handleComplete(event) {
     puzzle03Bitmap.rotation = 45;
     puzzle03Bitmap.y =  100;
     // createjs.Ticker.addListener(this);
+
+    gameContainer.addChild(puzzleLine4x4Bitmap);
+
+
+
+
+    gameContainer.addChild(role);
+
+
     resize();
 }
 

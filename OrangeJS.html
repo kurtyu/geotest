@@ -122,6 +122,8 @@
 
                 console.log("緯度差距："+diffLatitude+" x 經度差距："+diffLongitude);
 
+                geoLocationDiffText = "緯度差距："+diffLatitude+" x 經度差距："+diffLongitude;
+
         }    
 
         function displayError(error) 
@@ -204,6 +206,8 @@
         var geoLocationText;
         // 方位
         var orientationText;
+        // 拼圖距離
+        var geoLocationDiffText;
 
 
         var puzzle03Bitmap;
@@ -290,9 +294,7 @@
 
             // 監聽裝置方位
             watchDeviceOrientation();
-
     	}
-
 
         function tickFunction() 
         {

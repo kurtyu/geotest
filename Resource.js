@@ -199,11 +199,7 @@ function handleComplete(event) {
                 puzzleLine4x4Bitmap.scaleX = 0.5;
                 puzzleLine4x4Bitmap.scaleY = 0.5;
 
-                // 對應座標點
-
-                // 1. 取得自己的座標點
-                // 2. 比對橘子園的座標點
-                // 3. 計算出拼圖應該出現的位置
+     
 
 
             break;
@@ -404,6 +400,8 @@ function handleComplete(event) {
 
     addOrientationText();
 
+    addGeoLocationDiffText();
+
     gameContainer.addChild(puzzle03Bitmap);
     // puzzle03Bitmap.regX -= 50;
     // puzzle03Bitmap.regY -= 50;
@@ -438,6 +436,13 @@ function addOrientationText()
     gameContainer.addChild(orientationText);  
 }
 
+function addGeoLocationDiffText()
+{
+    geoLocationDiffText = new createjs.Text("方位差距", "20px Arial", "#ff7700");
+    geoLocationDiffText.x = 10;
+    geoLocationDiffText.y = 50;
+    gameContainer.addChild(geoLocationDiffText);  
+}
 
 
 // 計算總下注金額

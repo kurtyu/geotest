@@ -257,6 +257,14 @@ function handleComplete(event) {
             case "background":
                 var backgroundBitmap = new createjs.Bitmap(result);
                 backgroundBitmap.name = "background";
+
+                mapConatainer = new createjs.Container();
+                mapConatainer.addChild(backgroundBitmap);       
+
+                backgroundBitmap.regX = result.width/2;
+                backgroundBitmap.regY = result.height/2;
+
+                stage.addChild(mapConatainer);                
             break;
             case "panel":
                 var panelBmp = new createjs.Bitmap(result);

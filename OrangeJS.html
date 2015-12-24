@@ -28,10 +28,7 @@
     <script src="Resource.js"></script>        
     <script src="MainStage.js"></script>          
 
-
 	<script>
-
-
         var screenWidth = 480;
         var screenHeight = 720;
 
@@ -100,7 +97,7 @@
             // Do stuff with the new orientation data
             if(alpha != null)
             {
-                puzzle03Bitmap.rotation = alpha;
+                backgroundBitmap.rotation = (360-alpha);
                 // myPuzzleContainer.position.x = stage.canvas.width/2;
                 // myPuzzleContainer.position.y = stage.canvas.height/2-puzzle03Bitmap.height;
             }
@@ -129,6 +126,12 @@
                 console.log("緯度差距："+diffLatitude+" x 經度差距："+diffLongitude);
 
                 geoLocationDiffText.text = "緯度差距："+formatFloat(diffLatitude, 7)+" x 經度差距："+formatFloat(diffLongitude, 7);
+
+                // 等於橘子園的座標
+                mapConatainer.x = (screenWidth - 480)/2;
+                mapConatainer.y = (screenHeight - 480)/2;
+
+                // backgroundBitmap
 
         }    
 
@@ -231,6 +234,8 @@
 
         var myPuzzleContainer;
 
+        // 地圖容器
+        var mapConatainer;
 
         //  註冊畫面大小改變
         window.addEventListener('resize', resize, false);

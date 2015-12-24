@@ -102,6 +102,8 @@
         function displayPosition(position) 
         {
             geoLocationText.text = position.coords.latitude+" x "+position.coords.longitude;
+
+            displayGooglePosition(position);
         }    
 
         function displayError(error) 
@@ -114,6 +116,33 @@
             };
             alert("Error: " + errors[error.code]);
         }
+
+        function displayGooglePosition(position) 
+        {            
+            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var options = {
+                zoom: 10,
+                center: pos,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map"), options);
+            // Remove the current marker, if there is one
+            if (typeof(marker) != "undefined") marker.setMap(null);
+            marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: "User location"
+            });
+            var contentString = "<b>Timestamp:</b> " + parseTimestamp(position.timestamp) + "<br/><b>User location:</b> lat " + position.coords.latitude + ", long " + position.coords.longitude + ", accuracy " + position.coords.accuracy;
+            // Remove the current infoWindow, if there is one
+            if (typeof(infoWindow) != "undefined") infoWindow.setMap(null);
+            infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map,marker);
+            });
+        }        
 
         // 舞台
         var stage;
@@ -255,10 +284,11 @@
 
 
 	</script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 	
 <body>
-
+    <div id="map"></div>
     <div class="canvasHolder">
     <canvas id="GameCanvas" width="480" height="960"></canvas>
     </div>

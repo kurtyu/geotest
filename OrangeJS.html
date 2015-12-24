@@ -126,18 +126,22 @@
                 // 2. 比對橘子園的座標點（25.028895, 121.514731）
                 // 3. 計算出拼圖應該出現的位置
 
-                var diffLatitude = (position.coords.latitude - 25.028895);
-                var diffLongitude = (position.coords.longitude - 121.514731);
+                var diffLatitude = formatFloat((position.coords.latitude - 25.028895), 6) * 100000;
+                var diffLongitude = formatFloat((position.coords.longitude - 121.514731), 6) * 100000;
 
                 // puzzleLine4x4Bitmap
 
                 console.log("緯度差距："+diffLatitude+" x 經度差距："+diffLongitude);
 
-                geoLocationDiffText.text = "緯度差距："+formatFloat(diffLatitude, 7)+" x 經度差距："+formatFloat(diffLongitude, 7);
+                geoLocationDiffText.text = "緯度差距："+diffLatitude+" x 經度差距："+diffLongitude;
 
+            
                 // 等於橘子園的座標
-                mapConatainer.x = (screenWidth)/2 + formatFloat(diffLatitude, 7) * 1000000;
-                mapConatainer.y = (screenHeight)/2 + formatFloat(diffLongitude, 7) * 1000000;
+                mapConatainer.x = (screenWidth)/2 + diffLatitude;
+                mapConatainer.y = (screenHeight)/2 + diffLongitude;
+
+                backgroundBitmap.regX = 480/2 + diffLatitude;
+                backgroundBitmap.regY = 480/2 + diffLongitude;
 
                 // backgroundBitmap
         }    

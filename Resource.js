@@ -10,7 +10,7 @@ function startLoading(){
     // PreloadJS.js
     // =================================================================
     var manifest = [
-        // {src:"ui/button.png", id:"button"},
+        {src:"ui/button.png", id:"button"},
         {src:"ui/puzzle03.png", id:"puzzle03"},
         {src:"ui/puzzle_line_4x4.png", id:"puzzle_line_4x4"},
         {src:"ui/role.png", id:"role"},
@@ -193,14 +193,25 @@ function handleComplete(event) {
                 // 滑鼠按下事件
                 button.addEventListener("mousedown", function(evt) {
                     console.log("bet mousedown");
-                    button.updateCache();                          
+                    button.updateCache();  
+
+
+                    // 等於橘子園的座標
+                    // mapConatainer.x = (screenWidth)/2+50;
+                    // mapConatainer.y = (screenHeight)/2+50;
+
+
+                    backgroundBitmap.regX = 480/2 + 50;
+                    backgroundBitmap.regY = 480/2 + 50;
+
+
                 });
                 button.addEventListener("click", function(evt) {
                     console.log("bet pressup");
                     button.gotoAndStop("normal");
                     button.updateCache();  
                 });
-
+                break;
             case "puzzle03":
                 var puzzleSize = 100;
                 puzzle03Bitmap = new createjs.Bitmap(result);
@@ -418,18 +429,14 @@ function handleComplete(event) {
 
     }
 
-    // gameContainer.addChild(button);
-
- 
-    // createjs.Ticker.addListener(this);
-
-    // mapConatainer.addChild(puzzleLine4x4Bitmap);
-
+    
     gameContainer.addChild(role);
 
     // 等於橘子園的座標
     mapConatainer.x = (screenWidth)/2;
     mapConatainer.y = (screenHeight)/2;
+
+    gameContainer.addChild(button);
 
     resize();
 }

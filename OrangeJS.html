@@ -31,6 +31,8 @@
 	<script>
         var screenWidth = 480;
         var screenHeight = 720;
+        // 距離（值越大 走的距離可以越短）
+        var walkValue = 800000;
 
         function success(position) 
         {
@@ -126,8 +128,8 @@
                 // 2. 比對橘子園的座標點（25.028895, 121.514731）
                 // 3. 計算出拼圖應該出現的位置
 
-                var diffLatitude = formatFloat((position.coords.latitude - 25.028895), 6) * 100000;
-                var diffLongitude = formatFloat((position.coords.longitude - 121.514731), 6) * 100000;
+                var diffLatitude = formatFloat((position.coords.latitude - 25.028895), 6) * walkValue;
+                var diffLongitude = formatFloat((position.coords.longitude - 121.514731), 6) * walkValue;
 
                 // puzzleLine4x4Bitmap
 
@@ -137,11 +139,12 @@
 
             
                 // 等於橘子園的座標
-                mapConatainer.x = (screenWidth)/2 + diffLatitude;
-                mapConatainer.y = (screenHeight)/2 + diffLongitude;
+                // mapConatainer.x = (screenWidth)/2 + diffLatitude;
+                // mapConatainer.y = (screenHeight)/2 + diffLongitude;
 
                 backgroundBitmap.regX = 480/2 + diffLatitude;
                 backgroundBitmap.regY = 480/2 + diffLongitude;
+
 
                 // backgroundBitmap
         }    
@@ -336,6 +339,12 @@
         {
             stage.update();
             // getCurrentLocation();
+
+            // mapConatainer.rotation +=1;
+            // if(mapConatainer.rotation>=360)
+            // {
+            //    mapConatainer.rotation=0; 
+            // }
         }           
 
         function updateScaleStage()

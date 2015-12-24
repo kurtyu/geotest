@@ -95,11 +95,13 @@
              var gamma    = event.gamma;
             // Do stuff with the new orientation data
             puzzle03Bitmap.rotation = alpha;
+
+            orientationText.text =  alpha;
         }
 
         function displayPosition(position) 
         {
-            textGeoLocation.text = position.coords.latitude+" x "+position.coords.longitude;
+            geoLocationText.text = position.coords.latitude+" x "+position.coords.longitude;
         }    
 
         function displayError(error) 

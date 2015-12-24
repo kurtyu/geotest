@@ -132,8 +132,8 @@
                 // var diffLongitude = formatFloat((position.coords.longitude - 121.514731), 8) * walkValue;
 
 
-                var diffLatitude = (position.coords.latitude - 25.028895) * walkValue;
-                var diffLongitude = (position.coords.longitude - 121.514731) * walkValue;
+                var diffLatitude = (position.coords.latitude - 25.028895);
+                var diffLongitude = (position.coords.longitude - 121.514731);
 
                 // puzzleLine4x4Bitmap
 
@@ -141,13 +141,19 @@
 
                 geoLocationDiffText.text = "緯度差距："+diffLatitude+" x 經度差距："+diffLongitude;
 
+                var length = Math.sqrt((diffLatitude * diffLatitude) + (diffLongitude * diffLongitude));
+
             
                 // 等於橘子園的座標
                 // mapConatainer.x = (screenWidth)/2 + diffLatitude;
                 // mapConatainer.y = (screenHeight)/2 + diffLongitude;
 
-                backgroundBitmap.regX = 480/2 + diffLatitude;
-                backgroundBitmap.regY = 480/2 + diffLongitude;
+                var x = Math.sin(mapConatainer.rotation);
+                var y = Math.cos(mapConatainer.rotation);
+
+
+                backgroundBitmap.regX = 480/2 + (x*length);
+                backgroundBitmap.regY = 480/2 + (y*length);
 
 
                 // backgroundBitmap

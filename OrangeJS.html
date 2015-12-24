@@ -150,14 +150,14 @@
                 // mapConatainer.x = (screenWidth)/2 + diffLatitude;
                 // mapConatainer.y = (screenHeight)/2 + diffLongitude;
 
-                var x = Math.sin(mapConatainer.rotation);
-                var y = Math.cos(mapConatainer.rotation);
+                var x = Math.cos(mapConatainer.rotation);
+                var y = Math.sin(mapConatainer.rotation);
 
                 geoLocationDiffText.text = "差距："+formatFloat(length, 6)+" X:"+formatFloat(x, 6)+" Y:"+formatFloat(y, 6);
 
 
-                backgroundBitmap.regX = 480/2 + (x*length*100000);
-                backgroundBitmap.regY = 480/2 + (y*length*100000);
+                backgroundBitmap.regX = 480/2 + (x*length*10000);
+                backgroundBitmap.regY = 480/2 + (y*length*10000);
 
 
                 // backgroundBitmap

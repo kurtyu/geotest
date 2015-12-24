@@ -589,13 +589,24 @@ function handleComplete(event) {
 
     }
 
-    gameContainer.addChild(button);
-  
+    gameContainer.addChild(button);  
 
 
     // createjs.Ticker.addListener(this);
     resize();
 }
+
+
+
+    function addGeoLocationText()
+    {
+        textGeoLocation = new createjs.Text("Hello World", "20px Arial", "#ff7700");
+        textGeoLocation.x = 10;
+        textGeoLocation.y = 10;
+        gameContainer.addChild(textGeoLocation);  
+    }
+
+
 // 計算總下注金額
 function calcTotalBetMoney(){
     var totalBetText = gameContainer.getChildAt(INDEX.total_bet_text);

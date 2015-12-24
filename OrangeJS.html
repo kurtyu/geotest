@@ -163,8 +163,6 @@
         {
 
       
-
-
             // Image陣列物件
             assets = [];
             iconAssets = []
@@ -176,8 +174,7 @@
             // stageWidth = stage.canvas.width;
             // stageHeight = stage.canvas.height;        
 
-            // 經緯度文字
-            addGeoLocationText();
+       
 
             // 滾輪物件
             slotRools = []
@@ -224,14 +221,6 @@
             createjs.Ticker.addEventListener("tick", tickFunction);
 
     	}
-
-        function addGeoLocationText()
-        {
-            textGeoLocation = new createjs.Text("Hello World", "20px Arial", "#ff7700");
-            textGeoLocation.x = 10;
-            textGeoLocation.y = 10;
-            stage.addChild(textGeoLocation);  
-        }
 
 
         function tickFunction() 

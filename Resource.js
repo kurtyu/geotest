@@ -589,7 +589,7 @@ function handleComplete(event) {
 
     }
 
-    // gameContainer.addChild(button);
+    gameContainer.addChild(button);
 
     addGeoLocationText();  
 

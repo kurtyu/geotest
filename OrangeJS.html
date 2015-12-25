@@ -30,7 +30,7 @@
 
 	<script>
         var screenWidth = 480;
-        var screenHeight = 480;
+        var screenHeight = 640;
 
         // 舞台
         var stage;
@@ -149,8 +149,25 @@
             {
                  if(mapContainer != null)
                 {
-                    mapContainer.rotation = alpha;
-                    puzzleArray[0].regY += beta;
+                    
+                    // for(int i=0; i<16; i++)
+                    // {
+                       // var type = puzzleArray[0].getType(); 
+                       // if(type == 0)
+                       // {
+                          // puzzleArray[0].regY -= beta;
+                          // console.log("Y:"+puzzleArray[0].regY);
+
+                          topPuzzleContainer.rotation = alpha;
+
+                          // if(puzzleArray[0].regY <= 0)
+                          // {
+
+                          // }
+                       // }
+                    // }
+
+                    // puzzleArray[0].regY += beta;
                 }
                 // puzzle03Bitmap.rotation = alpha;
                 if(orientationText != null)
@@ -284,7 +301,7 @@
                 // console.log("update");
             // }
 
-            // rollThePuzzle();
+            rollTheTopPuzzleContainer();
         }   
 
         function rollTheTopPuzzleContainer()
@@ -333,7 +350,7 @@
 <body>
     <div id="map"></div>
     <div class="canvasHolder">
-        <canvas id="GameCanvas" width="480" height="480"></canvas> 
+        <canvas id="GameCanvas" width="480" height="640"></canvas> 
     </div>
 </body>
 

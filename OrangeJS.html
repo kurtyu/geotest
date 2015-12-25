@@ -374,15 +374,6 @@
             // 監聽裝置方位
             watchDeviceOrientation();
 
-            // 更新位置
-            updateLocationButton.addEventListener("click", function(evt) 
-            {
-                console.log("更新位置");
-                updateLocationButton.gotoAndStop("normal");
-                updateLocationButton.updateCache();  
-
-                getCurrentLocation();
-            });
     	}
 
         function tickFunction() 

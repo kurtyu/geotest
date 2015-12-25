@@ -189,7 +189,16 @@ function handleComplete(event) {
                 var buttonHitArea = new createjs.Shape();
                 // 指定點擊範圍 
                 buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
-                updateLocationButton.hitArea = buttonHitArea;   
+                updateLocationButton.hitArea = buttonHitArea;  
+                // 更新位置
+                updateLocationButton.addEventListener("click", function(evt) 
+                {
+                    console.log("更新位置");
+                    updateLocationButton.gotoAndStop("normal");
+                    updateLocationButton.updateCache();  
+
+                    getCurrentLocation();
+                }); 
                 // 滑鼠按下事件
                 updateLocationButton.addEventListener("mousedown", function(evt) {
                     console.log("bet mousedown");
@@ -201,7 +210,6 @@ function handleComplete(event) {
 
                     // backgroundBitmap.regX = 480/2 + 50;
                     // backgroundBitmap.regY = 480/2 + 50;
-
 
                 });
 

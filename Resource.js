@@ -10,11 +10,14 @@ function startLoading(){
     // PreloadJS.js
     // =================================================================
     var manifest = [
-        {src:"ui/capture_button.png", id:"capture_button"},    
+        {src:"ui/capture_button_normal.png", id:"capture_button_normal"},    
+        {src:"ui/capture_button_light.png", id:"capture_button_light"},            
         {src:"ui/puzzle03.png", id:"puzzle03"},
         {src:"ui/puzzle_line_4x4.png", id:"puzzle_line_4x4"},
         {src:"ui/role.png", id:"role"},
         {src:"ui/background.png", id:"background"},
+        {src:"ui/answer_gray_button.png", id:"answer_gray_button"},
+        {src:"ui/answer_green_button.png", id:"answer_green_button"},         
         // {src:"UI/panel.png", id:"panel"},
         // {src:"UI/btn_spin.png", id:"btn_spin"},
         // {src:"UI/btn_spin_disable.png", id:"btn_spin_disable"},
@@ -23,6 +26,20 @@ function startLoading(){
         // {src:"UI/btn_lobby.png", id:"btn_lobby"},
         // {src:"UI/top_coinsbalance.png", id:"top_coinsbalance"},
         {src:"puzzle1/puzzle_1_1.png", id:"puzzle_1_1"},
+        {src:"puzzle1/puzzle_1_2.png", id:"puzzle_1_2"},
+        {src:"puzzle1/puzzle_1_3.png", id:"puzzle_1_3"},
+        {src:"puzzle1/puzzle_1_4.png", id:"puzzle_1_4"},
+        {src:"puzzle1/puzzle_1_5.png", id:"puzzle_1_5"},
+        {src:"puzzle1/puzzle_1_6.png", id:"puzzle_1_6"},
+        {src:"puzzle1/puzzle_1_7.png", id:"puzzle_1_7"},
+        {src:"puzzle1/puzzle_1_8.png", id:"puzzle_1_8"},
+        {src:"puzzle1/puzzle_1_9.png", id:"puzzle_1_9"},
+        {src:"puzzle1/puzzle_1_10.png", id:"puzzle_1_10"},
+        {src:"puzzle1/puzzle_1_11.png", id:"puzzle_1_11"},
+        {src:"puzzle1/puzzle_1_12.png", id:"puzzle_1_12"},
+        {src:"puzzle1/puzzle_1_13.png", id:"puzzle_1_13"},
+        {src:"puzzle1/puzzle_1_14.png", id:"puzzle_1_14"},
+        {src:"puzzle1/puzzle_1_15.png", id:"puzzle_1_15"},
         {src:"puzzle1/puzzle_1_1_black.png", id:"puzzle_1_1_black"},
         {src:"puzzle1/puzzle_1_2_black.png", id:"puzzle_1_2_black"},
         {src:"puzzle1/puzzle_1_3_black.png", id:"puzzle_1_3_black"},
@@ -38,7 +55,7 @@ function startLoading(){
         {src:"puzzle1/puzzle_1_13_black.png", id:"puzzle_1_13_black"},        
         {src:"puzzle1/puzzle_1_14_black.png", id:"puzzle_1_14_black"},        
         {src:"puzzle1/puzzle_1_15_black.png", id:"puzzle_1_15_black"},  
-        {src:"puzzle1/puzzle_1_16_black.png", id:"puzzle_1_16_black"},  
+        {src:"puzzle1/puzzle_1_16_black.png", id:"puzzle_1_16_black"}, 
     ];
 
     // 使用 XML HTTP Requests
@@ -59,6 +76,7 @@ function handleProgress(event) {
     bar.scaleX = event.loaded * barWidth;  // event.loaded 是個百分比浮點數
     stage.update();
 }
+
 
 function handleComplete(event) {
     console.log("handleComplete...");  
@@ -91,8 +109,19 @@ function handleComplete(event) {
     addOrientationText();
     addGeoLocationDiffText(); 
 
+    // 問題容器
+    questonContainer = new createjs.Container();
+    stage.addChild(questonContainer); 
+    questonContainer.x = screenWidth/2;
+    questonContainer.y = 30;
+    questonContainer.visible = false;
+
     myPuzzleContainer = new createjs.Container();
-    stage.addChild(myPuzzleContainer);                  
+    stage.addChild(myPuzzleContainer); 
+
+    // 目前的拼圖
+    currentPuzzleContainer = new createjs.Container();
+    stage.addChild(currentPuzzleContainer); 
 
     var i = 0;
     for(i=0;i<assets.length;i++) {
@@ -102,44 +131,36 @@ function handleComplete(event) {
 
         switch(id)
         {
-            case "capture_button":
+            case "capture_button_normal":
 
-                var data = 
-                {
-                    images: ["assets/ui/capture_button.png"],
-                    frames: {width:276, height:276},
-                    animations: {normal:[0], clicked:[1]}
-                };
-                var spriteSheet = new createjs.SpriteSheet(data);
-                updateLocationButton = new createjs.Sprite(spriteSheet);
-                var helper = new createjs.ButtonHelper(updateLocationButton, "normal", "clicked");
+                captureButton = new createjs.Bitmap(result);
+                captureButton.x = screenWidth/2;
+                captureButton.y = screenHeight - 60;
 
-                updateLocationButton.name = "updateLocationButton";
-                updateLocationButton.x = screenWidth - 90;
-                updateLocationButton.y = screenHeight - 60;
-                updateLocationButton.gotoAndStop("normal");
-
-                updateLocationButton.cache(0,0,result.width,result.height);                    
                 var buttonHitArea = new createjs.Shape();
                 // 指定點擊範圍 
                 buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
-                updateLocationButton.hitArea = buttonHitArea;  
+                captureButton.hitArea = buttonHitArea;  
                 // 更新位置
-                updateLocationButton.addEventListener("click", function(evt) 
+                captureButton.addEventListener("click", function(evt) 
                 {
-                    console.log("更新位置");
-                    updateLocationButton.gotoAndStop("normal");
-                    updateLocationButton.updateCache();
+                    rubberband(captureButton); 
+
+                    // 檢查目前角度 是否符合目前的拼圖ID
+
+                    // if((topPuzzleContainer.rotation < 10) && ())      
                 }); 
                 // 滑鼠按下事件
-                updateLocationButton.addEventListener("mousedown", function(evt) {
+                captureButton.addEventListener("mousedown", function(evt) 
+                {
                     console.log("bet pressdown");
-                    updateLocationButton.gotoAndStop("clicked");
-                    updateLocationButton.updateCache();  
+                    // rubberband(captureButton); 
+
+                    dropCurrentPuzzle(++currentPuzzleId);
                 });             
 
-                updateLocationButton.scaleX = 0.5;
-                updateLocationButton.scaleY = 0.5;
+                captureButton.regX = 166/2;
+                captureButton.regY = 166/2;
 
                 break;
             case "puzzle_line_4x4":
@@ -197,15 +218,108 @@ function handleComplete(event) {
                 backgroundBitmap.regX = 480/2;
                 backgroundBitmap.regY = 480/2;
             break;
+            case "answer_gray_button":
+                // 加入問題版
+                addQuestionBoard();
+                // 加入答案按鈕
+                aAnswerButton = new createjs.Bitmap(result);
+                bAnswerButton = new createjs.Bitmap(result);
+                cAnswerButton = new createjs.Bitmap(result);
+                questonContainer.addChild(aAnswerButton);       
+                questonContainer.addChild(bAnswerButton);       
+                questonContainer.addChild(cAnswerButton); 
+
+                aAnswerButton.x = screenWidth/2 + 75; 
+                aAnswerButton.y = 365; 
+                aAnswerButton.regX = 400/2;
+                aAnswerButton.regY = 137/2;    
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                aAnswerButton.hitArea = buttonHitArea;  
+                aAnswerButton.addEventListener("click", function(evt) 
+                {
+                    rubberband(aAnswerButton); 
+                }); 
+                aAnswerButton.addEventListener("mousedown", function(evt) 
+                {
+                    rubberband(aAnswerButton); 
+                });
+
+                bAnswerButton.x = screenWidth/2 + 75; 
+                bAnswerButton.y = 435; 
+                bAnswerButton.regX = 400/2;
+                bAnswerButton.regY = 137/2; 
+                bAnswerButton.hitArea = buttonHitArea;  
+                bAnswerButton.addEventListener("click", function(evt) 
+                {
+                    rubberband(bAnswerButton); 
+                }); 
+                bAnswerButton.addEventListener("mousedown", function(evt) 
+                {
+                    rubberband(bAnswerButton); 
+                });
+
+                cAnswerButton.x = screenWidth/2 + 75; 
+                cAnswerButton.y = 505; 
+                cAnswerButton.regX = 400/2;
+                cAnswerButton.regY = 137/2;  
+                cAnswerButton.hitArea = buttonHitArea;  
+                cAnswerButton.addEventListener("click", function(evt) 
+                {
+                    rubberband(cAnswerButton); 
+                }); 
+                cAnswerButton.addEventListener("mousedown", function(evt) 
+                {
+                    rubberband(cAnswerButton); 
+                });
+            break; 
             case "puzzle_1_1":
-                currentPuzzle = new createjs.Bitmap(result);
-                gameContainer.addChild(currentPuzzle);
-                currentPuzzle.x = screenWidth/2;
-                currentPuzzle.y = screenHeight/2 - 210;   
-                currentPuzzle.regX = 50;
-                currentPuzzle.regY = 40;
+                addCurrentPuzzle(id, result, 0, 1, currentPuzzleContainer);
             break;
+            case "puzzle_1_2":
+                addCurrentPuzzle(id, result, 0, 2, currentPuzzleContainer);
+            break;
+            case "puzzle_1_3":
+                addCurrentPuzzle(id, result, 0, 3, currentPuzzleContainer);
+            break;
+            case "puzzle_1_4":
+                addCurrentPuzzle(id, result, 0, 4, currentPuzzleContainer);
+            break;
+            case "puzzle_1_5":
+                addCurrentPuzzle(id, result, 0, 5, currentPuzzleContainer);
+            break;
+            case "puzzle_1_6":
+                addCurrentPuzzle(id, result, 0, 6, currentPuzzleContainer);
+            break;
+            case "puzzle_1_7":
+                addCurrentPuzzle(id, result, 0, 7, currentPuzzleContainer);
+            break;
+            case "puzzle_1_8":
+                addCurrentPuzzle(id, result, 0, 8, currentPuzzleContainer);
+            break;
+            case "puzzle_1_9":
+                addCurrentPuzzle(id, result, 0, 9, currentPuzzleContainer);
+            break;
+            case "puzzle_1_10":
+                addCurrentPuzzle(id, result, 0, 10, currentPuzzleContainer);
+            break;
+            case "puzzle_1_11":
+                addCurrentPuzzle(id, result, 0, 11, currentPuzzleContainer);
+            break;
+            case "puzzle_1_12":
+                addCurrentPuzzle(id, result, 0, 12, currentPuzzleContainer);
+            break;
+            case "puzzle_1_13":
+                addCurrentPuzzle(id, result, 0, 13, currentPuzzleContainer);
+            break;
+            case "puzzle_1_14":
+                addCurrentPuzzle(id, result, 0, 14, currentPuzzleContainer);
+            break;
+            case "puzzle_1_15":
+                addCurrentPuzzle(id, result, 0, 15, currentPuzzleContainer);
+            break;                        
             case "puzzle_1_1_black":
+               // 建立目前的拼圖
                 addBlackPuzzle(id, result, 0, 1, topPuzzleContainer);
             break;              
             case "puzzle_1_2_black":
@@ -271,7 +385,8 @@ function handleComplete(event) {
                 // gameContainer.addChild(hitArea);
 
                 // 指定點擊範圍 
-                btnSpinBitmap.hitArea = btnSpinHitArea;   
+                btnSpinBitmap.hitArea = btnSpinHitArea;  
+
 
                 // 滑鼠按下  
                 btnSpinBitmap.addEventListener("mousedown", function(evt) {
@@ -412,11 +527,29 @@ function handleComplete(event) {
         bottomPuzzleContainer.scaleY = 0.5;
 
 
+     
+
         addUserName(username);
 
-        gameContainer.addChild(updateLocationButton);
+        gameContainer.addChild(captureButton);
 
         resize();
+    }
+
+    function addCurrentPuzzle (name, result, rotation, puzzleId, container) 
+    {
+        var puzzle = new geogame.Puzzle(name, result, 1, puzzleId);
+        container.addChild(puzzle);
+        puzzle.x = screenWidth/2;
+        puzzle.y = screenHeight/2 - 210;   
+        puzzle.regX = 50;
+        puzzle.regY = 40; 
+        puzzle.rotation = rotation;
+        puzzle.visible = false;
+        puzzleArray.push(puzzle); 
+
+        console.log("puzzle = "+ puzzle.mType);
+
     }
 
     function addBlackPuzzle (name, result, rotation, puzzleId, container) 
@@ -467,6 +600,25 @@ function handleComplete(event) {
         geoLocationDiffText.y = 38;
         gameContainer.addChild(geoLocationDiffText);  
     }
+
+    function addQuestionBoard()
+    {
+        questionBoard = new createjs.Shape();
+        questionBoard.graphics.beginFill("white").drawRect(100, 10, screenWidth - 50, 300);
+        questonContainer.addChild(questionBoard);
+
+        questionText = new createjs.Text("我有一個問題？我有一個問題？我有一個問題？\n我有一個問題？", "18px Arial", "#ff7700");
+        questionText.x = 120;
+        questionText.y = 60;
+
+        questonContainer.addChild(questionText); 
+        questonContainer.regX = screenWidth/2;
+        questonContainer.regX = screenHeight/2;
+
+        popup(questonContainer);
+    }
+
+
 
     function setupCurrentPuzzle(puzzleId)
     {
@@ -542,8 +694,6 @@ function handleComplete(event) {
             totalBetText.text = total;
         }
         
-        
-        
     }
 
     function handleFileLoad(event) 
@@ -552,4 +702,5 @@ function handleComplete(event) {
         // 把圖示挑出來
         var id = event.item.id;
         assets.push(event);
+
     }  

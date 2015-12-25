@@ -6,7 +6,7 @@ this.geogame = this.geogame||{};
 
     // 建構式 
     var Puzzle = function (iconName, iconImg, type, id) {
-        this.initialize(iconName, iconImg, type);
+        this.initialize(iconName, iconImg, type, id);
     };
     var p = Puzzle.prototype = new createjs.Bitmap(); 
 

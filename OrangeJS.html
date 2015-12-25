@@ -207,7 +207,7 @@
 
     	function init() 
         {
-            screen.lockOrientation('portrait-primary');
+            var screenOrientationPromise = screen.orientation.lock('portrait-primary');
 
             getUserName();
 

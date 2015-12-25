@@ -291,6 +291,9 @@
         // 地圖容器
         var mapConatainer;
 
+        // 更新位置
+        var updateLocationButton;
+
         //  註冊畫面大小改變
         window.addEventListener('resize', resize, false);
         function resize()
@@ -370,6 +373,16 @@
 
             // 監聽裝置方位
             watchDeviceOrientation();
+
+            // 更新位置
+            updateLocationButton.addEventListener("click", function(evt) 
+            {
+                console.log("更新位置");
+                updateLocationButton.gotoAndStop("normal");
+                updateLocationButton.updateCache();  
+
+                getCurrentLocation();
+            });
     	}
 
         function tickFunction() 

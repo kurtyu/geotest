@@ -177,23 +177,23 @@ function handleComplete(event) {
                     animations: {normal:[0], over:[1], clicked:[2]}
                 };
                 var spriteSheet = new createjs.SpriteSheet(data);
-                var button = new createjs.Sprite(spriteSheet);
+                updateLocationButton = new createjs.Sprite(spriteSheet);
                 var helper = new createjs.ButtonHelper(button, "normal", "over", "clicked");
 
-                button.name = "button";
-                button.x = 100;
-                button.y = 100;
-                button.gotoAndStop("normal");
+                updateLocationButton.name = "updateLocationButton";
+                updateLocationButton.x = screenWidth - 90;
+                updateLocationButton.y = screenHeight - 60;
+                updateLocationButton.gotoAndStop("normal");
                 
-                button.cache(0,0,result.width,result.height);                    
+                updateLocationButton.cache(0,0,result.width,result.height);                    
                 var buttonHitArea = new createjs.Shape();
                 // 指定點擊範圍 
                 buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
-                button.hitArea = buttonHitArea;   
+                updateLocationButton.hitArea = buttonHitArea;   
                 // 滑鼠按下事件
-                button.addEventListener("mousedown", function(evt) {
+                updateLocationButton.addEventListener("mousedown", function(evt) {
                     console.log("bet mousedown");
-                    button.updateCache();  
+                    updateLocationButton.updateCache();  
 
                     // 等於橘子園的座標
                     // mapConatainer.x = (screenWidth)/2+50;
@@ -204,11 +204,10 @@ function handleComplete(event) {
 
 
                 });
-                button.addEventListener("click", function(evt) {
-                    console.log("bet pressup");
-                    button.gotoAndStop("normal");
-                    button.updateCache();  
-                });
+
+                updateLocationButton.scaleX = 0.5;
+                updateLocationButton.scaleY = 0.5;
+
                 break;
             case "puzzle03":
                 var puzzleSize = 100;

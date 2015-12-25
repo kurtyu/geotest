@@ -22,7 +22,7 @@ function startLoading(){
         // {src:"UI/btn_line.png", id:"btn_line"},
         // {src:"UI/btn_lobby.png", id:"btn_lobby"},
         // {src:"UI/top_coinsbalance.png", id:"top_coinsbalance"},
-        // {src:"UI/line_number/1_on-hd.png", id:"1_on-hd"},
+        {src:"puzzle1/puzzle_1_1.png", id:"puzzle_1_1"},
         // {src:"UI/line_number/2_on-hd.png", id:"2_on-hd"},
         // {src:"UI/line_number/3_on-hd.png", id:"3_on-hd"},
         // {src:"UI/line_number/4_on-hd.png", id:"4_on-hd"},
@@ -287,10 +287,12 @@ function handleComplete(event) {
                 backgroundBitmap.regX = 480/2;
                 backgroundBitmap.regY = 480/2;
             break;
-            case "panel":
-                var panelBmp = new createjs.Bitmap(result);
-                panelBmp.name = "panel";    
-                panelBmp.y = 628-result.height;                       
+            case "puzzle_1_1":
+                var puzzle_1_1_Bitmap = new createjs.Bitmap(result);
+                puzzle_1_1_Bitmap.name = "puzzle_1_1";    
+                mapConatainer.addChild(puzzle_1_1_Bitmap);
+                puzzle_1_1_Bitmap.regX = 100/2;
+                puzzle_1_1_Bitmap.regY = 500/2;                
             break;
             case "btn_spin":
                 var btnSpinBitmap = new createjs.Bitmap(result);

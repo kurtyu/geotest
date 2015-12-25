@@ -10,7 +10,7 @@ function startLoading(){
     // PreloadJS.js
     // =================================================================
     var manifest = [
-        {src:"ui/button.png", id:"button"},
+        {src:"ui/capture_button.png", id:"capture_button"},    
         {src:"ui/puzzle03.png", id:"puzzle03"},
         {src:"ui/puzzle_line_4x4.png", id:"puzzle_line_4x4"},
         {src:"ui/role.png", id:"role"},
@@ -102,23 +102,23 @@ function handleComplete(event) {
 
         switch(id)
         {
-            case "button":
+            case "capture_button":
 
                 var data = 
                 {
-                    images: ["assets/ui/button.png"],
-                    frames: {width:180, height:122},
-                    animations: {normal:[0], over:[1], clicked:[2]}
+                    images: ["assets/ui/capture_button.png"],
+                    frames: {width:276, height:276},
+                    animations: {normal:[0], clicked:[1]}
                 };
                 var spriteSheet = new createjs.SpriteSheet(data);
                 updateLocationButton = new createjs.Sprite(spriteSheet);
-                var helper = new createjs.ButtonHelper(updateLocationButton, "normal", "over", "clicked");
+                var helper = new createjs.ButtonHelper(updateLocationButton, "normal", "clicked");
 
                 updateLocationButton.name = "updateLocationButton";
                 updateLocationButton.x = screenWidth - 90;
                 updateLocationButton.y = screenHeight - 60;
                 updateLocationButton.gotoAndStop("normal");
-                
+
                 updateLocationButton.cache(0,0,result.width,result.height);                    
                 var buttonHitArea = new createjs.Shape();
                 // 指定點擊範圍 
@@ -129,23 +129,14 @@ function handleComplete(event) {
                 {
                     console.log("更新位置");
                     updateLocationButton.gotoAndStop("normal");
-                    updateLocationButton.updateCache();  
-
-                    getCurrentLocation();
+                    updateLocationButton.updateCache();
                 }); 
                 // 滑鼠按下事件
                 updateLocationButton.addEventListener("mousedown", function(evt) {
-                    console.log("bet mousedown");
+                    console.log("bet pressdown");
+                    updateLocationButton.gotoAndStop("clicked");
                     updateLocationButton.updateCache();  
-
-                    // 等於橘子園的座標
-                    // mapConatainer.x = (screenWidth)/2+50;
-                    // mapConatainer.y = (screenHeight)/2+50;
-
-                    // backgroundBitmap.regX = 480/2 + 50;
-                    // backgroundBitmap.regY = 480/2 + 50;
-
-                });
+                });             
 
                 updateLocationButton.scaleX = 0.5;
                 updateLocationButton.scaleY = 0.5;
@@ -419,9 +410,11 @@ function handleComplete(event) {
 
         bottomPuzzleContainer.scaleX = 0.5;
         bottomPuzzleContainer.scaleY = 0.5;
-        
+
 
         addUserName(username);
+
+        gameContainer.addChild(updateLocationButton);
 
         resize();
     }

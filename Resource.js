@@ -272,7 +272,7 @@ function handleComplete(event) {
                     }
                 };
                 var spriteSheet = new createjs.SpriteSheet(roleData);
-                role = new createjs.Sprite(spriteSheet, "up");
+                role = new createjs.Sprite(spriteSheet, "down");
                 role.name = "role";
                 role.speed = 1;
                 role.x = (screenWidth - 96)/2;

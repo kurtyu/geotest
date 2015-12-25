@@ -25,6 +25,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/TweenLite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/plugins/EaselPlugin.min.js"></script>
 
+    <script src="CanvasInput.js"></script>  
+
     <script src="Resource.js"></script>        
     <script src="MainStage.js"></script>          
 
@@ -33,6 +35,8 @@
         var screenHeight = 640;
         // 距離（值越大 走的距離可以越短）
         var walkValue = 300000;
+
+        var nameInput;
 
         function success(position) 
         {
@@ -294,6 +298,8 @@
         // 更新位置
         var updateLocationButton;
 
+  
+
         //  註冊畫面大小改變
         window.addEventListener('resize', resize, false);
         function resize()
@@ -317,13 +323,19 @@
         
     		// Stage物件：Display List 最底層的物件
     		var canvas = document.getElementById("GameCanvas");
+
+            addNameInput();
+
+            return;
+
+
+
     		stage = new createjs.Stage(canvas); 
             // stageWidth = stage.canvas.width;
             // stageHeight = stage.canvas.height;        
 
             // 滾輪物件
             slotRools = []
-
 
             // 經典的你好世界
     		// var text = new createjs.Text("Hello World!", "36px Arial", "#777");
@@ -358,27 +370,58 @@
             // =================================================================
 
 
-
+           
 
             resize();
 
+
+
             // 開始讀取
-            startLoading();       
+            // startLoading();       
             
+            createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
             createjs.Ticker.setFPS(60);
             createjs.Ticker.addEventListener("tick", tickFunction);
+            createjs.Ticker.setPaused(true);
+           
 
-            // 監聽裝置位置
-            // watchDeviceLocation();
-
+        
             // 監聽裝置方位
             watchDeviceOrientation();
 
+           
+
     	}
+
+
+        function addNameInput()
+        {
+            nameInput = new CanvasInput(
+            {
+              canvas: document.getElementById('GameCanvas'),
+              fontSize: 18,
+              fontFamily: 'Arial',
+              fontColor: '#212121',
+              fontWeight: 'bold',
+              width: 300,
+              padding: 8,
+              borderWidth: 1,
+              borderColor: '#000',
+              borderRadius: 3,
+              boxShadow: '1px 1px 0px #fff',
+              innerShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)',
+              placeHolder: 'Enter message here...'
+            });
+
+        }
 
         function tickFunction() 
         {
-            stage.update();
+            if(!createjs.Ticker.getPaused())
+            {
+                stage.update();
+                console.log("update");
+            }
             // getCurrentLocation();
 
             // mapConatainer.rotation +=1;
@@ -388,18 +431,14 @@
             // }
         }           
 
-        function updateScaleStage()
-        {
-            console.log("update");
-        }
 	</script>
 </head>
 	
 <body>
     <div id="map"></div>
     <div class="canvasHolder">
-    <canvas id="GameCanvas" width="480" height="960"></canvas>
+        <canvas id="GameCanvas" width="480" height="960"></canvas>
     </div>
-
 </body>
+
 </html>

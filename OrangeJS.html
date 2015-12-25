@@ -115,6 +115,9 @@
         // 拼圖資源
         var puzzleArray;
 
+        var topNormalPuzzleArray;
+        var topBlackPuzzleArray;
+
 
         // 問題容器
         var questonContainer;
@@ -253,6 +256,9 @@
             // 拼圖物件
             puzzleArray = [];
 
+            topBlackPuzzleArray = [];
+            topNormalPuzzleArray = [];
+
     		// Stage物件：Display List 最底層的物件
     		var canvas = document.getElementById("GameCanvas");
 
@@ -322,6 +328,7 @@
 
             rollContainer(mapContainer, 0.15);
             rollContainer(bottomPuzzleContainer, -0.1);
+            // rollContainer();
         }   
 
         function rollContainer(container, speed)

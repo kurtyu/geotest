@@ -40,6 +40,7 @@ function startLoading(){
         {src:"puzzle1/puzzle_1_13.png", id:"puzzle_1_13"},
         {src:"puzzle1/puzzle_1_14.png", id:"puzzle_1_14"},
         {src:"puzzle1/puzzle_1_15.png", id:"puzzle_1_15"},
+        {src:"puzzle1/puzzle_1_16.png", id:"puzzle_1_16"},
         {src:"puzzle1/puzzle_1_1_black.png", id:"puzzle_1_1_black"},
         {src:"puzzle1/puzzle_1_2_black.png", id:"puzzle_1_2_black"},
         {src:"puzzle1/puzzle_1_3_black.png", id:"puzzle_1_3_black"},
@@ -149,7 +150,8 @@ function handleComplete(event) {
                     rubberband(captureButton); 
 
                     // 檢查目前角度 是否符合目前的拼圖ID
-                    dropCurrentPuzzle(++currentPuzzleId);
+                    // dropCurrentPuzzle(++currentPuzzleId);
+
 
                     // if((topPuzzleContainer.rotation < 10) && ())      
                 }); 
@@ -159,11 +161,13 @@ function handleComplete(event) {
                     console.log("bet pressdown");
                     // rubberband(captureButton); 
 
-                    dropCurrentPuzzle(++currentPuzzleId);
+                    // dropCurrentPuzzle(++currentPuzzleId);
+
+                    flipPuzzle(15);
+  
+                    
                 });             
-
-          
-
+        
                 break;
             case "puzzle_line_4x4":
                 puzzleLine4x4Bitmap = new createjs.Bitmap(result);
@@ -316,58 +320,77 @@ function handleComplete(event) {
             break;
             case "puzzle_1_14":
                 addCurrentPuzzle(id, result, 0, 14, currentPuzzleContainer);
+                addTopNormalPuzzle(id, result, 292.5, 14, bottomPuzzleContainer);                  
             break;
             case "puzzle_1_15":
                 addCurrentPuzzle(id, result, 0, 15, currentPuzzleContainer);
-            break;                        
+                addTopNormalPuzzle(id, result, 315, 15, topPuzzleContainer);  
+            break;  
+            case "puzzle_1_16":
+                addCurrentPuzzle(id, result, 0, 16, currentPuzzleContainer);
+                addTopNormalPuzzle(id, result, 337.5, 16, bottomPuzzleContainer); 
+            break;                      
             case "puzzle_1_1_black":
                // 建立目前的拼圖
-                addBlackPuzzle(id, result, 0, 1, topPuzzleContainer);
+                addTopBlackPuzzle(id, result, 0, 1, topPuzzleContainer);
+                addTopNormalPuzzle(id, result, 0, 1, topPuzzleContainer);
             break;              
             case "puzzle_1_2_black":
-                addBlackPuzzle(id, result, 22.5, 2, bottomPuzzleContainer);
+                addTopBlackPuzzle(id, result, 22.5, 2, bottomPuzzleContainer);
+                addTopNormalPuzzle(id, result, 22.5, 2, bottomPuzzleContainer);
             break;          
             case "puzzle_1_3_black":
-                addBlackPuzzle(id, result, 45, 3, topPuzzleContainer);
+                addTopBlackPuzzle(id, result, 45, 3, topPuzzleContainer);
+                addTopNormalPuzzle(id, result, 45, 3, topPuzzleContainer);
             break;  
             case "puzzle_1_4_black":
-                addBlackPuzzle(id, result, 67.5, 4, bottomPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 67.5, 4, bottomPuzzleContainer); 
+                addTopNormalPuzzle(id, result, 67.5, 4, bottomPuzzleContainer); 
             break;        
             case "puzzle_1_5_black":
-                addBlackPuzzle(id, result, 90, 5, topPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 90, 5, topPuzzleContainer);  
+                addTopNormalPuzzle(id, result, 90, 5, topPuzzleContainer);  
             break;   
             case "puzzle_1_6_black":
-                addBlackPuzzle(id, result, 112.5, 6, bottomPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 112.5, 6, bottomPuzzleContainer);  
+                addTopNormalPuzzle(id, result, 112.5, 6, bottomPuzzleContainer);
             break;  
             case "puzzle_1_7_black":
-                addBlackPuzzle(id, result, 135, 7, topPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 135, 7, topPuzzleContainer);  
+                addTopNormalPuzzle(id, result, 135, 7, topPuzzleContainer);  
             break;  
             case "puzzle_1_8_black":
-                addBlackPuzzle(id, result, 157.5, 8, bottomPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 157.5, 8, bottomPuzzleContainer);
+                addTopNormalPuzzle(id, result, 157.5, 8, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_9_black":
-                addBlackPuzzle(id, result, 180, 9, topPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 180, 9, topPuzzleContainer);  
+                addTopNormalPuzzle(id, result, 180, 9, topPuzzleContainer);  
             break;  
             case "puzzle_1_10_black":
-                addBlackPuzzle(id, result, 202.5, 10, bottomPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 202.5, 10, bottomPuzzleContainer); 
+                addTopNormalPuzzle(id, result, 202.5, 10, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_11_black":
-                addBlackPuzzle(id, result, 225, 11, topPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 225, 11, topPuzzleContainer);  
+                addTopNormalPuzzle(id, result, 225, 11, topPuzzleContainer);  
             break;  
             case "puzzle_1_12_black":
-                addBlackPuzzle(id, result, 247.5, 12, bottomPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 247.5, 12, bottomPuzzleContainer); 
+                addTopNormalPuzzle(id, result, 247.5, 12, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_13_black":
-                addBlackPuzzle(id, result, 270, 13, topPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 270, 13, topPuzzleContainer);  
+                addTopNormalPuzzle(id, result, 270, 13, topPuzzleContainer);  
             break;  
             case "puzzle_1_14_black":
-                addBlackPuzzle(id, result, 292.5, 14, bottomPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 292.5, 14, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_15_black":
-                addBlackPuzzle(id, result, 315, 15, topPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 315, 15, topPuzzleContainer);  
             break;        
             case "puzzle_1_16_black":
-                addBlackPuzzle(id, result, 337.5, 16, bottomPuzzleContainer);  
+                addTopBlackPuzzle(id, result, 337.5, 16, bottomPuzzleContainer);  
             break;                                                                                                                                
             case "btn_spin":
                 var btnSpinBitmap = new createjs.Bitmap(result);
@@ -538,6 +561,16 @@ function handleComplete(event) {
         resize();
     }
 
+    function flipPuzzle(puzzleId)
+    {
+        var normalPuzzle = getTopNormalPuzzle(puzzleId);
+        normalPuzzle.visible = true;
+        var blackPuzzle = getTopBlackPuzzle(puzzleId);
+        blackPuzzle.visible = false;
+
+        popup(normalPuzzle);
+    }
+
     function addCurrentPuzzle (name, result, rotation, puzzleId, container) 
     {
         var puzzle = new geogame.Puzzle(name, result, 1, puzzleId);
@@ -551,18 +584,67 @@ function handleComplete(event) {
         puzzleArray.push(puzzle); 
 
         console.log("puzzle = "+ puzzle.mType);
-
     }
 
-    function addBlackPuzzle (name, result, rotation, puzzleId, container) 
+    function addTopBlackPuzzle (name, result, rotation, puzzleId, container) 
     {
         var puzzle = new geogame.Puzzle(name, result, 0, puzzleId);
         container.addChild(puzzle);
         puzzle.regX = 100/2;
         puzzle.regY = 460/2;
         puzzle.rotation = rotation;
-        puzzleArray.push(puzzle); 
+        topBlackPuzzleArray.push(puzzle); 
     }
+
+    function addTopNormalPuzzle (name, result, rotation, puzzleId, container) 
+    {
+        var puzzle = new geogame.Puzzle(name, result, 0, puzzleId);
+        container.addChild(puzzle);
+        puzzle.regX = 100/2;
+        puzzle.regY = 460/2;
+        puzzle.rotation = rotation;
+        topNormalPuzzleArray.push(puzzle); 
+        puzzle.visible = false;
+    }    
+
+    function getCurrentPuzzle(puzzleId)
+    {
+        var i = 0;
+        for(i = 0 ; i<puzzleArray.length; i++)
+        {
+            if(puzzleArray[i].mPuzzleId == puzzleId)
+            {
+                return puzzleArray[i];
+            }      
+        }
+    }
+
+    function getTopBlackPuzzle(puzzleId)
+    {
+        var i = 0;
+        for(i = 0 ; i<topBlackPuzzleArray.length; i++)
+        {
+            if(topBlackPuzzleArray[i].mPuzzleId == puzzleId)
+            {
+                return topBlackPuzzleArray[i];
+            }   
+        }
+    }
+
+    function getTopNormalPuzzle(puzzleId)
+    {
+        console.log("找尋拼圖:"+puzzleId);
+        var i = 0;
+        for(i = 0 ; i<topNormalPuzzleArray.length; i++)
+        {
+            console.log("getTopNormalPuzzle 找尋目前拼圖:"+topNormalPuzzleArray[i].mPuzzleId);
+            if(topNormalPuzzleArray[i].mPuzzleId == puzzleId)
+            {
+                return topNormalPuzzleArray[i];
+            }            
+        }
+    }    
+
 
     function addUserName(name)
     {

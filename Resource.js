@@ -136,6 +136,8 @@ function handleComplete(event) {
                 captureButton = new createjs.Bitmap(result);
                 captureButton.x = screenWidth/2;
                 captureButton.y = screenHeight - 60;
+                captureButton.regX = 166/2;
+                captureButton.regY = 166/2;
 
                 var buttonHitArea = new createjs.Shape();
                 // 指定點擊範圍 
@@ -147,6 +149,7 @@ function handleComplete(event) {
                     rubberband(captureButton); 
 
                     // 檢查目前角度 是否符合目前的拼圖ID
+                    dropCurrentPuzzle(++currentPuzzleId);
 
                     // if((topPuzzleContainer.rotation < 10) && ())      
                 }); 
@@ -159,8 +162,7 @@ function handleComplete(event) {
                     dropCurrentPuzzle(++currentPuzzleId);
                 });             
 
-                captureButton.regX = 166/2;
-                captureButton.regY = 166/2;
+          
 
                 break;
             case "puzzle_line_4x4":

@@ -178,7 +178,7 @@ function handleComplete(event) {
                 };
                 var spriteSheet = new createjs.SpriteSheet(data);
                 updateLocationButton = new createjs.Sprite(spriteSheet);
-                var helper = new createjs.ButtonHelper(button, "normal", "over", "clicked");
+                var helper = new createjs.ButtonHelper(updateLocationButton, "normal", "over", "clicked");
 
                 updateLocationButton.name = "updateLocationButton";
                 updateLocationButton.x = screenWidth - 90;
@@ -433,7 +433,7 @@ function handleComplete(event) {
     mapConatainer.x = (screenWidth)/2;
     mapConatainer.y = (screenHeight)/2;
 
-    gameContainer.addChild(button);
+    gameContainer.addChild(updateLocationButton);
 
     resize();
 }

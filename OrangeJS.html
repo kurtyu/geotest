@@ -144,13 +144,13 @@
             if (beta >  90) { beta =  90};
             if (beta < -90) { beta = -90};
             
-            console.log("alpha = "+alpha);
+            console.log("alpha = "+ alpha +" beta = "+beta);
             if(alpha != null)
             {
-                 if(mapConatainer != null)
+                 if(mapContainer != null)
                 {
-                    mapConatainer.rotation = alpha;
-                    mapConatainer.position.y += beta;
+                    mapContainer.rotation = alpha;
+                    mapContainer.position.y += beta;
                 }
                 // myPuzzleContainer.position.x = stage.canvas.width/2;
                 // myPuzzleContainer.position.y = stage.canvas.height/2-puzzle03Bitmap.height;

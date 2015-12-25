@@ -441,7 +441,7 @@ function handleComplete(event) {
     mapConatainer.x = (screenWidth)/2;
     mapConatainer.y = (screenHeight)/2;
 
-    gameContainer.addChild(updateLocationButton);
+    // gameContainer.addChild(updateLocationButton);
 
     resize();
 }

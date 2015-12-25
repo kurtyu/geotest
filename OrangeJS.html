@@ -61,15 +61,22 @@
             }
         }
 
+        var geolocation=navigator.geolocation; //取得 Geolocation 物件
         function watchDeviceLocation()
         {
             if (navigator.geolocation) 
             {
                 var timeoutVal = 10 * 1000 * 1000;
-                navigator.geolocation.watchPosition(
+                var option =
+                {
+                    enableHighAccuracy:true,
+                    maximumAge:1000, // 每次都取新的是0
+                    timeout:60000
+                };
+                geolocation.watchPosition(
                     displayPosition, 
                     displayError,
-                    { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+                    option
                 );
             }
             else 
@@ -117,6 +124,23 @@
 
         function displayPosition(position) 
         {
+
+            // Position 物件的屬性  說明 
+            //  coords  Coordinates 座標物件, 存放傳回之位置資訊
+            //  timestamp   取得位置資訊之時間 (毫秒, 自 1970/1/1 起)
+
+            // Coordinates 物件的屬性   說明 
+            //  latitude    緯度 (單位 degree)
+            //  longitude   經度 (單位 degree)
+            //  altitude    高度 (單位 meter), 若裝置不支援則傳回 0
+            //  accuracy    位置誤差  (單位 meter)
+            //  altitudeAccuracy    高度誤差 (單位 meter), 若裝置不支援則傳回 0
+            //  heading     移動方向 (單位 degree)
+            //  speed   移動速度 (單位 meter/second)
+
+
+            geoLocationDiffText.text = "精確度:"+position.accuracy;
+
             geoLocationText.text = position.coords.latitude+" x "+position.coords.longitude;
 
             // displayGooglePosition(position);
@@ -141,7 +165,7 @@
 
                 // geoLocationDiffText.text = "緯度差距："+diffLatitude+" x 經度差距："+diffLongitude;
 
-                var length = Math.sqrt((diffLatitude * diffLatitude) + (diffLongitude * diffLongitude));
+                // var length = Math.sqrt((diffLatitude * diffLatitude) + (diffLongitude * diffLongitude));
 
 
 
@@ -150,14 +174,13 @@
                 // mapConatainer.x = (screenWidth)/2 + diffLatitude;
                 // mapConatainer.y = (screenHeight)/2 + diffLongitude;
 
-                var x = Math.cos(mapConatainer.rotation);
-                var y = Math.sin(mapConatainer.rotation);
-
-                geoLocationDiffText.text = "差距："+formatFloat(length, 6)+" X:"+formatFloat(x, 6)+" Y:"+formatFloat(y, 6);
+                // var x = Math.cos(mapConatainer.rotation);
+                // var y = Math.sin(mapConatainer.rotation);
 
 
-                backgroundBitmap.regX = 480/2 + (x*length*10000);
-                backgroundBitmap.regY = 480/2 + (y*length*10000);
+
+                // backgroundBitmap.regX = 480/2 + (x*length*10000);
+                // backgroundBitmap.regY = 480/2 + (y*length*10000);
 
 
                 // backgroundBitmap

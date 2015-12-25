@@ -195,14 +195,12 @@ function handleComplete(event) {
                     console.log("bet mousedown");
                     button.updateCache();  
 
-
                     // 等於橘子園的座標
                     // mapConatainer.x = (screenWidth)/2+50;
                     // mapConatainer.y = (screenHeight)/2+50;
 
-
-                    backgroundBitmap.regX = 480/2 + 50;
-                    backgroundBitmap.regY = 480/2 + 50;
+                    // backgroundBitmap.regX = 480/2 + 50;
+                    // backgroundBitmap.regY = 480/2 + 50;
 
 
                 });
@@ -450,7 +448,7 @@ function addBackground()
 
 function addGeoLocationText()
 {
-    geoLocationText = new createjs.Text("位置", "20px Arial", "#ff7700");
+    geoLocationText = new createjs.Text("位置", "14px Arial", "#ff7700");
     geoLocationText.x = 10;
     geoLocationText.y = 10;
     gameContainer.addChild(geoLocationText);  
@@ -458,17 +456,17 @@ function addGeoLocationText()
 
 function addOrientationText()
 {
-    orientationText = new createjs.Text("方位", "20px Arial", "#ff7700");
+    orientationText = new createjs.Text("方位", "14px Arial", "#ff7700");
     orientationText.x = 10;
-    orientationText.y = 30;
+    orientationText.y = 24;
     gameContainer.addChild(orientationText);  
 }
 
 function addGeoLocationDiffText()
 {
-    geoLocationDiffText = new createjs.Text("方位差距", "20px Arial", "#ff7700");
+    geoLocationDiffText = new createjs.Text("精準度", "14px Arial", "#ff7700");
     geoLocationDiffText.x = 10;
-    geoLocationDiffText.y = 50;
+    geoLocationDiffText.y = 38;
     gameContainer.addChild(geoLocationDiffText);  
 }
 

@@ -301,17 +301,18 @@
                 // console.log("update");
             // }
 
-            rollTheTopPuzzleContainer();
+            rollContainer(mapContainer, 0.1);
+            rollContainer(bottomPuzzleContainer, -0.05);
         }   
 
-        function rollTheTopPuzzleContainer()
+        function rollContainer(container, speed)
         {
-            if(topPuzzleContainer != null)
+            if(container != null)
             {    
-                topPuzzleContainer.rotation +=0.2;
-                if(topPuzzleContainer.rotation>=360)
+                container.rotation +=speed;
+                if(container.rotation>=360)
                 {
-                    topPuzzleContainer.rotation=0; 
+                    container.rotation=0; 
                 }
             }
         }

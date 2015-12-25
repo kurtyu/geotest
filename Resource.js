@@ -215,52 +215,52 @@ function handleComplete(event) {
                 currentPuzzle.regY = 40;
             break;
             case "puzzle_1_1_black":
-                addBlackPuzzle(id, result, 0, 1);
+                addBlackPuzzle(id, result, 0, 1, topPuzzleContainer);
             break;              
             case "puzzle_1_2_black":
-                addBlackPuzzle(id, result, 22.5, 2);
+                addBlackPuzzle(id, result, 22.5, 2, bottomPuzzleContainer);
             break;          
             case "puzzle_1_3_black":
-                addBlackPuzzle(id, result, 45, 3);
+                addBlackPuzzle(id, result, 45, 3, topPuzzleContainer);
             break;  
             case "puzzle_1_4_black":
-                addBlackPuzzle(id, result, 67.5, 4);  
+                addBlackPuzzle(id, result, 67.5, 4, bottomPuzzleContainer);  
             break;        
             case "puzzle_1_5_black":
-                addBlackPuzzle(id, result, 90, 5);  
+                addBlackPuzzle(id, result, 90, 5, topPuzzleContainer);  
             break;   
             case "puzzle_1_6_black":
-                addBlackPuzzle(id, result, 112.5, 6);  
+                addBlackPuzzle(id, result, 112.5, 6, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_7_black":
-                addBlackPuzzle(id, result, 135, 7);  
+                addBlackPuzzle(id, result, 135, 7, topPuzzleContainer);  
             break;  
             case "puzzle_1_8_black":
-                addBlackPuzzle(id, result, 157.5, 8);  
+                addBlackPuzzle(id, result, 157.5, 8, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_9_black":
-                addBlackPuzzle(id, result, 180, 9);  
+                addBlackPuzzle(id, result, 180, 9, topPuzzleContainer);  
             break;  
             case "puzzle_1_10_black":
-                addBlackPuzzle(id, result, 202.5, 10);  
+                addBlackPuzzle(id, result, 202.5, 10, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_11_black":
-                addBlackPuzzle(id, result, 225, 11);  
+                addBlackPuzzle(id, result, 225, 11, topPuzzleContainer);  
             break;  
             case "puzzle_1_12_black":
-                addBlackPuzzle(id, result, 247.5, 12);  
+                addBlackPuzzle(id, result, 247.5, 12, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_13_black":
-                addBlackPuzzle(id, result, 270, 13);  
+                addBlackPuzzle(id, result, 270, 13, topPuzzleContainer);  
             break;  
             case "puzzle_1_14_black":
-                addBlackPuzzle(id, result, 292.5, 14);  
+                addBlackPuzzle(id, result, 292.5, 14, bottomPuzzleContainer);  
             break;  
             case "puzzle_1_15_black":
-                addBlackPuzzle(id, result, 315, 15);  
+                addBlackPuzzle(id, result, 315, 15, topPuzzleContainer);  
             break;        
             case "puzzle_1_16_black":
-                addBlackPuzzle(id, result, 337.5, 15);  
+                addBlackPuzzle(id, result, 337.5, 16, bottomPuzzleContainer);  
             break;                                                                                                                                
             case "btn_spin":
                 var btnSpinBitmap = new createjs.Bitmap(result);
@@ -408,23 +408,28 @@ function handleComplete(event) {
     gameContainer.addChild(role);
 
     // 等於橘子園的座標
-    mapContainer.x = (screenWidth)/2;
-    mapContainer.y = (screenHeight)/2;
+        mapContainer.x = (screenWidth)/2;
+        mapContainer.y = (screenHeight)/2;
 
-    topPuzzleContainer.x = (screenWidth)/2; 
-    topPuzzleContainer.y = (screenHeight)/2;
+        topPuzzleContainer.x = (screenWidth)/2; 
+        topPuzzleContainer.y = (screenHeight)/2;
 
+        bottomPuzzleContainer.x = (screenWidth)/2; 
+        bottomPuzzleContainer.y = (screenHeight)/2;
 
+        bottomPuzzleContainer.scaleX = 0.5;
+        bottomPuzzleContainer.scaleY = 0.5;
+        
 
         addUserName(username);
 
         resize();
     }
 
-    function addBlackPuzzle (name, result, rotation, puzzleId) 
+    function addBlackPuzzle (name, result, rotation, puzzleId, container) 
     {
         var puzzle = new geogame.Puzzle(name, result, 0, puzzleId);
-        topPuzzleContainer.addChild(puzzle);
+        container.addChild(puzzle);
         puzzle.regX = 100/2;
         puzzle.regY = 460/2;
         puzzle.rotation = rotation;

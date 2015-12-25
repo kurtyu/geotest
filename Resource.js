@@ -23,95 +23,22 @@ function startLoading(){
         // {src:"UI/btn_lobby.png", id:"btn_lobby"},
         // {src:"UI/top_coinsbalance.png", id:"top_coinsbalance"},
         {src:"puzzle1/puzzle_1_1.png", id:"puzzle_1_1"},
-        // {src:"UI/line_number/2_on-hd.png", id:"2_on-hd"},
-        // {src:"UI/line_number/3_on-hd.png", id:"3_on-hd"},
-        // {src:"UI/line_number/4_on-hd.png", id:"4_on-hd"},
-        // {src:"UI/line_number/5_on-hd.png", id:"5_on-hd"},
-        // {src:"UI/line_number/6_on-hd.png", id:"6_on-hd"},
-        // {src:"UI/line_number/7_on-hd.png", id:"7_on-hd"},
-        // {src:"UI/line_number/8_on-hd.png", id:"8_on-hd"},
-        // {src:"UI/line_number/9_on-hd.png", id:"9_on-hd"},
-        // {src:"UI/line_number/10_on-hd.png", id:"10_on-hd"},
-        // {src:"UI/line_number/11_on-hd.png", id:"11_on-hd"},
-        // {src:"UI/line_number/12_on-hd.png", id:"12_on-hd"},
-        // {src:"UI/line_number/13_on-hd.png", id:"13_on-hd"},
-        // {src:"UI/line_number/14_on-hd.png", id:"14_on-hd"},
-        // {src:"UI/line_number/15_on-hd.png", id:"15_on-hd"},
-        // {src:"UI/line_number/16_on-hd.png", id:"16_on-hd"},
-        // {src:"UI/line_number/17_on-hd.png", id:"17_on-hd"},
-        // {src:"UI/line_number/18_on-hd.png", id:"18_on-hd"},
-        // {src:"UI/line_number/19_on-hd.png", id:"19_on-hd"},
-        // {src:"UI/line_number/20_on-hd.png", id:"20_on-hd"},
-        // {src:"UI/line_number/21_on-hd.png", id:"21_on-hd"},
-        // {src:"UI/line_number/22_on-hd.png", id:"22_on-hd"},
-        // {src:"UI/line_number/23_on-hd.png", id:"23_on-hd"},
-        // {src:"UI/line_number/24_on-hd.png", id:"24_on-hd"},
-        // {src:"UI/line_number/25_on-hd.png", id:"25_on-hd"},            
-        // {src:"UI/line_number/1_off-hd.png", id:"1_off-hd"},
-        // {src:"UI/line_number/2_off-hd.png", id:"2_off-hd"},
-        // {src:"UI/line_number/3_off-hd.png", id:"3_off-hd"},
-        // {src:"UI/line_number/4_off-hd.png", id:"4_off-hd"},
-        // {src:"UI/line_number/5_off-hd.png", id:"5_off-hd"},
-        // {src:"UI/line_number/6_off-hd.png", id:"6_off-hd"},
-        // {src:"UI/line_number/7_off-hd.png", id:"7_off-hd"},
-        // {src:"UI/line_number/8_off-hd.png", id:"8_off-hd"},
-        // {src:"UI/line_number/9_off-hd.png", id:"9_off-hd"},
-        // {src:"UI/line_number/10_off-hd.png", id:"10_off-hd"},
-        // {src:"UI/line_number/11_off-hd.png", id:"11_off-hd"},
-        // {src:"UI/line_number/12_off-hd.png", id:"12_off-hd"},
-        // {src:"UI/line_number/13_off-hd.png", id:"13_off-hd"},
-        // {src:"UI/line_number/14_off-hd.png", id:"14_off-hd"},
-        // {src:"UI/line_number/15_off-hd.png", id:"15_off-hd"},
-        // {src:"UI/line_number/16_off-hd.png", id:"16_off-hd"},
-        // {src:"UI/line_number/17_off-hd.png", id:"17_off-hd"},
-        // {src:"UI/line_number/18_off-hd.png", id:"18_off-hd"},
-        // {src:"UI/line_number/19_off-hd.png", id:"19_off-hd"},
-        // {src:"UI/line_number/20_off-hd.png", id:"20_off-hd"},
-        // {src:"UI/line_number/21_off-hd.png", id:"21_off-hd"},
-        // {src:"UI/line_number/22_off-hd.png", id:"22_off-hd"},
-        // {src:"UI/line_number/23_off-hd.png", id:"23_off-hd"},
-        // {src:"UI/line_number/24_off-hd.png", id:"24_off-hd"},
-        // {src:"UI/line_number/25_off-hd.png", id:"25_off-hd"},
-        // {src:"UI/line_number/lock.png", id:"lock"},
-        // {src:"UI/lines/line1-hd.png", id:"line1-hd"}, 
-        // {src:"UI/lines/line2-hd.png", id:"line2-hd"}, 
-        // {src:"UI/lines/line3-hd.png", id:"line3-hd"}, 
-        // {src:"UI/lines/line4-hd.png", id:"line4-hd"}, 
-        // {src:"UI/lines/line5-hd.png", id:"line5-hd"}, 
-        // {src:"UI/lines/line6-hd.png", id:"line6-hd"}, 
-        // {src:"UI/lines/line7-hd.png", id:"line7-hd"}, 
-        // {src:"UI/lines/line8-hd.png", id:"line8-hd"}, 
-        // {src:"UI/lines/line9-hd.png", id:"line9-hd"}, 
-        // {src:"UI/lines/line10-hd.png", id:"line10-hd"},
-        // {src:"UI/lines/line11-hd.png", id:"line11-hd"}, 
-        // {src:"UI/lines/line12-hd.png", id:"line12-hd"}, 
-        // {src:"UI/lines/line13-hd.png", id:"line13-hd"}, 
-        // {src:"UI/lines/line14-hd.png", id:"line14-hd"}, 
-        // {src:"UI/lines/line15-hd.png", id:"line15-hd"}, 
-        // {src:"UI/lines/line16-hd.png", id:"line16-hd"}, 
-        // {src:"UI/lines/line17-hd.png", id:"line17-hd"}, 
-        // {src:"UI/lines/line18-hd.png", id:"line18-hd"}, 
-        // {src:"UI/lines/line19-hd.png", id:"line19-hd"}, 
-        // {src:"UI/lines/line20-hd.png", id:"line20-hd"},
-        // {src:"UI/lines/line21-hd.png", id:"line21-hd"}, 
-        // {src:"UI/lines/line22-hd.png", id:"line22-hd"}, 
-        // {src:"UI/lines/line23-hd.png", id:"line23-hd"}, 
-        // {src:"UI/lines/line24-hd.png", id:"line24-hd"}, 
-        // {src:"UI/lines/line25-hd.png", id:"line25-hd"},  
-        // {src:"theme/1/bg.jpg", id:"bg"},
-        // {src:"theme/1/reel.png", id:"reel"},
-        // {src:"theme/1/1.png", id:"1"},
-        // {src:"theme/1/2.png", id:"2"},
-        // {src:"theme/1/3.png", id:"3"},  
-        // {src:"theme/1/4.png", id:"4"},  
-        // {src:"theme/1/5.png", id:"5"},  
-        // {src:"theme/1/6.png", id:"6"},  
-        // {src:"theme/1/7.png", id:"7"},  
-        // {src:"theme/1/8.png", id:"8"},  
-        // {src:"theme/1/9.png", id:"9"},
-        // {src:"theme/1/10.png", id:"10"},
-        // {src:"theme/1/11.png", id:"11"},  
-        // {src:"theme/1/12.png", id:"12"}
+        {src:"puzzle1/puzzle_1_1_black.png", id:"puzzle_1_1_black"},
+        {src:"puzzle1/puzzle_1_2_black.png", id:"puzzle_1_2_black"},
+        {src:"puzzle1/puzzle_1_3_black.png", id:"puzzle_1_3_black"},
+        {src:"puzzle1/puzzle_1_4_black.png", id:"puzzle_1_4_black"}, 
+        {src:"puzzle1/puzzle_1_5_black.png", id:"puzzle_1_5_black"},
+        {src:"puzzle1/puzzle_1_6_black.png", id:"puzzle_1_6_black"},
+        {src:"puzzle1/puzzle_1_7_black.png", id:"puzzle_1_7_black"},        
+        {src:"puzzle1/puzzle_1_8_black.png", id:"puzzle_1_8_black"},        
+        {src:"puzzle1/puzzle_1_9_black.png", id:"puzzle_1_9_black"},        
+        {src:"puzzle1/puzzle_1_10_black.png", id:"puzzle_1_10_black"},        
+        {src:"puzzle1/puzzle_1_11_black.png", id:"puzzle_1_11_black"},        
+        {src:"puzzle1/puzzle_1_12_black.png", id:"puzzle_1_12_black"},        
+        {src:"puzzle1/puzzle_1_13_black.png", id:"puzzle_1_13_black"},        
+        {src:"puzzle1/puzzle_1_14_black.png", id:"puzzle_1_14_black"},        
+        {src:"puzzle1/puzzle_1_15_black.png", id:"puzzle_1_15_black"},  
+        {src:"puzzle1/puzzle_1_16_black.png", id:"puzzle_1_16_black"},  
     ];
 
     // 使用 XML HTTP Requests
@@ -146,9 +73,16 @@ function handleComplete(event) {
     stage.addChild(lobbyContainer);
 
     // 地圖層
-    mapConatainer = new createjs.Container();
-    stage.addChild(mapConatainer);  
-    // addBackground();    
+    mapContainer = new createjs.Container();
+    stage.addChild(mapContainer);  
+
+    // 拼圖容器(頂層)
+    topPuzzleContainer = new createjs.Container();
+    stage.addChild(topPuzzleContainer); 
+
+    // 拼圖容器(底層)
+    bottomPuzzleContainer = new createjs.Container();
+    stage.addChild(bottomPuzzleContainer);     
 
     // 遊戲畫面
     gameContainer = new createjs.Container();
@@ -217,21 +151,6 @@ function handleComplete(event) {
                 updateLocationButton.scaleY = 0.5;
 
                 break;
-            case "puzzle03":
-                var puzzleSize = 100;
-                puzzle03Bitmap = new createjs.Bitmap(result);
-                puzzle03Bitmap.name = "puzzle03";      
-
-                myPuzzleContainer.addChild(puzzle03Bitmap);        
-
-                myPuzzleContainer.x = screenWidth / 2;
-                myPuzzleContainer.y = (screenHeight - result.height);
-// 
-                puzzle03Bitmap.regX = puzzleSize/2;
-                puzzle03Bitmap.regY = puzzleSize/2;
-
-                
-            break;
             case "puzzle_line_4x4":
                 puzzleLine4x4Bitmap = new createjs.Bitmap(result);
                 puzzleLine4x4Bitmap.name = "puzzle_line_4x4";
@@ -283,17 +202,66 @@ function handleComplete(event) {
             case "background":
                 backgroundBitmap = new createjs.Bitmap(result);
                 backgroundBitmap.name = "background";
-                mapConatainer.addChild(backgroundBitmap);       
+                mapContainer.addChild(backgroundBitmap);       
                 backgroundBitmap.regX = 480/2;
                 backgroundBitmap.regY = 480/2;
             break;
             case "puzzle_1_1":
-                var puzzle_1_1_Bitmap = new createjs.Bitmap(result);
-                puzzle_1_1_Bitmap.name = "puzzle_1_1";    
-                mapConatainer.addChild(puzzle_1_1_Bitmap);
-                puzzle_1_1_Bitmap.regX = 100/2;
-                puzzle_1_1_Bitmap.regY = 500/2;                
+                currentPuzzle = new createjs.Bitmap(result);
+                gameContainer.addChild(currentPuzzle);
+                currentPuzzle.x = screenWidth/2;
+                currentPuzzle.y = screenHeight/2 - 210;   
+                currentPuzzle.regX = 50;
+                currentPuzzle.regY = 40;
             break;
+            case "puzzle_1_1_black":
+                addBlackPuzzle(id, result, 0, 1);
+            break;              
+            case "puzzle_1_2_black":
+                addBlackPuzzle(id, result, 22.5, 2);
+            break;          
+            case "puzzle_1_3_black":
+                addBlackPuzzle(id, result, 45, 3);
+            break;  
+            case "puzzle_1_4_black":
+                addBlackPuzzle(id, result, 67.5, 4);  
+            break;        
+            case "puzzle_1_5_black":
+                addBlackPuzzle(id, result, 90, 5);  
+            break;   
+            case "puzzle_1_6_black":
+                addBlackPuzzle(id, result, 112.5, 6);  
+            break;  
+            case "puzzle_1_7_black":
+                addBlackPuzzle(id, result, 135, 7);  
+            break;  
+            case "puzzle_1_8_black":
+                addBlackPuzzle(id, result, 157.5, 8);  
+            break;  
+            case "puzzle_1_9_black":
+                addBlackPuzzle(id, result, 180, 9);  
+            break;  
+            case "puzzle_1_10_black":
+                addBlackPuzzle(id, result, 202.5, 10);  
+            break;  
+            case "puzzle_1_11_black":
+                addBlackPuzzle(id, result, 225, 11);  
+            break;  
+            case "puzzle_1_12_black":
+                addBlackPuzzle(id, result, 247.5, 12);  
+            break;  
+            case "puzzle_1_13_black":
+                addBlackPuzzle(id, result, 270, 13);  
+            break;  
+            case "puzzle_1_14_black":
+                addBlackPuzzle(id, result, 292.5, 14);  
+            break;  
+            case "puzzle_1_15_black":
+                addBlackPuzzle(id, result, 315, 15);  
+            break;        
+            case "puzzle_1_16_black":
+                addBlackPuzzle(id, result, 337.5, 15);  
+            break;                                                                                                                                
             case "btn_spin":
                 var btnSpinBitmap = new createjs.Bitmap(result);
                 btnSpinBitmap.name = "btn_spin";
@@ -440,105 +408,150 @@ function handleComplete(event) {
     gameContainer.addChild(role);
 
     // 等於橘子園的座標
-    mapConatainer.x = (screenWidth)/2;
-    mapConatainer.y = (screenHeight)/2;
+    mapContainer.x = (screenWidth)/2;
+    mapContainer.y = (screenHeight)/2;
 
-    // gameContainer.addChild(updateLocationButton);
-
-    resize();
-}
-
-function addBackground()
-{
-    var background = new createjs.Shape();
-    background.graphics.beginFill("#47a453").drawRect(0, 0, screenWidth, screenHeight);
-    mapConatainer.addChild(background);
-}
-
-function addGeoLocationText()
-{
-    geoLocationText = new createjs.Text("位置", "14px Arial", "#ff7700");
-    geoLocationText.x = 10;
-    geoLocationText.y = 10;
-    gameContainer.addChild(geoLocationText);  
-}
-
-function addOrientationText()
-{
-    orientationText = new createjs.Text("方位", "14px Arial", "#ff7700");
-    orientationText.x = 10;
-    orientationText.y = 24;
-    gameContainer.addChild(orientationText);  
-}
-
-function addGeoLocationDiffText()
-{
-    geoLocationDiffText = new createjs.Text("精準度", "14px Arial", "#ff7700");
-    geoLocationDiffText.x = 10;
-    geoLocationDiffText.y = 38;
-    gameContainer.addChild(geoLocationDiffText);  
-}
+    topPuzzleContainer.x = (screenWidth)/2; 
+    topPuzzleContainer.y = (screenHeight)/2;
 
 
-// 計算總下注金額
-function calcTotalBetMoney(){
-    var totalBetText = gameContainer.getChildAt(INDEX.total_bet_text);
-    var bet = 0;
-    switch(g_nBet){
-        case 0: bet = "0.1"; break;
-        case 1: bet = "0.2"; break;
-        case 2: bet = "0.5"; break;
-        case 3: bet = "1.0"; break;
-        case 4: bet = "2.0"; break;
-        case 5: bet = "5.0"; break;
-        case 6: bet = "10.0"; break;
+
+        addUserName(username);
+
+        resize();
     }
 
-    var totalValue = Math.round(((g_nPayLines + 1) * bet) * 10)/10;
-
-    if(totalValue >= 100){
-        totalBetText.x = 528; 
-    }else if(totalValue >= 10){
-        totalBetText.x = 543; 
-    }else{
-        totalBetText.x = 558; 
+    function addBlackPuzzle (name, result, rotation, puzzleId) 
+    {
+        var puzzle = new geogame.Puzzle(name, result, 0, puzzleId);
+        topPuzzleContainer.addChild(puzzle);
+        puzzle.regX = 100/2;
+        puzzle.regY = 460/2;
+        puzzle.rotation = rotation;
+        puzzleArray.push(puzzle); 
     }
-    var total =  "$"+totalValue;
 
-    // var totalString = new String(total);
-    // var str = "$1.1";
-    console.log("search:"+total.indexOf(".", 0));
-    if(total.indexOf(".", 0) == -1){
-        totalBetText.text = total+".0";
-    }else{
-        totalBetText.text = total;
+    function addUserName(name)
+    {
+        var roleUsername = new createjs.Text(name, "14px Arial", "#ff7700");
+        roleUsername.x = 10;
+        roleUsername.y = 10;
+        gameContainer.addChild(roleUsername); 
     }
-    
-    
-    
-}
 
-function handleFileLoad(event) {
-    // console.log("handleFileLoad...");            
-    // 把圖示挑出來
-    var id = event.item.id;
-    switch(id){
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-        case "6":
-        case "7":
-        case "8":
-        case "9":
-        case "10":
-        case "11":
-        case "12":
-            iconAssets.push(event);
+    function addBackground()
+    {
+        var background = new createjs.Shape();
+        background.graphics.beginFill("#47a453").drawRect(0, 0, screenWidth, screenHeight);
+        mapConatainer.addChild(background);
+    }
+
+    function addGeoLocationText()
+    {
+        geoLocationText = new createjs.Text("位置", "14px Arial", "#ff7700");
+        geoLocationText.x = 10;
+        geoLocationText.y = 10;
+        gameContainer.addChild(geoLocationText);  
+    }
+
+    function addOrientationText()
+    {
+        orientationText = new createjs.Text("方位", "14px Arial", "#ff7700");
+        orientationText.x = 10;
+        orientationText.y = 24;
+        gameContainer.addChild(orientationText);  
+    }
+
+    function addGeoLocationDiffText()
+    {
+        geoLocationDiffText = new createjs.Text("精準度", "14px Arial", "#ff7700");
+        geoLocationDiffText.x = 10;
+        geoLocationDiffText.y = 38;
+        gameContainer.addChild(geoLocationDiffText);  
+    }
+
+    function setupCurrentPuzzle(puzzleId)
+    {
+        switch(puzzleId)
+        {
+            case 1:
             break;
-        default:
-            assets.push(event);
+            case 2:
             break;
-    }       
-}  
+            case 3:
+            break;
+            case 4:
+            break;
+            case 5:
+            break;
+            case 6:
+            break;
+            case 7:
+            break;
+            case 8:
+            break;
+            case 9:
+            break;
+            case 10:
+            break;
+            case 11:
+            break;
+            case 12:
+            break;
+            case 13:
+            break;
+            case 14:
+            break;
+            case 15:
+            break;
+            case 16:
+            break;
+        }
+    }   
+
+
+    // 計算總下注金額
+    function calcTotalBetMoney(){
+        var totalBetText = gameContainer.getChildAt(INDEX.total_bet_text);
+        var bet = 0;
+        switch(g_nBet){
+            case 0: bet = "0.1"; break;
+            case 1: bet = "0.2"; break;
+            case 2: bet = "0.5"; break;
+            case 3: bet = "1.0"; break;
+            case 4: bet = "2.0"; break;
+            case 5: bet = "5.0"; break;
+            case 6: bet = "10.0"; break;
+        }
+
+        var totalValue = Math.round(((g_nPayLines + 1) * bet) * 10)/10;
+
+        if(totalValue >= 100){
+            totalBetText.x = 528; 
+        }else if(totalValue >= 10){
+            totalBetText.x = 543; 
+        }else{
+            totalBetText.x = 558; 
+        }
+        var total =  "$"+totalValue;
+
+        // var totalString = new String(total);
+        // var str = "$1.1";
+        console.log("search:"+total.indexOf(".", 0));
+        if(total.indexOf(".", 0) == -1){
+            totalBetText.text = total+".0";
+        }else{
+            totalBetText.text = total;
+        }
+        
+        
+        
+    }
+
+    function handleFileLoad(event) 
+    {
+        console.log("handleFileLoad...");            
+        // 把圖示挑出來
+        var id = event.item.id;
+        assets.push(event);
+    }  

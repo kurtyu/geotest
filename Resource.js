@@ -275,10 +275,10 @@ function handleComplete(event) {
                 role = new createjs.Sprite(spriteSheet, "up");
                 role.name = "role";
                 role.speed = 1;
-                role.x = (screenWidth - (96*0.6))/2;
-                role.y = (screenHeight - (96*0.6))/2 - 20;
-                role.scaleX = 0.6;
-                role.scaleY = 0.6;
+                role.x = (screenWidth - 96)/2;
+                role.y = (screenHeight - 96)/2 - 20;
+                // role.scaleX = 0.6;
+                // role.scaleY = 0.6;
             break;
             case "background":
                 backgroundBitmap = new createjs.Bitmap(result);

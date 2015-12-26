@@ -101,7 +101,12 @@ function handleComplete(event) {
 
     // 拼圖容器(底層)
     bottomPuzzleContainer = new createjs.Container();
-    stage.addChild(bottomPuzzleContainer);     
+    stage.addChild(bottomPuzzleContainer); 
+    bottomPuzzleContainer.visible = false;    
+
+  // 目前的拼圖
+    currentPuzzleContainer = new createjs.Container();
+    stage.addChild(currentPuzzleContainer); 
 
     // 遊戲畫面
     gameContainer = new createjs.Container();
@@ -120,9 +125,7 @@ function handleComplete(event) {
     myPuzzleContainer = new createjs.Container();
     stage.addChild(myPuzzleContainer); 
 
-    // 目前的拼圖
-    currentPuzzleContainer = new createjs.Container();
-    stage.addChild(currentPuzzleContainer); 
+  
 
     var i = 0;
     for(i=0;i<assets.length;i++) {
@@ -161,7 +164,7 @@ function handleComplete(event) {
                     console.log("bet pressdown");
                     // rubberband(captureButton); 
 
-                    // dropCurrentPuzzle(++currentPuzzleId);
+                    dropCurrentPuzzle(15);
 
                     flipPuzzle(15);
   
@@ -213,7 +216,7 @@ function handleComplete(event) {
                 role.name = "role";
                 role.speed = 1;
                 role.x = (screenWidth - 96)/2;
-                role.y = (screenHeight - 96)/2 - 20;
+                role.y = (screenHeight - 96)/2 - 160;
                 // role.scaleX = 0.6;
                 // role.scaleY = 0.6;
             break;
@@ -536,23 +539,27 @@ function handleComplete(event) {
     }
 
     
-    gameContainer.addChild(role);
+   
 
     // 等於橘子園的座標
         mapContainer.x = (screenWidth)/2;
-        mapContainer.y = (screenHeight)/2;
+        mapContainer.y = (screenHeight)/2 - 20;
 
         topPuzzleContainer.x = (screenWidth)/2; 
-        topPuzzleContainer.y = (screenHeight)/2;
+        topPuzzleContainer.y = (screenHeight)/2 - 20;
+        topPuzzleContainer.scaleX = 1.1;
+        topPuzzleContainer.scaleY = 1.1;        
 
-        bottomPuzzleContainer.x = (screenWidth)/2; 
-        bottomPuzzleContainer.y = (screenHeight)/2;
+        // bottomPuzzleContainer.x = (screenWidth)/2; 
+        // bottomPuzzleContainer.y = (screenHeight)/2 - 20;
+        // bottomPuzzleContainer.scaleX = 0.7;
+        // bottomPuzzleContainer.scaleY = 0.7;
 
-        bottomPuzzleContainer.scaleX = 0.5;
-        bottomPuzzleContainer.scaleY = 0.5;
 
+        currentPuzzleContainer.x = (screenWidth)/2; 
+        currentPuzzleContainer.y = (screenHeight)/2 - 20;        
 
-     
+        gameContainer.addChild(role);
 
         addUserName(username);
 
@@ -574,9 +581,7 @@ function handleComplete(event) {
     function addCurrentPuzzle (name, result, rotation, puzzleId, container) 
     {
         var puzzle = new geogame.Puzzle(name, result, 1, puzzleId);
-        container.addChild(puzzle);
-        puzzle.x = screenWidth/2;
-        puzzle.y = screenHeight/2 - 210;   
+        container.addChild(puzzle); 
         puzzle.regX = 50;
         puzzle.regY = 40; 
         puzzle.rotation = rotation;

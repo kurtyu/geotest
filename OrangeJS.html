@@ -172,22 +172,11 @@
                  if(mapContainer != null)
                 {
                     
-                    // for(int i=0; i<16; i++)
-                    // {
-                       // var type = puzzleArray[0].getType(); 
-                       // if(type == 0)
-                       // {
-                          // puzzleArray[0].regY -= beta;
-                          // console.log("Y:"+puzzleArray[0].regY);
+                   
 
-                          topPuzzleContainer.rotation = alpha;
+                          // topPuzzleContainer.rotation = alpha;
 
-                          // if(puzzleArray[0].regY <= 0)
-                          // {
-
-                          // }
-                       // }
-                    // }
+       
 
                     // puzzleArray[0].regY += beta;
                 }
@@ -326,9 +315,10 @@
                 // console.log("update");
             // }
 
-            rollContainer(mapContainer, 0.15);
-            rollContainer(bottomPuzzleContainer, -0.1);
-            // rollContainer();
+            rollContainer(mapContainer, 0.05);
+            rollContainer(bottomPuzzleContainer, -0.15);
+            rollContainer(topPuzzleContainer, 0.15);
+            rollContainer(currentPuzzleContainer, 0.15);
         }   
 
         function rollContainer(container, speed)
@@ -351,10 +341,8 @@
             var i = 0;
             for(i = 0 ; i<puzzleArray.length; i++)
             {
-                console.log("拼圖類別:"+i+" > "+puzzleArray[i].getType());
                 if(puzzleArray[i].mType == 1)
                 {
-                    console.log("找尋目前拼圖:"+puzzleArray[i].getPuzzleId());
                     if(puzzleArray[i].mPuzzleId == puzzleId)
                     {
                         console.log("找到了");

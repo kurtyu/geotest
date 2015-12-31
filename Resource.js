@@ -10,21 +10,47 @@ function startLoading(){
     // PreloadJS.js
     // =================================================================
     var manifest = [
-        {src:"ui/capture_button_normal.png", id:"capture_button_normal"},    
-        {src:"ui/capture_button_light.png", id:"capture_button_light"},            
-        {src:"ui/puzzle03.png", id:"puzzle03"},
+        // {src:"ui/capture_button_normal.png", id:"capture_button_normal"},    
+        // {src:"ui/capture_button_light.png", id:"capture_button_light"},            
         {src:"ui/puzzle_line_4x4.png", id:"puzzle_line_4x4"},
         {src:"ui/role.png", id:"role"},
         {src:"ui/background.png", id:"background"},
-        {src:"ui/answer_gray_button.png", id:"answer_gray_button"},
-        {src:"ui/answer_green_button.png", id:"answer_green_button"},         
-        // {src:"UI/panel.png", id:"panel"},
-        // {src:"UI/btn_spin.png", id:"btn_spin"},
-        // {src:"UI/btn_spin_disable.png", id:"btn_spin_disable"},
-        // {src:"UI/btn_bet.png", id:"btn_bet"},
-        // {src:"UI/btn_line.png", id:"btn_line"},
-        // {src:"UI/btn_lobby.png", id:"btn_lobby"},
-        // {src:"UI/top_coinsbalance.png", id:"top_coinsbalance"},
+        {src:"ui/answer_button_a.png", id:"answer_button_a"},
+        {src:"ui/answer_button_b.png", id:"answer_button_b"},         
+        {src:"ui/answer_button_c.png", id:"answer_button_c"},  
+        {src:"ui/answer_button_a_green.png", id:"answer_button_a_green"},
+        {src:"ui/answer_button_b_green.png", id:"answer_button_b_green"},         
+        {src:"ui/answer_button_c_green.png", id:"answer_button_c_green"}, 
+        {src:"ui/answer_button_a_red.png", id:"answer_button_a_red"},
+        {src:"ui/answer_button_b_red.png", id:"answer_button_b_red"},         
+        {src:"ui/answer_button_c_red.png", id:"answer_button_c_red"},         
+        {src:"ui/question.png", id:"question"},
+        {src:"ui/correct_flat.png", id:"correct_flat"},
+        {src:"ui/wrong_flat.png", id:"wrong_flat"},
+        {src:"ui/life.png", id:"life"},
+        {src:"ui/life_empty.png", id:"life_empty"},
+        {src:"ui/start_button.png", id:"start_button"},
+        {src:"ui/title.png", id:"title"},
+        {src:"ui/subtitle.png", id:"subtitle"},
+        {src:"ui/geothings.png", id:"geothings"},
+
+        {src:"ui/questions20.png", id:"questions20"},
+        {src:"ui/time100.png", id:"time100"},
+
+        {src:"ui/gamerule_title.png", id:"gamerule_title"},
+        
+        {src:"ui/start_game_button.png", id:"start_game_button"},
+
+        {src:"ui/speedup.png", id:"speedup"},
+        {src:"ui/orange.png", id:"orange"},
+        {src:"ui/help.png", id:"help"},
+        {src:"ui/timelimit.png", id:"timelimit"},
+
+        {src:"ui/good.png", id:"good"},
+        {src:"ui/again_button.png", id:"again_button"},
+
+        {src:"ui/question_img.png", id:"question_img"},
+
         {src:"puzzle1/puzzle_1_1.png", id:"puzzle_1_1"},
         {src:"puzzle1/puzzle_1_2.png", id:"puzzle_1_2"},
         {src:"puzzle1/puzzle_1_3.png", id:"puzzle_1_3"},
@@ -72,15 +98,17 @@ function startLoading(){
 }
 
 
-function handleProgress(event) {
-    console.log("handleProgress...");
+function handleProgress(event) 
+{
+    // console.log("handleProgress...");
     bar.scaleX = event.loaded * barWidth;  // event.loaded 是個百分比浮點數
     stage.update();
 }
 
 
-function handleComplete(event) {
-    console.log("handleComplete...");  
+function handleComplete(event) 
+{
+    // console.log("handleComplete...");  
     // 關閉載入條
     // loaderBar.visible = false;       
 
@@ -95,83 +123,71 @@ function handleComplete(event) {
     mapContainer = new createjs.Container();
     stage.addChild(mapContainer);  
 
-    // 拼圖容器(頂層)
-    topPuzzleContainer = new createjs.Container();
-    stage.addChild(topPuzzleContainer); 
-
-    // 拼圖容器(底層)
-    bottomPuzzleContainer = new createjs.Container();
-    stage.addChild(bottomPuzzleContainer); 
-    bottomPuzzleContainer.visible = false;    
-
+    // 黑色拼圖容器
+    blackPuzzleContainer = new createjs.Container();
+    stage.addChild(blackPuzzleContainer); 
+   
   // 目前的拼圖
     currentPuzzleContainer = new createjs.Container();
     stage.addChild(currentPuzzleContainer); 
 
     // 遊戲畫面
-    gameContainer = new createjs.Container();
-    stage.addChild(gameContainer); 
-    addGeoLocationText();  
-    addOrientationText();
-    addGeoLocationDiffText(); 
+    mGameContainer = new createjs.Container();
+    stage.addChild(mGameContainer); 
 
     // 問題容器
-    questonContainer = new createjs.Container();
-    stage.addChild(questonContainer); 
-    questonContainer.x = screenWidth/2;
-    questonContainer.y = 30;
-    questonContainer.visible = false;
+    mQuestionBoard = new geogame.QuestionBoard();
+    stage.addChild(mQuestionBoard); 
+    mQuestionBoard.regX = screenWidth/2;
+    mQuestionBoard.regX = screenHeight/2;
+    mQuestionBoard.x = screenWidth/2;
+    mQuestionBoard.y = 10;
+    // questionBoard.visible = false;
 
     myPuzzleContainer = new createjs.Container();
     stage.addChild(myPuzzleContainer); 
 
-  
+    mScoreContainer = new createjs.Container();
+    stage.addChild(mScoreContainer);
+
+    addBlackShape();
 
     var i = 0;
-    for(i=0;i<assets.length;i++) {
+    for(i=0;i<assets.length;i++) 
+    {
         var item = assets[i]; //loader.getResult(id);
         var id = item.item.id;
         var result = item.result;
 
         switch(id)
         {
-            case "capture_button_normal":
+            // case "capture_button_normal":
 
-                captureButton = new createjs.Bitmap(result);
-                captureButton.x = screenWidth/2;
-                captureButton.y = screenHeight - 60;
-                captureButton.regX = 166/2;
-                captureButton.regY = 166/2;
+            //     captureButton = new createjs.Bitmap(result);
+            //     captureButton.x = screenWidth/2;
+            //     captureButton.y = screenHeight/2;
+            //     captureButton.regX = 166/2;
+            //     captureButton.regY = 166/2;
 
-                var buttonHitArea = new createjs.Shape();
-                // 指定點擊範圍 
-                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
-                captureButton.hitArea = buttonHitArea;  
-                // 更新位置
-                captureButton.addEventListener("click", function(evt) 
-                {
-                    rubberband(captureButton); 
+            //     var buttonHitArea = new createjs.Shape();
+            //     // 指定點擊範圍 
+            //     buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+            //     captureButton.hitArea = buttonHitArea;  
+            //     // 更新位置
+            //     captureButton.addEventListener("click", function(evt) 
+            //     {
+            //         // rubberband(captureButton, captureButtonHandleComplete); 
 
-                    // 檢查目前角度 是否符合目前的拼圖ID
-                    // dropCurrentPuzzle(++currentPuzzleId);
+            //         // 檢查目前角度 是否符合目前的拼圖ID
+            //         // dropCurrentPuzzle(++currentPuzzleId);
 
 
-                    // if((topPuzzleContainer.rotation < 10) && ())      
-                }); 
-                // 滑鼠按下事件
-                captureButton.addEventListener("mousedown", function(evt) 
-                {
-                    console.log("bet pressdown");
-                    // rubberband(captureButton); 
+            //         // if((topPuzzleContainer.rotation < 10) && ())   
 
-                    dropCurrentPuzzle(15);
-
-                    flipPuzzle(15);
-  
-                    
-                });             
-        
-                break;
+            //         // mQuestionBoard.dropQuestion();
+            //         // dropBlackPuzzle(16);   
+            //     });             
+            //     break;
             case "puzzle_line_4x4":
                 puzzleLine4x4Bitmap = new createjs.Bitmap(result);
                 puzzleLine4x4Bitmap.name = "puzzle_line_4x4";
@@ -222,442 +238,611 @@ function handleComplete(event) {
             break;
             case "background":
                 backgroundBitmap = new createjs.Bitmap(result);
-                backgroundBitmap.name = "background";
                 mapContainer.addChild(backgroundBitmap);       
                 backgroundBitmap.regX = 480/2;
                 backgroundBitmap.regY = 480/2;
-            break;
-            case "answer_gray_button":
-                // 加入問題版
-                addQuestionBoard();
-                // 加入答案按鈕
-                aAnswerButton = new createjs.Bitmap(result);
-                bAnswerButton = new createjs.Bitmap(result);
-                cAnswerButton = new createjs.Bitmap(result);
-                questonContainer.addChild(aAnswerButton);       
-                questonContainer.addChild(bAnswerButton);       
-                questonContainer.addChild(cAnswerButton); 
+                break;
+            case "title":
+                mTitle = new createjs.Bitmap(result);
+                mTitle.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
+                mGameContainer.addChild(mTitle);       
+                mTitle.regX = 440/2;
+                mTitle.regY = 120/2;
+                mTitle.x = screenWidth/2;
+                mTitle.y = 240;
+                dropObject(mTitle, 0);
+                break;
+            case "subtitle":
+                mSubTitle = new createjs.Bitmap(result);
+                mSubTitle.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
+                mGameContainer.addChild(mSubTitle);       
+                mSubTitle.regX = 220/2;
+                mSubTitle.regY = 34/2;
+                mSubTitle.x = screenWidth/2;
+                mSubTitle.y = screenHeight - 40;
+                dropObject(mSubTitle, 100);
+                break;     
+            case "start_button":
+                mStartButton = new createjs.Bitmap(result);
+                mStartButton.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
+                mGameContainer.addChild(mStartButton);    
+                mStartButton.x = screenWidth/2;
+                mStartButton.y = screenHeight/2+20;   
+                mStartButton.regX = 226/2;
+                mStartButton.regY = 76/2;
 
-                aAnswerButton.x = screenWidth/2 + 75; 
-                aAnswerButton.y = 365; 
-                aAnswerButton.regX = 400/2;
-                aAnswerButton.regY = 137/2;    
+                createjs.Tween.get(mStartButton, {loop: true}) 
+                .to({scaleX: 1.2, scaleY: 1.2}, 500, createjs.Ease.linear)
+                .to({scaleX: 1.0, scaleY: 1.0}, 500, createjs.Ease.linear);
+
                 var buttonHitArea = new createjs.Shape();
                 buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
-                aAnswerButton.hitArea = buttonHitArea;  
-                aAnswerButton.addEventListener("click", function(evt) 
+                mStartButton.hitArea = buttonHitArea;  
+                mStartButton.addEventListener("click", function(evt) 
                 {
-                    rubberband(aAnswerButton); 
-                }); 
-                aAnswerButton.addEventListener("mousedown", function(evt) 
-                {
-                    rubberband(aAnswerButton); 
-                });
+                    // 移除Tween
+                    createjs.Tween.removeTweens(mStartButton);
+                    hideObject(mStartButton, startGame);
+                });    
+                // dropObject(mStartButton, 1000);              
+                break;
+            case "start_game_button":
+                mStartGameButton = new createjs.Bitmap(result);
+                stage.addChild(mStartGameButton);    
+                mStartGameButton.x = screenWidth/2 + 10;
+                mStartGameButton.y = 120;   
+                mStartGameButton.regX = 200/2;
+                mStartGameButton.regY = 100/2;
 
-                bAnswerButton.x = screenWidth/2 + 75; 
-                bAnswerButton.y = 435; 
-                bAnswerButton.regX = 400/2;
-                bAnswerButton.regY = 137/2; 
-                bAnswerButton.hitArea = buttonHitArea;  
-                bAnswerButton.addEventListener("click", function(evt) 
-                {
-                    rubberband(bAnswerButton); 
-                }); 
-                bAnswerButton.addEventListener("mousedown", function(evt) 
-                {
-                    rubberband(bAnswerButton); 
-                });
+                createjs.Tween.get(mStartGameButton, {loop: true}) 
+                .to({scaleX: 1.2, scaleY: 1.2}, 500, createjs.Ease.linear)
+                .to({scaleX: 1.0, scaleY: 1.0}, 500, createjs.Ease.linear);
 
-                cAnswerButton.x = screenWidth/2 + 75; 
-                cAnswerButton.y = 505; 
-                cAnswerButton.regX = 400/2;
-                cAnswerButton.regY = 137/2;  
-                cAnswerButton.hitArea = buttonHitArea;  
-                cAnswerButton.addEventListener("click", function(evt) 
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mStartGameButton.hitArea = buttonHitArea;  
+                mStartGameButton.addEventListener("click", function(evt) 
                 {
-                    rubberband(cAnswerButton); 
-                }); 
-                cAnswerButton.addEventListener("mousedown", function(evt) 
-                {
-                    rubberband(cAnswerButton); 
+                    // 移除Tween
+                    createjs.Tween.removeTweens(mStartGameButton);
+                    hideObject(mHelp);
+                    hideObject(mHelpTimeLimit);
+                    hideObject(mGameRuleTitle);
+                    disappearObject(mBlackShape);
+                    hideObject(mStartGameButton, startGameTimer);
                 });
-            break; 
+                mStartGameButton.visible = false              
+                break;
+            case "again_button":
+                mGameAgainButton = new createjs.Bitmap(result);
+                stage.addChild(mGameAgainButton);    
+                mGameAgainButton.x = screenWidth/2;
+                mGameAgainButton.y = screenHeight - 60;   
+                mGameAgainButton.regX = 320/2;
+                mGameAgainButton.regY = 80/2;
+
+                createjs.Tween.get(mGameAgainButton, {loop: true}) 
+                .to({scaleX: 1.2, scaleY: 1.2}, 500, createjs.Ease.linear)
+                .to({scaleX: 1.0, scaleY: 1.0}, 500, createjs.Ease.linear);
+
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mGameAgainButton.hitArea = buttonHitArea;  
+                mGameAgainButton.addEventListener("click", function(evt) 
+                {
+                    // 移除Tween
+                    createjs.Tween.removeTweens(mGameAgainButton);
+                    hideObject(mGameAgainButton);
+                    hideObject(mOrange);
+
+                    hideObject(mGameResultScoreBorder);
+                    hideObject(mGameResultScore);
+                    hideObject(mGameResultTimeBorder);
+                    hideObject(mGameResultTime);
+
+                    disappearObject(mBlackShape);
+                    // hideObject(mStartGameButton, startGameTimer);
+                    location = location;
+
+                });
+                mGameAgainButton.visible = false;
+                break;
+            case "question":
+                mQuestionBoard.addQuestionButton(result);
+                break;
+            case "answer_button_a":
+                mQuestionBoard.addAnswerButton(result, 0, 0);
+                break; 
+            case "answer_button_b":
+                mQuestionBoard.addAnswerButton(result, 1, 0);
+                break; 
+            case "answer_button_c":
+                mQuestionBoard.addAnswerButton(result, 2, 0);
+                break; 
+            case "answer_button_a_green":
+                mQuestionBoard.addAnswerButton(result, 0, 1);
+                break; 
+            case "answer_button_b_green":
+                mQuestionBoard.addAnswerButton(result, 1, 1);
+                break; 
+            case "answer_button_c_green":
+                mQuestionBoard.addAnswerButton(result, 2, 1);
+                break; 
+            case "answer_button_a_red":
+                mQuestionBoard.addAnswerButton(result, 0, 2);
+                break; 
+            case "answer_button_b_red":
+                mQuestionBoard.addAnswerButton(result, 1, 2);
+                break; 
+            case "answer_button_c_red":
+                mQuestionBoard.addAnswerButton(result, 2, 2);
+                break;                                 
+                // 正解
+            case "correct_flat":
+                mQuestionBoard.addCorrectFlag(result);
+                break;
+                // 不正解
+            case "wrong_flat":
+                mQuestionBoard.addWrongFlag(result);
+                break;   
+            case "questions20":
+                mQuestion20 = new createjs.Bitmap(result);
+                mQuestion20.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
+                stage.addChild(mQuestion20);
+                mQuestion20.regX = 354/2;
+                mQuestion20.regY = 226/2;
+                mQuestion20.x = screenWidth-110;
+                mQuestion20.y = 90;
+                mQuestion20.rotation = 22.5;
+                dropObject(mQuestion20, 200);           
+                break;
+            case "time100":
+                mTime100 = new createjs.Bitmap(result);
+                mTime100.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
+                stage.addChild(mTime100);
+                mTime100.regX = 354/2;
+                mTime100.regY = 226/2;
+                mTime100.x = 120;
+                mTime100.y = 90; 
+                dropObject(mTime100, 300);                    
+                break;                
+            case "orange":
+                mOrange = new createjs.Bitmap(result);
+                stage.addChild(mOrange);
+                mOrange.regX = 386/2;
+                mOrange.regY = 478/2;
+                mOrange.x = screenWidth/2;
+                mOrange.y = screenHeight/2 + 30;
+                mOrange.visible = false;
+                break;
+            case "geothings":
+                mGeothings = new createjs.Bitmap(result);
+                stage.addChild(mGeothings);
+                mGeothings.regX = 400/2;
+                mGeothings.regY = 80/2;
+                mGeothings.x = screenWidth/2;
+                mGeothings.y = screenHeight/2 + 120;
+                mGeothings.visible = false;
+                break;                
+            case "help":
+                mHelp = new createjs.Bitmap(result);
+                stage.addChild(mHelp);
+                mHelp.regX = 248/2;
+                mHelp.regY = 256/2;
+                mHelp.x = screenWidth/2;
+                mHelp.y = screenHeight/2;
+                mHelp.visible = false;                
+                break;
+            case "timelimit":
+                mHelpTimeLimit = new createjs.Bitmap(result);
+                stage.addChild(mHelpTimeLimit);
+                mHelpTimeLimit.regX = 240/2;
+                mHelpTimeLimit.regY = 40/2;
+                mHelpTimeLimit.x = screenWidth - 210;
+                mHelpTimeLimit.y = 30;
+                mHelpTimeLimit.visible = false;                  
+                break;
+            case "gamerule_title":
+                mGameRuleTitle = new createjs.Bitmap(result);
+                stage.addChild(mGameRuleTitle);
+                mGameRuleTitle.regX = 386/2;
+                mGameRuleTitle.regY = 162/2;
+                mGameRuleTitle.x = screenWidth/2;
+                // mGameRuleTitle.y = screenHeight - 200/2;
+                mGameRuleTitle.visible = false;                  
+                break;
+            case "question_img":
+                mQuestionBoard.addQuestionImage(result); 
+                break;
+            // case "life":
+            //     mLifeArray[0] = new createjs.Bitmap(result);
+            //     mLifeArray[0].x = screenWidth - 140;
+            //     mLifeArray[0].y = 24;
+            //     mLifeArray[0].regX = 46/2;
+            //     mLifeArray[0].regY = 35/2;
+            //     mLifeArray[0].visible = false;
+            //     mGameContainer.addChild(mLifeArray[0]);
+
+            //     mLifeArray[1] = new createjs.Bitmap(result);
+            //     mLifeArray[1].x = screenWidth - 90;
+            //     mLifeArray[1].y = 24;
+            //     mLifeArray[1].regX = 46/2;
+            //     mLifeArray[1].regY = 35/2;
+            //     mLifeArray[1].visible = false;
+            //     mGameContainer.addChild(mLifeArray[1]);
+
+            //     mLifeArray[2] = new createjs.Bitmap(result);
+            //     mLifeArray[2].x = screenWidth - 40;
+            //     mLifeArray[2].y = 24;
+            //     mLifeArray[2].regX = 46/2;
+            //     mLifeArray[2].regY = 35/2;
+            //     mLifeArray[2].visible = false;
+            //     mGameContainer.addChild(mLifeArray[2]);
+
+            //     break;                
+            // case "life_empty":
+            //     mLifeArray[3] = new createjs.Bitmap(result);
+            //     mLifeArray[3].visible = false;
+            //     mLifeArray[4] = new createjs.Bitmap(result);
+            //     mLifeArray[4].visible = false;
+            //     mLifeArray[5] = new createjs.Bitmap(result);            
+            //     mLifeArray[5].visible = false;
+            //     break;
+            case "good":
+                mGoodEffect = new createjs.Bitmap(result);
+                mGameContainer.addChild(mGoodEffect);
+                mGoodEffect.regX = 200/2;
+                mGoodEffect.regY = 68/2;
+                mGoodEffect.x = screenWidth/2;
+                mGoodEffect.y = screenHeight/2 - 80;
+                mGoodEffect.visible = false;
+                break;
+            case "speedup":
+                mSpeedUpEffect = new createjs.Bitmap(result);
+                mGameContainer.addChild(mSpeedUpEffect);
+                mSpeedUpEffect.regX = 220/2;
+                mSpeedUpEffect.regY = 60/2;
+                mSpeedUpEffect.x = screenWidth/2;
+                mSpeedUpEffect.y = 100;
+                mSpeedUpEffect.visible = false;
+                break;
             case "puzzle_1_1":
                 addCurrentPuzzle(id, result, 0, 1, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 4, 1, blackPuzzleContainer, 1.2);                
             break;
             case "puzzle_1_2":
                 addCurrentPuzzle(id, result, 0, 2, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 22.5, 2, blackPuzzleContainer, 1);                
             break;
             case "puzzle_1_3":
                 addCurrentPuzzle(id, result, 0, 3, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 43, 3, blackPuzzleContainer, 1.2);                
             break;
             case "puzzle_1_4":
                 addCurrentPuzzle(id, result, 0, 4, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 67.5, 4, blackPuzzleContainer, 1);                 
             break;
             case "puzzle_1_5":
                 addCurrentPuzzle(id, result, 0, 5, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 94, 5, blackPuzzleContainer, 1);                  
             break;
             case "puzzle_1_6":
                 addCurrentPuzzle(id, result, 0, 6, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 112.5, 6, blackPuzzleContainer, 1.1);
             break;
             case "puzzle_1_7":
                 addCurrentPuzzle(id, result, 0, 7, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 135, 7, blackPuzzleContainer, 1);  
             break;
             case "puzzle_1_8":
                 addCurrentPuzzle(id, result, 0, 8, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 157.5, 8, blackPuzzleContainer, 1); 
             break;
             case "puzzle_1_9":
                 addCurrentPuzzle(id, result, 0, 9, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 188, 9, blackPuzzleContainer, 1.2); 
             break;
             case "puzzle_1_10":
                 addCurrentPuzzle(id, result, 0, 10, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 202.5, 10, blackPuzzleContainer, 1);  
             break;
             case "puzzle_1_11":
                 addCurrentPuzzle(id, result, 0, 11, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 220, 11, blackPuzzleContainer, 1.1);  
             break;
             case "puzzle_1_12":
                 addCurrentPuzzle(id, result, 0, 12, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 255, 12, blackPuzzleContainer, 1.2);                 
             break;
             case "puzzle_1_13":
                 addCurrentPuzzle(id, result, 0, 13, currentPuzzleContainer);
+                addNormalPuzzle(id, result, 277, 13, blackPuzzleContainer, 1);                  
             break;
             case "puzzle_1_14":
                 addCurrentPuzzle(id, result, 0, 14, currentPuzzleContainer);
-                addTopNormalPuzzle(id, result, 292.5, 14, bottomPuzzleContainer);                  
+                addNormalPuzzle(id, result, 292.5, 14, blackPuzzleContainer, 1.2);                  
             break;
             case "puzzle_1_15":
                 addCurrentPuzzle(id, result, 0, 15, currentPuzzleContainer);
-                addTopNormalPuzzle(id, result, 315, 15, topPuzzleContainer);  
+                addNormalPuzzle(id, result, 325, 15, blackPuzzleContainer, 1.2);  
             break;  
             case "puzzle_1_16":
                 addCurrentPuzzle(id, result, 0, 16, currentPuzzleContainer);
-                addTopNormalPuzzle(id, result, 337.5, 16, bottomPuzzleContainer); 
+                addNormalPuzzle(id, result, 337.5, 16, blackPuzzleContainer, 0.9); 
             break;                      
             case "puzzle_1_1_black":
                // 建立目前的拼圖
-                addTopBlackPuzzle(id, result, 0, 1, topPuzzleContainer);
-                addTopNormalPuzzle(id, result, 0, 1, topPuzzleContainer);
+                addBlackPuzzle(id, result, 4, 1, blackPuzzleContainer, 1.2);
             break;              
             case "puzzle_1_2_black":
-                addTopBlackPuzzle(id, result, 22.5, 2, bottomPuzzleContainer);
-                addTopNormalPuzzle(id, result, 22.5, 2, bottomPuzzleContainer);
+                addBlackPuzzle(id, result, 22.5, 2, blackPuzzleContainer, 1);
             break;          
             case "puzzle_1_3_black":
-                addTopBlackPuzzle(id, result, 45, 3, topPuzzleContainer);
-                addTopNormalPuzzle(id, result, 45, 3, topPuzzleContainer);
+                addBlackPuzzle(id, result, 43, 3, blackPuzzleContainer, 1.2);
             break;  
             case "puzzle_1_4_black":
-                addTopBlackPuzzle(id, result, 67.5, 4, bottomPuzzleContainer); 
-                addTopNormalPuzzle(id, result, 67.5, 4, bottomPuzzleContainer); 
+                addBlackPuzzle(id, result, 67.5, 4, blackPuzzleContainer, 1); 
             break;        
             case "puzzle_1_5_black":
-                addTopBlackPuzzle(id, result, 90, 5, topPuzzleContainer);  
-                addTopNormalPuzzle(id, result, 90, 5, topPuzzleContainer);  
+                addBlackPuzzle(id, result, 94, 5, blackPuzzleContainer, 1);  
             break;   
             case "puzzle_1_6_black":
-                addTopBlackPuzzle(id, result, 112.5, 6, bottomPuzzleContainer);  
-                addTopNormalPuzzle(id, result, 112.5, 6, bottomPuzzleContainer);
+                addBlackPuzzle(id, result, 112.5, 6, blackPuzzleContainer, 1.1);  
             break;  
             case "puzzle_1_7_black":
-                addTopBlackPuzzle(id, result, 135, 7, topPuzzleContainer);  
-                addTopNormalPuzzle(id, result, 135, 7, topPuzzleContainer);  
+                addBlackPuzzle(id, result, 135, 7, blackPuzzleContainer, 1);  
             break;  
             case "puzzle_1_8_black":
-                addTopBlackPuzzle(id, result, 157.5, 8, bottomPuzzleContainer);
-                addTopNormalPuzzle(id, result, 157.5, 8, bottomPuzzleContainer);  
+                addBlackPuzzle(id, result, 157.5, 8, blackPuzzleContainer, 1);
             break;  
             case "puzzle_1_9_black":
-                addTopBlackPuzzle(id, result, 180, 9, topPuzzleContainer);  
-                addTopNormalPuzzle(id, result, 180, 9, topPuzzleContainer);  
+                addBlackPuzzle(id, result, 188, 9, blackPuzzleContainer, 1.2);  
             break;  
             case "puzzle_1_10_black":
-                addTopBlackPuzzle(id, result, 202.5, 10, bottomPuzzleContainer); 
-                addTopNormalPuzzle(id, result, 202.5, 10, bottomPuzzleContainer);  
+                addBlackPuzzle(id, result, 202.5, 10, blackPuzzleContainer, 1); 
             break;  
             case "puzzle_1_11_black":
-                addTopBlackPuzzle(id, result, 225, 11, topPuzzleContainer);  
-                addTopNormalPuzzle(id, result, 225, 11, topPuzzleContainer);  
+                addBlackPuzzle(id, result, 220, 11, blackPuzzleContainer, 1.1);  
             break;  
             case "puzzle_1_12_black":
-                addTopBlackPuzzle(id, result, 247.5, 12, bottomPuzzleContainer); 
-                addTopNormalPuzzle(id, result, 247.5, 12, bottomPuzzleContainer);  
+                addBlackPuzzle(id, result, 255, 12, blackPuzzleContainer, 1.2);  
             break;  
             case "puzzle_1_13_black":
-                addTopBlackPuzzle(id, result, 270, 13, topPuzzleContainer);  
-                addTopNormalPuzzle(id, result, 270, 13, topPuzzleContainer);  
+                addBlackPuzzle(id, result, 277, 13, blackPuzzleContainer, 1);  
             break;  
             case "puzzle_1_14_black":
-                addTopBlackPuzzle(id, result, 292.5, 14, bottomPuzzleContainer);  
+                addBlackPuzzle(id, result, 292.5, 14, blackPuzzleContainer, 1.2);  
             break;  
             case "puzzle_1_15_black":
-                addTopBlackPuzzle(id, result, 315, 15, topPuzzleContainer);  
+                addBlackPuzzle(id, result, 325, 15, blackPuzzleContainer, 1.2);  
             break;        
             case "puzzle_1_16_black":
-                addTopBlackPuzzle(id, result, 337.5, 16, bottomPuzzleContainer);  
-            break;                                                                                                                                
-            case "btn_spin":
-                var btnSpinBitmap = new createjs.Bitmap(result);
-                btnSpinBitmap.name = "btn_spin";
-                btnSpinBitmap.x = 832;
-                btnSpinBitmap.y = 510;
-
-                // 如果要用Filter 似乎一定要Cache
-                btnSpinBitmap.cache(0,0,result.width,result.height);                    
-                  
-                var btnSpinHitArea = new createjs.Shape();
-                // 左上角（X, Y）  寬度 高度(W, H)
-                btnSpinHitArea.graphics.beginFill("#F00").drawEllipse(0,0,result.width,result.height);
-                // btnSpinHitArea.x = result.width/2;
-                // btnSpinHitArea.y = result.height/2;
-
-                // gameContainer.addChild(hitArea);
-
-                // 指定點擊範圍 
-                btnSpinBitmap.hitArea = btnSpinHitArea;  
-
-
-                // 滑鼠按下  
-                btnSpinBitmap.addEventListener("mousedown", function(evt) {
-                    console.log("spin mousedown");
-
-                    // btnSpinBitmap.filters = [new createjs.ColorFilter(0, 0, 0, 1, 255, 0, 0)];
-
-                    
-                    // var matrix = new createjs.ColorMatrix().adjustBrightness(-40).adjustContrast(-40);
-                    // var blurFilter = new createjs.BoxBlurFilter(20,  20, 2);
-                    // btnSpinBitmap.filters = [new createjs.ColorMatrixFilter(matrix)];
-                    btnSpinBitmap.updateCache();                          
-                });
-
-                btnSpinBitmap.addEventListener("click", function(evt) {
-                    console.log("spin pressup");
-                    // 顯示SPIN不可按
-                    gameContainer.getChildAt(INDEX.btn_spin_disable).visible = true;
-                    slotMachine.startRoll(this, rollComplete);
-
-                    // var matrix = new createjs.ColorMatrix().adjustBrightness(0).adjustContrast(0);
-                    // var blurFilter = new createjs.BoxBlurFilter(20,  20, 2);
-                    // btnSpinBitmap.filters = [new createjs.ColorMatrixFilter(matrix)];
-                    btnSpinBitmap.updateCache();                            
-                });
-
-
-                // TweenLite.to(spinBitmap, 1, {delay: 1, x:100, y:100, ease:Cubic.easeInOut});
-
-            break;
-            case "btn_line":
-                var btnLineBitmap = new createjs.Bitmap(result);
-                btnLineBitmap.name = "btn_line";
-                btnLineBitmap.x = 132;
-                btnLineBitmap.y = 510;  
-
-                
-                // btnLineBitmap.cache(0,0,result.width,result.height);                    
-                var btnLineHitArea = new createjs.Shape();
-                // 左上角（X, Y）  寬度 高度(W, H)
-                btnLineHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
-                // btnLineHitArea.x = result.width/2;
-                // btnLineHitArea.y = result.height/2;
-
-                // gameContainer.addChild(hitArea);
-
-                // 指定點擊範圍 
-                btnLineBitmap.hitArea = btnLineHitArea;   
-
-                // 滑鼠按下  
-                btnLineBitmap.addEventListener("mousedown", function(evt) {
-                    console.log("line mousedown");
-
-                    // btnSpinBitmap.filters = [new createjs.ColorFilter(0, 0, 0, 1, 255, 0, 0)];
-
-                    // var matrix = new createjs.ColorMatrix().adjustBrightness(-40).adjustContrast(-40);
-                    // var blurFilter = new createjs.BoxBlurFilter(20,  20, 2);
-                    // btnLineBitmap.filters = [new createjs.ColorMatrixFilter(matrix)];
-                    // btnLineBitmap.updateCache();                          
-                });
-
-                btnLineBitmap.addEventListener("click", function(evt) {
-                    console.log("line pressup");
-
-                    // var matrix = new createjs.ColorMatrix().adjustBrightness(0).adjustContrast(0);
-                    // var blurFilter = new createjs.BoxBlurFilter(20,  20, 2);
-                    // btnLineBitmap.filters = [new createjs.ColorMatrixFilter(matrix)];
-                    // btnLineBitmap.updateCache();
-
-                    // 切換下注單位
-                    g_nPayLines++;
-                    if(g_nPayLines == 25)
-                        g_nPayLines = 0;
-
-                    var btnLineText = gameContainer.getChildAt(INDEX.btn_line_text);
-                    btnLineText.text = g_nPayLines+1;
-                    if(g_nPayLines>8){
-                        btnLineText.x = 180;
-                    }else{
-                        btnLineText.x = 190;
-                    }
-
-
-                    // 計算總下注金額
-                    calcTotalBetMoney();
-                });                
-            break;  
-            case "btn_lobby":
-                var btnLobbyBitmap = new createjs.Bitmap(result);
-                btnLobbyBitmap.name = "btn_lobby";
-                btnLobbyBitmap.x = 860;
-                btnLobbyBitmap.y = 8;  
-
-                var btnLobbyHitArea = new createjs.Shape();
-                // 左上角（X, Y）  寬度 高度(W, H)
-                btnLobbyHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
-                btnLobbyBitmap.hitArea = btnLobbyHitArea;   
-
-                // 滑鼠按下  
-                btnLobbyBitmap.addEventListener("mousedown", function(evt) {
-                    console.log("lobby mousedown");   
-                    // gameContainer.getChildAt(INDEX.payline_config_lines25).visible = false;
-                });
-
-                btnLobbyBitmap.addEventListener("click", function(evt) {
-                    console.log("lobby pressup");
-                    var lines = gameContainer.getChildAt(INDEX.payline_config_lines25);
-                    if(lines.visible){
-                        lines.visible = false;
-                    }else{
-                        lines.visible = true;
-                    }
-                });             
-            break;
-         
-            case "line1-hd": 
-               var line1Bitmap  = new createjs.Bitmap(result); 
-               line1Bitmap.name = "line1-hd";
-                break;                                         
+                addBlackPuzzle(id, result, 337.5, 16, blackPuzzleContainer, 0.9);  
+            break;                                                                                                                                    
         }
 
-    }
-
-    
-   
+    }   
 
     // 等於橘子園的座標
         mapContainer.x = (screenWidth)/2;
-        mapContainer.y = (screenHeight)/2 - 20;
+        mapContainer.y = (screenHeight)/2;
+        mapContainer.scaleX = 1.5;
+        mapContainer.scaleY = 1.5;
 
-        topPuzzleContainer.x = (screenWidth)/2; 
-        topPuzzleContainer.y = (screenHeight)/2 - 20;
-        topPuzzleContainer.scaleX = 1.1;
-        topPuzzleContainer.scaleY = 1.1;        
-
-        // bottomPuzzleContainer.x = (screenWidth)/2; 
-        // bottomPuzzleContainer.y = (screenHeight)/2 - 20;
-        // bottomPuzzleContainer.scaleX = 0.7;
-        // bottomPuzzleContainer.scaleY = 0.7;
-
+        blackPuzzleContainer.x = (screenWidth)/2; 
+        blackPuzzleContainer.y = (screenHeight)/2;
+        blackPuzzleContainer.scaleX = 1;
+        blackPuzzleContainer.scaleY = 1;        
 
         currentPuzzleContainer.x = (screenWidth)/2; 
-        currentPuzzleContainer.y = (screenHeight)/2 - 20;        
+        currentPuzzleContainer.y = (screenHeight)/2;        
 
-        gameContainer.addChild(role);
+        // mGameContainer.addChild(role);
 
+        // 
+        // mGameContainer.addChild(captureButton);
+
+        // 加入姓名
         addUserName(username);
+        // 加入分數
+        addGameScore();    
+        // 加入遊戲時間
+        addGameTimer(); 
 
-        gameContainer.addChild(captureButton);
+        addGameResult();
+
+        // 最後再加入問題文字
+        mQuestionBoard.addQuestionText();
 
         resize();
     }
 
-    function flipPuzzle(puzzleId)
+    function addBlackShape()
     {
-        var normalPuzzle = getTopNormalPuzzle(puzzleId);
-        normalPuzzle.visible = true;
-        var blackPuzzle = getTopBlackPuzzle(puzzleId);
-        blackPuzzle.visible = false;
+        mBlackShape = new createjs.Shape();
+        mBlackShape.graphics.beginFill("#000").drawRect(0,0,screenWidth,screenHeight);
+        mBlackShape.alpha = 0.5;
+        mBlackShape.regX = screenWidth/2;
+        mBlackShape.regY = screenHeight/2;
+        mBlackShape.x = screenWidth/2; 
+        mBlackShape.y = screenHeight/2; 
+        stage.addChild(mBlackShape);
+        mBlackShape.visible = false;
+    }
 
-        popup(normalPuzzle);
+
+    function addUserName(name)
+    {
+        mUserNameBorder = new createjs.Text(name+"の成績:", "64px Arial", "#000000"); 
+        mUserNameBorder.x = 10;
+        mUserNameBorder.y = 5;
+        mUserNameBorder.outline = 12;
+        // stage.addChild(mUserNameBorder); 
+
+        mUserName = new createjs.Text(name+"の成績:", "64px Arial", "#ff7700");
+        mUserName.x = 10;
+        mUserName.y = 5;
+        // stage.addChild(mUserName); 
+    }       
+
+    function addGameResult()
+    {
+        mGameResultScoreBorder = new createjs.Text("", "45px Arial", "#000000");
+        mGameResultScoreBorder.regX = 140;
+        mGameResultScoreBorder.regY = 22;
+        mGameResultScoreBorder.x = screenWidth/2;
+        mGameResultScoreBorder.y = 70;
+        mGameResultScoreBorder.outline = 12;
+        stage.addChild(mGameResultScoreBorder);
+
+        mGameResultScore = new createjs.Text("", "45px Arial", "#FFFFFF");
+        mGameResultScore.regX = 140;
+        mGameResultScore.regY = 22;
+        mGameResultScore.x = screenWidth/2;
+        mGameResultScore.y = 70;
+        stage.addChild(mGameResultScore);  
+
+        mGameResultScoreBorder.visible =false;
+        mGameResultScore.visible =false;
+
+        mGameResultTimeBorder = new createjs.Text("", "45px Arial", "#000000");
+        mGameResultTimeBorder.regX = 140;
+        mGameResultTimeBorder.regY = 22;        
+        mGameResultTimeBorder.x = screenWidth/2;
+        mGameResultTimeBorder.y = 180;
+        mGameResultTimeBorder.outline = 12;
+        stage.addChild(mGameResultTimeBorder);
+
+        mGameResultTime = new createjs.Text("", "45px Arial", "#FFFFFF");
+        mGameResultTime.regX = 140;
+        mGameResultTime.regY = 22;          
+        mGameResultTime.x = screenWidth/2;
+        mGameResultTime.y = 180;
+        stage.addChild(mGameResultTime); 
+
+        mGameResultTimeBorder.visible =false;
+        mGameResultTime.visible =false;
+    }
+
+    function createScoreObject()
+    {
+
     }
 
     function addCurrentPuzzle (name, result, rotation, puzzleId, container) 
     {
         var puzzle = new geogame.Puzzle(name, result, 1, puzzleId);
+        puzzle.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
         container.addChild(puzzle); 
         puzzle.regX = 50;
         puzzle.regY = 40; 
         puzzle.rotation = rotation;
         puzzle.visible = false;
-        puzzleArray.push(puzzle); 
-
-        console.log("puzzle = "+ puzzle.mType);
+        mPuzzleArray.push(puzzle);
     }
 
-    function addTopBlackPuzzle (name, result, rotation, puzzleId, container) 
+    function addBlackPuzzle (name, result, rotation, puzzleId, container, radian) 
     {
         var puzzle = new geogame.Puzzle(name, result, 0, puzzleId);
+        puzzle.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
         container.addChild(puzzle);
-        puzzle.regX = 100/2;
-        puzzle.regY = 460/2;
+        puzzle.regX = (100*radian)/2;
+        puzzle.regY = (460*radian)/2;
         puzzle.rotation = rotation;
-        topBlackPuzzleArray.push(puzzle); 
+        mBlackPuzzleArray.push(puzzle); 
+        resetBlackPuzzle(puzzle);
     }
 
-    function addTopNormalPuzzle (name, result, rotation, puzzleId, container) 
+    function addNormalPuzzle (name, result, rotation, puzzleId, container, radian) 
     {
         var puzzle = new geogame.Puzzle(name, result, 0, puzzleId);
+        puzzle.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
         container.addChild(puzzle);
-        puzzle.regX = 100/2;
-        puzzle.regY = 460/2;
+        puzzle.regX = (100*radian)/2;
+        puzzle.regY = (460*radian)/2;
         puzzle.rotation = rotation;
-        topNormalPuzzleArray.push(puzzle); 
+        mNormalPuzzleArray.push(puzzle); 
         puzzle.visible = false;
+    }        
+
+    function addGameTimer()
+    {
+        mGameTimerBorder = new createjs.Text("", "38px Arial", "#000000");
+        mGameTimerBorder.x = screenWidth - 100;
+        mGameTimerBorder.y = 5;
+        mGameTimerBorder.outline = 8;
+        mGameContainer.addChild(mGameTimerBorder);
+
+        mGameTimer = new createjs.Text("", "38px Arial", "#FFFFFF");
+        mGameTimer.x = screenWidth - 100;
+        mGameTimer.y = 5;
+        mGameContainer.addChild(mGameTimer); 
+
+        mGameTimerBorder.visible = false;
+        mGameTimer.visible = false;
+    }
+
+    function addGameScore()
+    {
+        mGameScoreBorder = new createjs.Text("0/20題", "38px Arial", "#000000"); 
+        mGameScoreBorder.x = 10;
+        mGameScoreBorder.y = 5;
+        mGameScoreBorder.outline = 8;
+        mGameContainer.addChild(mGameScoreBorder);  
+
+        mGameScore = new createjs.Text("0/20題", "38px Arial", "#FFFFFF"); 
+        mGameScore.x = 10;
+        mGameScore.y = 5;
+        mGameContainer.addChild(mGameScore);  
+
+        mGameScoreBorder.visible = false;
+        mGameScore.visible = false;        
     }    
+
+    function resetBlackPuzzle(puzzle)
+    {
+        puzzle.scaleX = 3;
+        puzzle.scaleY = 3;
+        puzzle.visible = false;
+    }
 
     function getCurrentPuzzle(puzzleId)
     {
         var i = 0;
-        for(i = 0 ; i<puzzleArray.length; i++)
+        for(i = 0 ; i<mPuzzleArray.length; i++)
         {
-            if(puzzleArray[i].mPuzzleId == puzzleId)
+            if(mPuzzleArray[i].mPuzzleId == puzzleId)
             {
-                return puzzleArray[i];
+                return mPuzzleArray[i];
             }      
         }
     }
 
-    function getTopBlackPuzzle(puzzleId)
+    function getBlackPuzzle(puzzleId)
     {
         var i = 0;
-        for(i = 0 ; i<topBlackPuzzleArray.length; i++)
+        for(i = 0 ; i<mBlackPuzzleArray.length; i++)
         {
-            if(topBlackPuzzleArray[i].mPuzzleId == puzzleId)
+            if(mBlackPuzzleArray[i].mPuzzleId == puzzleId)
             {
-                return topBlackPuzzleArray[i];
+                return mBlackPuzzleArray[i];
             }   
         }
     }
 
-    function getTopNormalPuzzle(puzzleId)
+    function getNormalPuzzle(puzzleId)
     {
-        console.log("找尋拼圖:"+puzzleId);
+        // console.log("找尋拼圖:"+puzzleId);
         var i = 0;
-        for(i = 0 ; i<topNormalPuzzleArray.length; i++)
+        for(i = 0 ; i<mNormalPuzzleArray.length; i++)
         {
-            console.log("getTopNormalPuzzle 找尋目前拼圖:"+topNormalPuzzleArray[i].mPuzzleId);
-            if(topNormalPuzzleArray[i].mPuzzleId == puzzleId)
+            // console.log("getNormalPuzzle 找尋目前拼圖:"+mNormalPuzzleArray[i].mPuzzleId);
+            if(mNormalPuzzleArray[i].mPuzzleId == puzzleId)
             {
-                return topNormalPuzzleArray[i];
+                return mNormalPuzzleArray[i];
             }            
         }
     }    
-
-
-    function addUserName(name)
-    {
-        var roleUsername = new createjs.Text(name, "14px Arial", "#ff7700");
-        roleUsername.x = 10;
-        roleUsername.y = 10;
-        gameContainer.addChild(roleUsername); 
-    }
 
     function addBackground()
     {
@@ -666,130 +851,16 @@ function handleComplete(event) {
         mapConatainer.addChild(background);
     }
 
-    function addGeoLocationText()
-    {
-        geoLocationText = new createjs.Text("位置", "14px Arial", "#ff7700");
-        geoLocationText.x = 10;
-        geoLocationText.y = 10;
-        gameContainer.addChild(geoLocationText);  
-    }
-
-    function addOrientationText()
-    {
-        orientationText = new createjs.Text("方位", "14px Arial", "#ff7700");
-        orientationText.x = 10;
-        orientationText.y = 24;
-        gameContainer.addChild(orientationText);  
-    }
-
-    function addGeoLocationDiffText()
-    {
-        geoLocationDiffText = new createjs.Text("精準度", "14px Arial", "#ff7700");
-        geoLocationDiffText.x = 10;
-        geoLocationDiffText.y = 38;
-        gameContainer.addChild(geoLocationDiffText);  
-    }
-
-    function addQuestionBoard()
-    {
-        questionBoard = new createjs.Shape();
-        questionBoard.graphics.beginFill("white").drawRect(100, 10, screenWidth - 50, 300);
-        questonContainer.addChild(questionBoard);
-
-        questionText = new createjs.Text("我有一個問題？我有一個問題？我有一個問題？\n我有一個問題？", "18px Arial", "#ff7700");
-        questionText.x = 120;
-        questionText.y = 60;
-
-        questonContainer.addChild(questionText); 
-        questonContainer.regX = screenWidth/2;
-        questonContainer.regX = screenHeight/2;
-
-        popup(questonContainer);
-    }
-
-
-
-    function setupCurrentPuzzle(puzzleId)
-    {
-        switch(puzzleId)
-        {
-            case 1:
-            break;
-            case 2:
-            break;
-            case 3:
-            break;
-            case 4:
-            break;
-            case 5:
-            break;
-            case 6:
-            break;
-            case 7:
-            break;
-            case 8:
-            break;
-            case 9:
-            break;
-            case 10:
-            break;
-            case 11:
-            break;
-            case 12:
-            break;
-            case 13:
-            break;
-            case 14:
-            break;
-            case 15:
-            break;
-            case 16:
-            break;
-        }
-    }   
-
-
-    // 計算總下注金額
-    function calcTotalBetMoney(){
-        var totalBetText = gameContainer.getChildAt(INDEX.total_bet_text);
-        var bet = 0;
-        switch(g_nBet){
-            case 0: bet = "0.1"; break;
-            case 1: bet = "0.2"; break;
-            case 2: bet = "0.5"; break;
-            case 3: bet = "1.0"; break;
-            case 4: bet = "2.0"; break;
-            case 5: bet = "5.0"; break;
-            case 6: bet = "10.0"; break;
-        }
-
-        var totalValue = Math.round(((g_nPayLines + 1) * bet) * 10)/10;
-
-        if(totalValue >= 100){
-            totalBetText.x = 528; 
-        }else if(totalValue >= 10){
-            totalBetText.x = 543; 
-        }else{
-            totalBetText.x = 558; 
-        }
-        var total =  "$"+totalValue;
-
-        // var totalString = new String(total);
-        // var str = "$1.1";
-        console.log("search:"+total.indexOf(".", 0));
-        if(total.indexOf(".", 0) == -1){
-            totalBetText.text = total+".0";
-        }else{
-            totalBetText.text = total;
-        }
-        
-    }
-
     function handleFileLoad(event) 
     {
-        console.log("handleFileLoad...");            
+        // console.log("handleFileLoad...");            
         // 把圖示挑出來
         var id = event.item.id;
         assets.push(event);
-
     }  
+
+    function formatFloat(num, pos)
+    {
+        var size = Math.pow(10, pos);
+        return Math.round(num * size) / size;
+    } 

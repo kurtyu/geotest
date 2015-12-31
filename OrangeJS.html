@@ -25,12 +25,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/TweenLite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/plugins/EaselPlugin.min.js"></script>
     <script src="OrangeTween.js"></script>  
+    <script src="QuestionBoard.js"></script>
     <script src="Puzzle.js"></script>  
     <script src="Resource.js"></script>      
     <script src="MainStage.js"></script>
 
 	<script>
-        var screenWidth = 480;
+        var screenWidth = 520;
         var screenHeight = 640;
 
         // 舞台
@@ -54,15 +55,15 @@
         // var bg;
 
         // 遊戲大廳
-        var lobbyContainer;
+        // var lobbyContainer;
         // 遊戲畫面
-        var gameContainer;
-        // 滾輪
-        // var slotRools;
-        // 老虎機
-        var slotMachine;
+        var mGameContainer;
+    
         // 贏錢線
-        var g_PayLines;
+        // var g_PayLines;
+
+        // 玩家姓名
+        var mUserName;
 
         // 資源
         var assets;
@@ -70,13 +71,13 @@
         var iconAssets;
 
 
-        // 緯經度
-        var geoLocationText;
-        // 方位
-        var orientationText;
-        // 拼圖距離
-        var geoLocationDiffText;
+        // 遊戲分數
+        var mGameScoreBorder;
+        var mGameScore;
 
+        // 遊戲時間
+        var mGameTimerBorder;
+        var mGameTimer;
 
         // 地圖背景圖
         var backgroundBitmap;
@@ -94,35 +95,34 @@
         var mapContainer;
 
         // 拼圖容器(頂層)
-        var topPuzzleContainer;
+        var blackPuzzleContainer;
 
         // 拼圖容器(底層)
-        var bottomPuzzleContainer;
+        // var bottomPuzzleContainer;
 
         // 更新位置
-        var captureButton;
+        // var captureButton;
 
         // 玩家名稱
         var username;
 
         // 目前的拼圖塊容器
         var currentPuzzleContainer;
-        // 目前的拼圖塊
-        var currentPuzzle; 
-        // 目前的拼圖塊ID
-        var currentPuzzleId = 0;
+
+
+        // 問題
+        var question;
 
         // 拼圖資源
-        var puzzleArray;
+        var mPuzzleArray;
 
-        var topNormalPuzzleArray;
-        var topBlackPuzzleArray;
-
+        var mNormalPuzzleArray;
+        var mBlackPuzzleArray;
 
         // 問題容器
-        var questonContainer;
-        // 問題版
-        var questionBoard;
+        var mQuestionBoard;
+        
+        // var questonContainer;
         // 文字
         var questionText;
         // 圖片
@@ -135,64 +135,85 @@
         var cAnswerButton;
 
 
+
+        // 分數效果容器
+        // var mScoreContainer;
+        // var mScoreArray;
+        var mGoodEffect;
+        // var mNoEffect;
+        var mSpeedUpEffect;
+
+        var mLifeArray;
+        var mLife;
+
+        var mCorrectCount;
+        // 正確回答次數
+        var mCorrectAnswerCount;
+
+        // 拼圖掉落次數
+        var mDropPuzzleCount;
+        // 拼圖掉落等級
+        var mPuzzleLevel;
+
+        // 開始按鈕
+        var mStartButton;
+
+        // 標題
+        var mTitle;
+        // 副標題
+        var mSubTitle;
+
+        // 問題20
+        var mQuestion20;
+        // 時間100
+        var mTime100;  
+        // 究心公益開發
+        var mGeothings;      
+
+        // 目前的拼圖塊
+        var mTargetPuzzle;
+
+        // 目前進度數字
+        var mProgress; 
+
+        // 禁止連續點擊
+        var mTouchLock;
+
+        // 旋轉速度
+        var mSpeedLevel;
+
+        // 進入遊戲按鈕
+        var mStartGameButton;
+
+        //  橘子弟
+        var mOrange;
+
+        // 遊戲說明
+        var mHelp;
+        // 遊戲說明時間限制
+        var mHelpTimeLimit;
+        // 遊戲規則說明標題
+        var mGameRuleTitle;
+
+        var mBlackShape;
+
+        var mGameResultScoreBorder;
+        var mGameResultScore;
+
+        var mGameResultTimeBorder;
+        var mGameResultTime;
+
+        var mGameAgainButton;
+
+
+
         window.onload = function () 
         {
             console.log("init");
             init();
         };
 
-        function watchDeviceOrientation()
-        {
-            if (window.DeviceOrientationEvent) 
-            {
-                window.addEventListener("deviceorientation", handleOrientation);
-            } 
-            else 
-            {
-                alert("無法進行遊戲，目前使用的瀏覽器不支援陀螺儀。");
-            }
-        }
-
-        function handleOrientation(event) 
-        {
-             var absolute = event.absolute;
-             var alpha    = event.alpha; // Z  0~360
-             var beta     = event.beta;  
-             var gamma    = event.gamma; 
-            // Do stuff with the new orientation data
-
-            // Because we don't want to have the device upside down
-            // We constrain the x value to the range [-90,90]
-            if (beta >  90) { beta =  90};
-            if (beta < -90) { beta = -90};
-            
-            console.log("alpha = "+ alpha +" beta = "+beta);
-            if(alpha != null)
-            {
-                 if(mapContainer != null)
-                {
-                    
-                   
-
-                          // topPuzzleContainer.rotation = alpha;
-
        
-
-                    // puzzleArray[0].regY += beta;
-                }
-                // puzzle03Bitmap.rotation = alpha;
-                if(orientationText != null)
-                {
-                    orientationText.text = "方位："+alpha;
-                }
-            }
-        }
-
-        function formatFloat(num, pos)
-        {
-            var size = Math.pow(10, pos);
-            return Math.round(num * size) / size;
-        }        
 
         function getUserName()
         {
@@ -226,10 +247,10 @@
             stage.canvas.width = window.innerWidth;                  
             stage.canvas.height = window.innerHeight; 
 
-            var rate = stage.canvas.width / 480;
-            stage.canvas.height = 960 * rate;
+            var rate = stage.canvas.width / screenWidth;
+            stage.canvas.height = screenHeight * rate;
 
-            stage.scaleX = stage.canvas.width / 480;
+            stage.scaleX = stage.canvas.width / screenWidth;
             stage.scaleY = stage.scaleX;            
         }
 
@@ -239,14 +260,29 @@
 
             getUserName();
 
+            
+            mCorrectCount = 0;
+
+            mDropPuzzleCount = 0;
+
+            mPuzzleLevel = 0;
+
             // Image陣列物件
             assets = [];
             iconAssets = [];
-            // 拼圖物件
-            puzzleArray = [];
 
-            topBlackPuzzleArray = [];
-            topNormalPuzzleArray = [];
+            // 目前拼圖
+            mPuzzleArray = [];
+            // 黑色拼圖
+            mBlackPuzzleArray = [];
+
+            mNormalPuzzleArray = [];
+
+            // 分數效果容器
+            mScooreArray = [];
+
+            // 生命
+            mLifeArray = [];
 
     		// Stage物件：Display List 最底層的物件
     		var canvas = document.getElementById("GameCanvas");
@@ -292,14 +328,7 @@
             // 開始讀取
             startLoading();       
             
-            createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
-            createjs.Ticker.setFPS(60);
-            createjs.Ticker.addEventListener("tick", tickFunction);
-            // createjs.Ticker.setPaused(true);
-           
-            // 監聽裝置方位
-            watchDeviceOrientation();
-
+            TweenLite.ticker.addEventListener("tick", tickFunction, stage);
     	}
 
         function mouseDownHandler(event)
@@ -316,10 +345,40 @@
             // }
 
             rollContainer(mapContainer, 0.05);
-            rollContainer(bottomPuzzleContainer, -0.15);
-            rollContainer(topPuzzleContainer, 0.15);
+
+            switch(mSpeedLevel)
+            {
+                case 1:
+                    rollContainer(blackPuzzleContainer, -0.15);
+                    break;
+                case 2:
+                    rollContainer(blackPuzzleContainer, 0.15);
+                    break;
+                case 3:
+                    rollContainer(blackPuzzleContainer, -0.2);
+                    break;                
+                case 4:
+                    rollContainer(blackPuzzleContainer, 0.25);
+                    break;                
+                case 5:
+                    rollContainer(blackPuzzleContainer, -0.3);
+                    break;   
+                case 6:
+                    rollContainer(blackPuzzleContainer, 0.35);
+                    break;  
+                case 7:
+                    rollContainer(blackPuzzleContainer, -0.4);
+                    break;   
+                case 8:
+                    rollContainer(blackPuzzleContainer, 0.45);
+                    break;  
+                case 9:        
+                    rollContainer(blackPuzzleContainer, -0.5);
+                    break;  
+            }
+            
             rollContainer(currentPuzzleContainer, 0.15);
-        }   
+        } 
 
         function rollContainer(container, speed)
         {
@@ -333,30 +392,463 @@
             }
         }
 
+        function showBlackPuzzle()
+        {
+            // var i = 0;
+            // for(i=0; i<mBlackPuzzleArray; i++)
+            // {
+            //     TweenLite.to(puzzleArray[i], 1, 
+            //     {
+            //         repeat:-1,
+            //         rotation:360,
+            //         transformOrigin:"50% 50%"
+            //     });
+            // }
+                // TweenLite
+                // .to(role, 1, 
+                // {
+                //     repeat:-1,
+                //     rotation:360,
+                //     transformOrigin:"50% 50%"
+                // });
+
+            // TweenLite.to
+            // (role, 1, {delay:1.0, 
+            //             scaleX:1.5, scaleY:0.8, x:250, y:150, rotation:180,
+            //             onComplete:handleStartGame});
+
+            dropObject(mBlackPuzzleArray[0], 100, null);
+            dropObject(mBlackPuzzleArray[2], 200, null);
+            dropObject(mBlackPuzzleArray[4], 300, null);
+            dropObject(mBlackPuzzleArray[6], 300, null);
+
+                // TweenLite.to(captureButton, 2, {scaleX:.5, scaleY:.5, easel:{tint:0x00FF00}});
+        }
+
+        function startGame()
+        {
+            console.log("遊戲開始");
+            // 玩家生命
+            // mLife = 3;
+
+
+
+            // 顯示紅色愛心（隱藏灰色）
+            // dropObject(mLifeArray[0], 0);
+            // dropObject(mLifeArray[1], 100);
+            // dropObject(mLifeArray[2], 200);
+            // mLifeArray[3].visible = false;
+            // mLifeArray[4].visible = false;
+            // mLifeArray[5].visible = false; 
+
+            mGameTimer.text = 199;
+            mGameTimerBorder.text = 199;
+
+            // 拼圖正確數
+            mCorrectCount = 0;
+            // 拼圖掉落次數
+            mDropPuzzleCount = 0;
+            // 拼圖掉落等級
+            mPuzzleLevel = 0;
+
+            // 正確答題數
+            mCorrectAnswerCount = 0;
+
+            // 旋轉速度
+            mSpeedLevel = 1;
+
+            mTargetPuzzle = null;
+
+            hideObject(mTitle);
+            hideObject(mSubTitle);
+            hideObject(mTime100);
+            hideObject(mQuestion20);
+        
+
+            nextGameStep(0);
+
+            // 顯示遊戲時間     
+            mGameTimerBorder.visible = true;
+            mGameTimer.visible = true;
+
+            mGameScoreBorder.visible = true;
+            mGameScore.visible = true;
+
+            // 彈出遊戲規則說明（從標題開始）
+            mBlackShape.visible = true;
+            dropUpObject(mGameRuleTitle, showRule);
+
+            // mQuestionBoard.dropQuestion();
+        }        
+
+        // 遊戲繼續進行
+        function nextGameStep(result)
+        {
+            if(mOrange.visible == true)
+            {
+                return;
+            }
+            // result
+            // -1 錯誤選擇拼圖
+            // 1 正確選擇拼圖
+            // -2 錯誤選擇答案
+            // 2 正確選擇答案            
+            // 0 初始化
+
+            // 正確選擇拼圖 or 正確選擇答案
+            if(result == 1 || result == 2)
+            {
+                mCorrectCount++;
+
+                switch(mCorrectCount)
+                {
+                    case 3:
+                    case 6:
+                    case 9:
+                    case 12:
+                    case 15:
+                    case 18:
+                    case 21:
+                    case 24:
+                    case 27:
+                    case 30:
+                    case 33:
+                    case 36:
+                    case 39:
+                    case 42:
+                    case 45:
+                    case 48:
+                    case 51:
+                    case 54:
+                    case 57:
+                    case 60:
+                        stopGameTimer();
+                        mQuestionBoard.dropQuestion();
+                        updateGameScore();
+                        mTouchLock = true;
+                        break;
+                    default:
+                        dropCurrentPuzzle();  
+                        break;
+                }
+
+                if(result == 2)
+                {
+                    mCorrectAnswerCount++;
+
+                    mQuestionBoard.hideQuestion();
+                    dropBlackPuzzle(3);
+
+                    zoomInObject(mSpeedUpEffect, 1000, 1.8);
+
+                    mSpeedLevel++;
+                    if(mSpeedLevel>=9)
+                    {
+                        mSpeedLevel = 9;
+                    }
+
+                    mTouchLock = false;
+                    startGameTimer();
+                }
+
+                console.log("正確數:"+mCorrectCount);
+
+                // mGameScore.text = mCorrectCount+"/100";
+            }
+            // 錯誤選擇答案
+            else if(result == -2)
+            {
+                mQuestionBoard.hideQuestion();
+                dropBlackPuzzle(3);
+                dropCurrentPuzzle();
+
+                mTouchLock = false;
+                startGameTimer();
+            }
+            // 初始化
+            else if(result == 0)
+            {
+                dropBlackPuzzle(5);
+                dropCurrentPuzzle();
+                // 隨機
+                mQuestionBoard.shuffle();
+            }
+
+            if((mCorrectCount%3)==0)
+            {
+                console.log("隱藏全部的拼圖:"+mCorrectCount);
+                hideAllFlipPuzzle();
+            }
+
+
+            // 遊戲結束(達成問題回答數)
+            if(mQuestionBoard.mQuestionIndex >= 100)
+            {
+                // 遊戲結束
+                stopGameTimer();
+                var time = formatFloat((mGameTimer.text - 0.1), 2);
+                showGameOver(mCorrectAnswerCount, time); 
+            }             
+        }
+
+        function updateGameScore()
+        {
+            mQuestionBoard.mQuestionIndex++;
+            mGameScore.text = mQuestionBoard.mQuestionIndex+"/20題";
+            mGameScoreBorder.text = mGameScore.text;
+        }
+
+        function flipPuzzle(puzzleId)
+        {
+            console.log("puzzleId = "+puzzleId);
+            var normalPuzzle = getNormalPuzzle(puzzleId);  
+            normalPuzzle.visible = true;
+            normalPuzzle.scaleX = 1;
+            normalPuzzle.scaleY = 1;
+            normalPuzzle.alpha = 1;
+
+            var blackPuzzle = getBlackPuzzle(puzzleId);
+            blackPuzzle.mType = 1;  
+            blackPuzzle.scaleX = 1;
+            blackPuzzle.scaleY = 1;
+            blackPuzzle.alpha = 1;
+
+            disappearObject(blackPuzzle, checkFlipPuzzle, 
+                normalPuzzle, blackPuzzle);
+        }        
+
+        function checkFlipPuzzle(normalPuzzle, blackPuzzle)
+        {
+            console.log("測試："+normalPuzzle.mPuzzleId);
+            if(normalPuzzle.mPuzzleId == mTargetPuzzle.mPuzzleId)
+            {
+                // 答對啦
+                console.log("答對啦");
+                // rubberband(mGoodEffect);
+
+                zoomInObject(mGoodEffect, 0, 1.6);
+                // mGoodEffect.visible = true;
+                zoomInObject(mTargetPuzzle, 0, 1.2, rightPuzzleAnswer, blackPuzzle);
+                // disappearObject(normalPuzzle, rightAnswer, normalPuzzle, blackPuzzle);
+            }
+            else
+            {
+                // 翻回去
+                console.log("翻回去:"+normalPuzzle.rotation);
+                appearObject(blackPuzzle, flipBack, normalPuzzle);
+
+                // mNoEffect.rotation = normalPuzzle.rotation;
+                // mNoEffect.regX = normalPuzzle.regX;
+                // mNoEffect.regY = normalPuzzle.regY;
+                // rubberband(mNoEffect);
+            }
+        }
+
+        function rightPuzzleAnswer(blackPuzzle)
+        {
+            blackPuzzle.mDrop = false;
+            mTouchLock = false;
+            nextGameStep(1);
+        }
+
+        function flipBack(normalPuzzle)
+        {
+            normalPuzzle.visible = false;
+            mTouchLock = false;
+        }
+
+        function hideAllFlipPuzzle()
+        {
+            console.log("hideAllFlipPuzzle");
+
+            for(var i=0; i<mNormalPuzzleArray.length; i++)
+            {
+                var puzzle = mNormalPuzzleArray[i];
+                if(puzzle.visible)
+                {
+                    disappearObject(puzzle);
+
+                    var blackPuzzle = getBlackPuzzle(puzzle.mPuzzleId);
+                    blackPuzzle.visible = false;
+                    blackPuzzle.mType = 1;  
+                }
+            }
+
+            // createjs.Tween.removeTweens(object);
+
+            // console.log("mCurrentPuzzle:"+mCurrentPuzzle);
+            // hideObject(getNormalPuzzle[mCurrentPuzzle.mPuzzleId]);
+            // object.visible = false;
+            // var blackPuzzle = getBlackPuzzle(object.mPuzzleId);
+            // blackPuzzle.visible = false;
+            // blackPuzzle.mType = 0;
+
+            // nextGameStep(1);
+        }
+
         // 丟入目前的拼圖塊
-        function dropCurrentPuzzle(puzzleId)
+        function dropTargetPuzzle(puzzleId)
         {
             console.log("丟拼圖塊:"+puzzleId);
             
             var i = 0;
-            for(i = 0 ; i<puzzleArray.length; i++)
+            for(i = 0 ; i<mPuzzleArray.length; i++)
             {
-                if(puzzleArray[i].mType == 1)
+                var puzzle = mPuzzleArray[i];
+                if(puzzle.mPuzzleId == puzzleId)
                 {
-                    if(puzzleArray[i].mPuzzleId == puzzleId)
-                    {
-                        console.log("找到了");
-                        puzzleArray[i].visible = true;
-                        var tween = createjs.Tween.get(puzzleArray[i]) 
-                        .to({scaleX: 3, scaleY: 3}, 0, createjs.Ease.bounceOut)
-                        .to({scaleX: 1, scaleY: 1}, 2000, createjs.Ease.bounceOut); 
-                        break;
-                    }
+                    mTargetPuzzle = puzzle;
+                    dropObject(puzzle, 0, startPuzzleTicker(puzzle));
+                    break;
                 }
             }
-
-       
         }
+
+        // 丟入目前黑色拼圖的目標彩色拼圖
+        function dropCurrentPuzzle()
+        {
+            var randomIndex = Math.floor(Math.random() * (mBlackPuzzleArray.length-1));
+            for(var i=0; i<mBlackPuzzleArray.length; i++)
+            {
+                var puzzle = mBlackPuzzleArray[mPuzzleIndex[randomIndex]];
+                if(puzzle.mDrop == true)
+                {
+                    dropTargetPuzzle(puzzle.mPuzzleId);                    
+                    break;
+                }
+                randomIndex++;
+                if(randomIndex == mBlackPuzzleArray.length)
+                {
+                    randomIndex = 0;
+                }
+            }
+        }        
+
+        function startPuzzleTicker(object)
+        {
+            // mCurrentPuzzle = object;
+        }
+
+        // 丟入指定數量的黑色拼圖
+        function dropBlackPuzzle(number)
+        {
+            // number 丟的數量
+            // 找到位置丟入 Math.random() = 0.0~1.0
+
+            shufflePuzzleIndex();
+
+            var findCount = 0;
+            for(var i=0; i<mBlackPuzzleArray.length; i++)
+            {
+                var puzzle = mBlackPuzzleArray[mPuzzleIndex[i]];
+                var normalPuzzle =  getNormalPuzzle(puzzle.mPuzzleId);
+                if((puzzle.mDrop == false) && (normalPuzzle.visible == false))
+                {
+                    // 丟入拼圖
+                    dropObject(puzzle, 100*number);
+                    puzzle.mDrop = true;
+                    number--;
+                }
+                findCount++;
+
+                // 數量找齊了
+                if(number == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        var mPuzzleIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+        function shufflePuzzleIndex() 
+        {
+            var currentIndex = mPuzzleIndex.length;
+            var temporaryValue;
+            var randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) 
+            {
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = mPuzzleIndex[currentIndex];
+                mPuzzleIndex[currentIndex] = mPuzzleIndex[randomIndex];
+                mPuzzleIndex[randomIndex] = temporaryValue;
+            }
+        }        
+
+        function showRule()
+        {
+            appearObject(mHelp);
+            appearObject(mHelpTimeLimit);
+            mStartGameButton.visible = true;
+        }
+
+        function startGameTimer()
+        {
+            console.log("遊戲開始");
+            createjs.Tween.get(mGameTimer, {loop: true}) 
+            .wait(100)
+            .call(updateGameTimer);
+        }
+
+        function stopGameTimer()
+        {
+            createjs.Tween.removeTweens(mGameTimer);
+        }
+
+        function updateGameTimer()
+        {
+            var time = formatFloat((mGameTimer.text - 0.1), 2);
+ 
+            // 遊戲結束(達成問題回答數)
+            if(time <= 0)
+            {
+                // 遊戲結束
+                time = 0;
+                stopGameTimer();
+                console.log("遊戲結束");
+
+                showGameOver(mCorrectAnswerCount, time);
+            }
+
+            mGameTimer.text = time;
+            mGameTimerBorder.text = time;      
+        }        
+
+        function showGameOver(score, time)
+        {
+            mGameTimerBorder.visible = false;
+            mGameTimer.visible = false;
+
+            // 黑色背景
+            mBlackShape.visible = true;
+            mBlackShape.alpha = 0.5;
+
+            mGameResultScoreBorder.text = "答題率"+formatFloat((mQuestionBoard.mQuestionIndex/20),1)+"%\n正確 "+score+"題";
+            mGameResultScore.text = mGameResultScoreBorder.text;
+
+            mGameResultTimeBorder.text = "剩餘時間 "+time+"秒";
+            mGameResultTime.text = mGameResultTimeBorder.text;
+
+            dropObject(mGameResultScoreBorder, 100);
+            dropObject(mGameResultScore, 100);
+
+            dropObject(mGameResultTimeBorder, 200);
+            dropObject(mGameResultTime, 200); 
+
+            dropObject(mOrange); 
+
+            dropObject(mGameAgainButton);
+        }
+        //each time the tween updates this function will be called.
+        // function showTime() 
+        // {
+        //     gameTimer.text = gameTimer.score.toFixed(2);
+        // }
 
 	</script>
 </head>

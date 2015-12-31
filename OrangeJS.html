@@ -828,7 +828,7 @@
             mBlackShape.visible = true;
             mBlackShape.alpha = 0.5;
 
-            mGameResultScoreBorder.text = "答題率"+formatFloat((mQuestionBoard.mQuestionIndex/20),1)+"%\n正確 "+score+"題";
+            mGameResultScoreBorder.text = "答題率"+(formatFloat((mQuestionBoard.mQuestionIndex/20),1)*100)+"%\n正確 "+score+"題";
             mGameResultScore.text = mGameResultScoreBorder.text;
 
             mGameResultTimeBorder.text = "剩餘時間 "+time+"秒";

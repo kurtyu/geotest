@@ -230,6 +230,7 @@ this.geogame = this.geogame||{};
         this.mQuestionButton.hitArea = customHitArea;  
         this.mQuestionButton.addEventListener("click", function(evt) 
         {
+            playClickSound();
             mQuestionBoard.mButtonsLock = true;
             disappearObject(evt.target, showQuestion);
         }); 
@@ -268,7 +269,8 @@ this.geogame = this.geogame||{};
             answerButton.hitArea = buttonHitArea;  
             answerButton.addEventListener("click", function(evt) 
             {
-                console.log("回答:"+mQuestionBoard.mButtonsLock);
+                playClickSound();
+                // console.log("回答:"+mQuestionBoard.mButtonsLock);
                 if(mQuestionBoard.mButtonsLock == true)
                 {
                     return;

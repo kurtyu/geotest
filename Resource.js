@@ -12,7 +12,6 @@ function startLoading(){
     var manifest = [
         // {src:"ui/capture_button_normal.png", id:"capture_button_normal"},    
         // {src:"ui/capture_button_light.png", id:"capture_button_light"},            
-        {src:"ui/puzzle_line_4x4.png", id:"puzzle_line_4x4"},
         {src:"ui/role.png", id:"role"},
         {src:"ui/background.png", id:"background"},
         {src:"ui/answer_button_a.png", id:"answer_button_a"},
@@ -85,6 +84,13 @@ function startLoading(){
         {src:"puzzle1/puzzle_1_16_black.png", id:"puzzle_1_16_black"}, 
     ];
 
+
+    // createjs.Sound.registerPlugins([createjs.WebAudioPlugin]);
+    createjs.Sound.alternateExtensions = ["mp3"];
+    createjs.Sound.registerSound("assets/sound/click.mp3", "click_sound");
+    createjs.Sound.registerSound("assets/sound/get_outside.mp3", "get_outside");
+    createjs.Sound.addEventListener("fileload", handleSoundLoad);
+
     // 使用 XML HTTP Requests
     // var preload = new createjs.LoadQueue(true, "assets/");
     // Local 不要使用
@@ -97,6 +103,26 @@ function startLoading(){
     // =================================================================
 }
 
+function playClickSound()
+{
+    if(mSoundClick == null)
+    {
+        mSoundClick = createjs.Sound.play("click_sound");
+    }
+    else
+    {
+        mSoundClick.play("click_sound");
+    }
+}
+
+function handleSoundLoad()
+{
+    if(mSoundBackground!=null)
+    {
+        mSoundBackground.stop();
+    }
+    mSoundBackground =  createjs.Sound.play("get_outside", {loop:-1});
+}
 
 function handleProgress(event) 
 {
@@ -280,6 +306,7 @@ function handleComplete(event)
                 mStartButton.hitArea = buttonHitArea;  
                 mStartButton.addEventListener("click", function(evt) 
                 {
+                    playClickSound();
                     // 移除Tween
                     createjs.Tween.removeTweens(mStartButton);
                     hideObject(mStartButton, startGame);
@@ -303,6 +330,7 @@ function handleComplete(event)
                 mStartGameButton.hitArea = buttonHitArea;  
                 mStartGameButton.addEventListener("click", function(evt) 
                 {
+                    playClickSound();
                     // 移除Tween
                     createjs.Tween.removeTweens(mStartGameButton);
                     hideObject(mHelp);
@@ -330,6 +358,7 @@ function handleComplete(event)
                 mGameAgainButton.hitArea = buttonHitArea;  
                 mGameAgainButton.addEventListener("click", function(evt) 
                 {
+                    playClickSound();
                     // 移除Tween
                     createjs.Tween.removeTweens(mGameAgainButton);
                     hideObject(mGameAgainButton);

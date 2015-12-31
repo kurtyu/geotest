@@ -21,6 +21,9 @@ this.geogame = this.geogame||{};
                     return;
                 }
                 mTouchLock = true;
+
+                // createjs.Sound.play("click_sound", {loop:-1});
+                 playClickSound();
                 if(type == 0)
                 {
                    flipPuzzle(id);

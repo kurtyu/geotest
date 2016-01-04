@@ -63,6 +63,8 @@ function disappearObject(object, handleComplete, parameter1, parameter2)
 function appearObject(object, handleComplete, result)
 {
     object.visible = true;
+    object.scaleX = 1.0;
+    object.scaleY = 1.0;
     object.alpha = 0.0;
     if(handleComplete == null)
     {

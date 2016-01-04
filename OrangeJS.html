@@ -24,6 +24,10 @@
     <!-- Tween -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/TweenLite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/plugins/EaselPlugin.min.js"></script>
+
+    <!-- 簡單的後台 -->
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+
     <script src="OrangeTween.js"></script>  
     <script src="QuestionBoard.js"></script>
     <script src="Puzzle.js"></script>  
@@ -69,6 +73,12 @@
         var assets;
         // 圖示資源(1~9)(10:WILD)(11:BONUS)(12:SCATTER)
         var iconAssets;
+
+        // 排行榜按鈕
+        var mRankButton;
+        var mRankBoard;
+        var mRanksArray;
+        var mCloseButton;
 
 
         // 遊戲分數
@@ -209,6 +219,8 @@
         var mGameAgainButton;
 
 
+        // Parse
+        var mGameRecord;
 
         window.onload = function () 
         {
@@ -216,32 +228,7 @@
             init();
         };
 
-       
-
-        function getUserName()
-        {
-            var parameters = location.search.substring(1).split("&");
-            if(parameters.length == 0)
-            {
-                username = "路人";
-            }
-            else
-            {
-                var temp = parameters[0].split("=");
-                if(temp.length == 0)
-                {
-                    username = "路人";
-                }
-                else
-                {
-                    username = unescape(temp[1]);
-                }
-            }
-            console.log(username);
-            // temp = parameters[1].split("=");
-            // p = unescape(temp[1]);
-            // console.log(p);
-        }
+    
 
         //  註冊畫面大小改變
         window.addEventListener('resize', resize, false);
@@ -261,8 +248,11 @@
         {
             // var screenOrientationPromise = screen.orientation.lock('portrait-primary');
 
-            getUserName();
-
+            Parse.initialize("tJuiEhLCYFqRyqCi7wgJ8046FUPCh8yIq3TSAfoz", "6xJDfskgg4T9knFTcrEfe4dMfbzvpfI5HzsxluC4");
+    
+            mUserName = getUserName();
+            console.log("玩家名稱:"+mUserName);
+            parseUserInit("kurtyu", "0000");
             
             mCorrectCount = 0;
 
@@ -285,7 +275,11 @@
             mScooreArray = [];
 
             // 生命
-            mLifeArray = [];
+            // mLifeArray = [];
+
+            // 排行榜分數
+            mRanksArray = [];
+
 
     		// Stage物件：Display List 最底層的物件
     		var canvas = document.getElementById("GameCanvas");
@@ -444,8 +438,8 @@
             // mLifeArray[4].visible = false;
             // mLifeArray[5].visible = false; 
 
-            mGameTimer.text = 199;
-            mGameTimerBorder.text = 199;
+            mGameTimer.text = 99;
+            mGameTimerBorder.text = 99;
 
             // 拼圖正確數
             mCorrectCount = 0;
@@ -466,7 +460,8 @@
             hideObject(mSubTitle);
             hideObject(mTime100);
             hideObject(mQuestion20);
-        
+
+            hideObject(mRankButton);
 
             nextGameStep(0);
 
@@ -483,6 +478,21 @@
 
             // mQuestionBoard.dropQuestion();
         }        
+
+        function showRankList()
+        {
+            parseGetGameRecordList();
+
+            mRankBoard.visible = true;
+            for(var k=0; k<mRanksArray.length; k++)
+            {
+                mRanksArray[k].visible = true;
+            }
+
+            hideObject(mTime100);
+            hideObject(mQuestion20);
+            
+        }
 
         // 遊戲繼續進行
         function nextGameStep(result)
@@ -505,26 +515,26 @@
 
                 switch(mCorrectCount)
                 {
-                    case 3:
+                    case 2:
+                    case 4:
                     case 6:
-                    case 9:
+                    case 8:
+                    case 10:
                     case 12:
-                    case 15:
+                    case 14:
+                    case 16:
                     case 18:
-                    case 21:
+                    case 20:
+                    case 22:
                     case 24:
-                    case 27:
+                    case 26:
+                    case 28:
                     case 30:
-                    case 33:
+                    case 32:
+                    case 34:
                     case 36:
-                    case 39:
-                    case 42:
-                    case 45:
-                    case 48:
-                    case 51:
-                    case 54:
-                    case 57:
-                    case 60:
+                    case 38:
+                    case 40:
                         stopGameTimer();
                         mQuestionBoard.dropQuestion();
                         updateGameScore();
@@ -831,8 +841,12 @@
             mBlackShape.visible = true;
             mBlackShape.alpha = 0.5;
 
-            mGameResultScoreBorder.text = "答題率"+(formatFloat((mQuestionBoard.mQuestionIndex/20*100),1))+"%\n正確 "+score+"題";
+            var rate = formatFloat((mQuestionBoard.mQuestionIndex/20*100),1);
+            mGameResultScoreBorder.text = "答題率"+rate+"%\n正確 "+score+"題";
             mGameResultScore.text = mGameResultScoreBorder.text;
+
+            // 儲存遊戲分數
+            saveGameRecord(mUserName, score, rate);
 
             mGameResultTimeBorder.text = "剩餘時間 "+time+"秒";
             mGameResultTime.text = mGameResultTimeBorder.text;
@@ -852,6 +866,205 @@
         // {
         //     gameTimer.text = gameTimer.score.toFixed(2);
         // }
+
+        function getUserName()
+        {
+            var parameters = location.search.substring(1).split("&");
+            if(parameters.length == 0)
+            {
+                return "路人";
+            }
+            else
+            {
+                var temp = parameters[0].split("=");
+                if(temp.length == 0)
+                {
+                    return "路人";
+                }
+                else
+                {
+                    return unescape(temp[1]);
+                }
+            }
+        }
+
+        // 初始化使用者
+        function parseUserInit(username, password)
+        {
+            var currentUser = Parse.User.current();
+            if (currentUser) 
+            {
+                // do stuff with the user
+            } 
+            else 
+            {
+                // show the signup or login page
+                // 嘗試去登入
+                var result = parseLogin(username, password);
+                if(result == true)
+                {
+
+                }
+                else
+                {
+                    // 嘗試去註冊
+                    parseSignup(username, password);
+                }
+            }
+        }
+
+        // 登入
+        function parseLogin(username, password)
+        {
+            console.log("登入玩家");
+            Parse.User.logIn(username, password, {
+                success: function(user) 
+                {
+                // Do stuff after successful login.
+                    return true;
+                },
+                error: function(user, error) 
+                {
+                // The login failed. Check error to see why.
+                    return false;
+                }
+            });
+        }
+
+        // 登出
+        function parseLogout()
+        {
+            Parse.User.logOut();
+            // var currentUser = Parse.User.current();  // this will now be null
+        }
+
+        function parseSignup(username, password)
+        { 
+            console.log("註冊玩家");
+            // 
+            var user = new Parse.User();
+            user.set("username", username);
+            user.set("password", password);
+            user.set("email", "email@example.com");
+            user.signUp(null, 
+            {
+                success: function(user) 
+                {
+                    console.log("註冊玩家成功");
+                },
+                error: function(user, error) 
+                {
+                    // 已經註冊過了
+                    // alert("Error: " + error.code + " " + error.message);
+                    console.log("註冊玩家失敗");
+                }
+            });
+        }    
+
+        function parseGetGameRecordList()
+        {
+            var object = Parse.Object.extend("GameRecord");
+            var query = new Parse.Query(object);
+            query.descending("score");
+            query.limit(10);
+            query.find(
+            {
+                success: function(result) 
+                {
+                    // alert("Successfully retrieved " + result.length + " scores.");
+
+                    if(result != null)
+                    {
+                        // 顯示前10名就好
+                        for(var j=0; j<result.length; j++)
+                        {
+                            console.log(result[j].get("score")+" = "+result[j].get("rate"));
+
+                            if((j+1)<10)
+                            {
+                                rankNumber = "0"+(j+1);
+                            }
+                            else
+                            {
+                                rankNumber = (j+1);
+                            }
+                            var rank = mRanksArray[j];
+                            rank.text = rankNumber+":"+result[j].get("playername")+
+                            "("+result[j].get("score")+"題/"+result[j].get("rate")+"%)"; 
+                        }
+                    }
+
+                    
+                },
+                error: function(error)
+                {
+                    // alert("Error: " + error.code + " " + error.message);
+                    return null;
+                }
+            });
+        }
+
+        function saveGameRecord(username, score, rate)
+        {
+            var parseObject = getUserGameRecord(username);
+            if(parseObject == null)
+            {
+                parseObject = createGameRecord(username);
+            }
+            parseObject.set("playername", ""+username);
+            parseObject.set("score", score);
+            parseObject.set("rate", rate);
+            parseObject.save(null, 
+            {
+              success: function(gameScore) 
+              {
+                // Execute any logic that should take place after the object is saved.
+                alert('New object created with objectId: ' + gameScore.id);
+              },
+              error: function(gameScore, error) 
+              {
+                // Execute any logic that should take place if the save fails.
+                // error is a Parse.Error with an error code and message.
+                alert('Failed to create new object, with error code: ' + error.message);
+              }
+            });
+        }
+
+        function createGameRecord(usernamem)
+        {
+            // 建立遊戲紀錄
+            var GameRecordObject = Parse.Object.extend("GameRecord");
+            var parseObject = new GameRecordObject();
+            parseObject.set("playername", username);
+            parseObject.save(null, 
+            {
+                success: function(object) 
+                {
+                },
+                error: function(model, error) 
+                {
+                }
+            });
+            return parseObject;
+        }  
+
+        function getUserGameRecord(username)
+        {
+            var GameRecordObject = Parse.Object.extend("GameRecord");
+            var query = new Parse.Query(GameRecordObject);
+            query.equalTo('playername', username);
+            query.first(
+            {
+                success: function(result) 
+                {
+                    return result;
+                },
+                error: function(error)
+                {
+                    return null;
+                }
+            });
+        }
 
 	</script>
 </head>

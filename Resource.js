@@ -48,6 +48,9 @@ function startLoading(){
         {src:"ui/good.png", id:"good"},
         {src:"ui/again_button.png", id:"again_button"},
 
+        {src:"ui/rank_button.png", id:"rank_button"},
+        {src:"ui/close_button.png", id:"close_button"},
+
         {src:"ui/question_img.png", id:"question_img"},
 
         {src:"puzzle1/puzzle_1_1.png", id:"puzzle_1_1"},
@@ -341,6 +344,83 @@ function handleComplete(event)
                 });
                 mStartGameButton.visible = false              
                 break;
+            case "rank_button":
+                mRankButton = new createjs.Bitmap(result);
+                mRankButton.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
+                mGameContainer.addChild(mRankButton);    
+                mRankButton.x = screenWidth/2;
+                mRankButton.y = screenHeight/2+110;   
+                mRankButton.regX = 240/2;
+                mRankButton.regY = 60/2;
+
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mRankButton.hitArea = buttonHitArea;  
+                mRankButton.addEventListener("click", function(evt) 
+                {
+                    playClickSound();
+                    // hideObject(mRankButton, startGame);
+                    showRankList();
+
+                    mCloseButton.visible = true;
+                });  
+
+                // 建立排行板子
+                mRankBoard = new createjs.Shape();
+                mRankBoard.graphics.beginFill("#feebca").drawRect(0,0,440,600);
+                mRankBoard.x = screenWidth/2;
+                mRankBoard.y = screenHeight/2;   
+                mRankBoard.regX = 440/2;
+                mRankBoard.regY = 600/2;
+                mRankBoard.visible = false;
+
+                mGameContainer.addChild(mRankBoard);
+
+                for(var j=0; j<10; j++)
+                {
+                    var rankNumber = "";
+                    if((j+1)<10)
+                    {
+                        rankNumber = "0"+(j+1);
+                    }
+                    else
+                    {
+                        rankNumber = (j+1);
+                    }
+                    var rank = new createjs.Text(rankNumber+":- - -(00題/00.0%)", "32px Arial", "#362e2b"); 
+                    // rank.outline = 4;
+                    rank.x = 80;
+                    rank.y = 80 + 52*j;
+                    mGameContainer.addChild(rank);
+                    mRanksArray[j] = rank;
+                    rank.visible = false;
+                }
+                break;
+            case "close_button":
+                mCloseButton = new createjs.Bitmap(result);
+                stage.addChild(mCloseButton);    
+                mCloseButton.x = 154;
+                mCloseButton.y = 34;   
+                mCloseButton.regX = 263/2;
+                mCloseButton.regY = 62/2;
+
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mCloseButton.hitArea = buttonHitArea;  
+                mCloseButton.addEventListener("click", function(evt) 
+                {
+                    for(var j=0; j<10; j++)
+                    {
+                        mRanksArray[j].visible = false;
+                    }
+                    mRankBoard.visible = false;
+                    mCloseButton.visible = false;
+                    appearObject(mTime100);
+                    appearObject(mQuestion20);
+                });
+                mGameContainer.addChild(mCloseButton);
+                mCloseButton.visible = false;
+                break;
             case "again_button":
                 mGameAgainButton = new createjs.Bitmap(result);
                 stage.addChild(mGameAgainButton);    
@@ -423,7 +503,8 @@ function handleComplete(event)
                 mQuestion20.x = screenWidth-110;
                 mQuestion20.y = 90;
                 mQuestion20.rotation = 22.5;
-                dropObject(mQuestion20, 200);           
+                // dropObject(mQuestion20, 200);   
+                appearObject(mQuestion20);
                 break;
             case "time100":
                 mTime100 = new createjs.Bitmap(result);
@@ -433,7 +514,8 @@ function handleComplete(event)
                 mTime100.regY = 226/2;
                 mTime100.x = 120;
                 mTime100.y = 90; 
-                dropObject(mTime100, 300);                    
+                // dropObject(mTime100, 300);                    
+                appearObject(mTime100);                    
                 break;                
             case "orange":
                 mOrange = new createjs.Bitmap(result);
@@ -672,7 +754,7 @@ function handleComplete(event)
         // mGameContainer.addChild(captureButton);
 
         // 加入姓名
-        addUserName(username);
+        // addUserName(username);
         // 加入分數
         addGameScore();    
         // 加入遊戲時間
@@ -700,19 +782,19 @@ function handleComplete(event)
     }
 
 
-    function addUserName(name)
-    {
-        mUserNameBorder = new createjs.Text(name+"の成績:", "64px Arial", "#000000"); 
-        mUserNameBorder.x = 10;
-        mUserNameBorder.y = 5;
-        mUserNameBorder.outline = 12;
-        // stage.addChild(mUserNameBorder); 
+    // function addUserName(name)
+    // {
+    //     mUserNameBorder = new createjs.Text(name+"の成績:", "64px Arial", "#000000"); 
+    //     mUserNameBorder.x = 10;
+    //     mUserNameBorder.y = 5;
+    //     mUserNameBorder.outline = 12;
+    //     // stage.addChild(mUserNameBorder); 
 
-        mUserName = new createjs.Text(name+"の成績:", "64px Arial", "#ff7700");
-        mUserName.x = 10;
-        mUserName.y = 5;
-        // stage.addChild(mUserName); 
-    }       
+    //     mUserName = new createjs.Text(name+"の成績:", "64px Arial", "#ff7700");
+    //     mUserName.x = 10;
+    //     mUserName.y = 5;
+    //     // stage.addChild(mUserName); 
+    // }       
 
     function addGameResult()
     {

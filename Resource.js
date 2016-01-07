@@ -268,8 +268,8 @@ function handleComplete(event)
             case "background":
                 backgroundBitmap = new createjs.Bitmap(result);
                 mapContainer.addChild(backgroundBitmap);       
-                backgroundBitmap.regX = 480/2;
-                backgroundBitmap.regY = 480/2;
+                backgroundBitmap.regX = 667/2;
+                backgroundBitmap.regY = 667/2;
                 break;
             case "title":
                 mTitle = new createjs.Bitmap(result);

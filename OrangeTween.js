@@ -176,12 +176,12 @@ function dropDownObject(object, delay, handleComplete, result)
     if(handleComplete == null)
     {
         createjs.Tween.get(object) 
-                .to({y: 50}, 1000, createjs.Ease.bounceOut); 
+                .to({y: 60}, 1000, createjs.Ease.bounceOut); 
     }
     else
     {
         createjs.Tween.get(object) 
-                .to({y: 50}, 1000, createjs.Ease.bounceOut)
+                .to({y: 60}, 1000, createjs.Ease.bounceOut)
                 .wait(delay)
                 .call(handleComplete, [result], this); 
     }

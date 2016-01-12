@@ -847,13 +847,13 @@ function handleComplete(event)
     {
         mPlayersNumberBorder = new createjs.Text("已挑戰人數：0人", "20px Arial", "#0000FF");
         mPlayersNumberBorder.x = screenWidth/2 - 80;
-        mPlayersNumberBorder.y = screenHeight - 50;
+        mPlayersNumberBorder.y = screenHeight - 20;
         mPlayersNumberBorder.outline = 8;
         stage.addChild(mPlayersNumberBorder);
 
         mPlayersNumber = new createjs.Text("已挑戰人數：0人", "20px Arial", "#FFFFFF");
         mPlayersNumber.x = screenWidth/2 - 80;
-        mPlayersNumber.y = screenHeight - 50;
+        mPlayersNumber.y = screenHeight - 20;
         stage.addChild(mPlayersNumber);
 
 

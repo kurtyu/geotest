@@ -80,6 +80,10 @@
         var mRanksArray;
         var mCloseButton;
 
+        // 已挑戰人數
+        var mPlayersNumber;
+        var mPlayersNumberBorder;
+
 
         // 遊戲分數
         var mGameScoreBorder;
@@ -231,23 +235,46 @@
         function resize()
         {
             // 螢幕寬高
-            stage.canvas.width = window.innerWidth;                  
             stage.canvas.height = window.innerHeight; 
 
-            // if(stage.canvas.width < screenWidth)
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+
+            if(window.innerWidth < screenWidth)
+            {
+                var rate = window.innerWidth / screenWidth;
+                stage.scaleX = rate;
+                stage.scaleY = stage.scaleX; 
+                width = window.innerWidth * rate;
+                stage.canvas.width = window.innerWidth;
+            }
+            else
+            {
+                width = screenWidth;
+                stage.canvas.width = window.innerWidth;
+                if(mGameContainer != null)
+                {
+                    stage.x = window.innerWidth/2 - width/2;
+                }
+
+            }
+
+            // if(screenWidth > window.innerWidth)
             // {
-            //     var rate = stage.canvas.height / screenHeight;
-            //     stage.canvas.width = screenWidth * rate;
-            //     stage.scaleY = stage.canvas.height / screenHeight;
-            //     stage.scaleX = stage.scaleY; 
-            //     // 修改之後發現超過了 再退回去
-            //     if(stage.canvas.width > screenWidth)
-            //     {
-            //         var rate = stage.canvas.width / screenWidth;
-            //         stage.canvas.height = screenHeight * rate;
-            //         stage.scaleX = stage.canvas.width / screenWidth;
-            //         stage.scaleY = stage.scaleX; 
-            //     }
+            // var rate = stage.canvas.width / screenWidth;
+            // var height = screenHeight * rate;
+
+            // if(height > window.innerHeight)
+            // {
+            //     height = window.innerHeight;
+            // }
+            
+            // stage.canvas.height = height;
+            // stage.scaleX = stage.canvas.width / screenWidth;
+            // stage.scaleY = stage.scaleX; 
+            
+
+     
             // }
             // else
             // {
@@ -266,13 +293,9 @@
             // }
 
 
-            if(mGameContainer != null)
-            {
-                stage.x = window.innerWidth/2 - screenWidth/2;
-            }
 
-            // stage.x = (window.innerWidth - stage.canvas.width)/2;
 
+   
             console.log("螢幕大小改變");       
         }
 
@@ -284,7 +307,7 @@
     
             mUserName = getUserName();
             console.log("玩家名稱:"+mUserName);
-            parseUserInit("kurtyu", "0000");
+            parseLogin(mUserName, "0000");
             
             mCorrectCount = 0;
 
@@ -352,6 +375,8 @@
 
             stage.addChild(loaderBar);
             // =================================================================
+
+
 
             resize();
             // 開始讀取
@@ -923,44 +948,50 @@
         // 初始化使用者
         function parseUserInit(username, password)
         {
-            var currentUser = Parse.User.current();
-            if (currentUser) 
-            {
-                // do stuff with the user
-            } 
-            else 
-            {
+            // var currentUser = Parse.User.current();
+            // if (currentUser) 
+            // {
+            //     // do stuff with the user
+            // } 
+            // else 
+            // {
                 // show the signup or login page
                 // 嘗試去登入
-                var result = parseLogin(username, password);
-                if(result == true)
-                {
+                // var result = parseLogin(username, password);
+                // if(result == true)
+                // {
 
-                }
-                else
-                {
-                    // 嘗試去註冊
-                    parseSignup(username, password);
-                }
-            }
+                // }
+                // else
+                // {
+                    
+                // }
+            // }
         }
 
         // 登入
         function parseLogin(username, password)
         {
-            console.log("登入玩家");
-            Parse.User.logIn(username, password, {
-                success: function(user) 
-                {
-                // Do stuff after successful login.
-                    return true;
-                },
-                error: function(user, error) 
-                {
-                // The login failed. Check error to see why.
-                    return false;
-                }
-            });
+            var currentUser = Parse.User.current();
+            if (currentUser == null) 
+            {
+                // do stuff with the user
+                console.log("登入玩家");
+                Parse.User.logIn(username, password, {
+                    success: function(user) 
+                    {
+                        console.log("登入成功");
+                        // Do stuff after successful login.
+                    },
+                    error: function(user, error) 
+                    {
+                        console.log("登入失敗");
+                        // The login failed. Check error to see why.
+                        // 嘗試去註冊
+                        parseSignup(username, password);
+                    }
+                });
+            }
         }
 
         // 登出
@@ -977,12 +1008,18 @@
             var user = new Parse.User();
             user.set("username", username);
             user.set("password", password);
-            user.set("email", "email@example.com");
+            user.set("email", username+"@geothings.tw");
             user.signUp(null, 
             {
                 success: function(user) 
                 {
                     console.log("註冊玩家成功");
+                    //create user role
+                    // var userRoleACL = new Parse.ACL();
+                    // userRoleACL.setPublicReadAccess(false);
+                    // userRoleACL.setPublicWriteAccess(false);
+                    // var userRole = new Parse.Role(username, userRoleACL);
+                    // userRole.save();
                 },
                 error: function(user, error) 
                 {
@@ -992,6 +1029,29 @@
                 }
             });
         }    
+
+        function parseGetPlayersNumber()
+        {
+            var object = Parse.Object.extend("User");
+            var query = new Parse.Query(object);
+            query.count(
+            {
+                success: function(count) 
+                {
+                    if(mPlayersNumber != null)
+                    {
+                        // The count request succeeded. Show the count
+                        mPlayersNumber.text = "已挑戰人數："+count+"人";
+                        mPlayersNumberBorder.text = mPlayersNumber.text;
+                    }
+
+                },
+                error: function(error) 
+                {
+                    // The request failed
+                }
+            });
+        }
 
         function parseGetGameRecordList()
         {

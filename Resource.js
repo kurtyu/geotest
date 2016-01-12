@@ -179,6 +179,8 @@ function handleComplete(event)
     mScoreContainer = new createjs.Container();
     stage.addChild(mScoreContainer);
 
+    addPlayersNumber();
+
     addBlackShape();
 
     var i = 0;
@@ -288,7 +290,7 @@ function handleComplete(event)
                 mSubTitle.regX = 220/2;
                 mSubTitle.regY = 34/2;
                 mSubTitle.x = screenWidth/2;
-                mSubTitle.y = screenHeight - 40;
+                mSubTitle.y = screenHeight - 80;
                 dropObject(mSubTitle, 100);
                 break;     
             case "start_button":
@@ -760,6 +762,7 @@ function handleComplete(event)
         // 加入遊戲時間
         addGameTimer(); 
 
+
         addGameResult();
 
         // 最後再加入問題文字
@@ -838,6 +841,24 @@ function handleComplete(event)
     function createScoreObject()
     {
 
+    }
+
+    function addPlayersNumber()
+    {
+        mPlayersNumberBorder = new createjs.Text("已挑戰人數：0人", "20px Arial", "#0000FF");
+        mPlayersNumberBorder.x = screenWidth/2 - 80;
+        mPlayersNumberBorder.y = screenHeight - 50;
+        mPlayersNumberBorder.outline = 8;
+        stage.addChild(mPlayersNumberBorder);
+
+        mPlayersNumber = new createjs.Text("已挑戰人數：0人", "20px Arial", "#FFFFFF");
+        mPlayersNumber.x = screenWidth/2 - 80;
+        mPlayersNumber.y = screenHeight - 50;
+        stage.addChild(mPlayersNumber);
+
+
+        // 取得遊戲人數
+        parseGetPlayersNumber();
     }
 
     function addCurrentPuzzle (name, result, rotation, puzzleId, container) 

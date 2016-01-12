@@ -26,7 +26,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.1/plugins/EaselPlugin.min.js"></script>
 
     <!-- 簡單的後台 -->
-    <script type="text/javascript" src="https://parse.com/downloads/javascript/parse-1.6.12.min.js"></script>
+    <script type="text/javascript" charset="UTF-8"  src="https://parse.com/downloads/javascript/parse-1.6.12.min.js"></script>
 
     <script src="OrangeTween.js"></script>  
     <script src="QuestionBoard.js"></script>
@@ -37,6 +37,7 @@
 	<script>
         var screenWidth = 520;
         var screenHeight = 640;
+        var set_gametime = 99;
 
         // 舞台
         var stage;
@@ -79,6 +80,10 @@
         var mRankBoard;
         var mRanksArray;
         var mCloseButton;
+
+        // 分數區間
+        var mRankCircleBoard;
+        var mCloseCircleButton;
 
         // 已挑戰人數
         var mPlayersNumber;
@@ -223,6 +228,10 @@
 
         // Parse
         var mGameRecord;
+
+        var mRankCircleContainer;
+
+        var mMe;
 
         window.onload = function () 
         {
@@ -380,7 +389,7 @@
             resize();
             // 開始讀取
             startLoading();       
-            
+
             TweenLite.ticker.addEventListener("tick", tickFunction, stage);
     	}
 
@@ -397,7 +406,7 @@
                 // console.log("update");
             // }
 
-            rollContainer(mapContainer, 0.05);
+            rollContainer(mapContainer, 0.05/2);
 
             switch(mSpeedLevel)
             {
@@ -437,7 +446,7 @@
         {
             if(container != null)
             {    
-                container.rotation +=speed;
+                container.rotation +=(speed/2);
                 if(container.rotation>=360)
                 {
                     container.rotation=0; 
@@ -494,8 +503,8 @@
             // mLifeArray[4].visible = false;
             // mLifeArray[5].visible = false; 
 
-            mGameTimer.text = 99;
-            mGameTimerBorder.text = 99;
+            mGameTimer.text = set_gametime;
+            mGameTimerBorder.text = set_gametime;
 
             // 拼圖正確數
             mCorrectCount = 0;
@@ -533,6 +542,7 @@
             dropUpObject(mGameRuleTitle, showRule);
 
             // mQuestionBoard.dropQuestion();
+
         }        
 
         function showRankList()
@@ -547,6 +557,9 @@
 
             hideObject(mTime100);
             hideObject(mQuestion20);
+
+            hideObject(mStartButton);
+            hideObject(mRankButton);
             
         }
 
@@ -916,6 +929,9 @@
             dropObject(mOrange); 
 
             dropObject(mGameAgainButton);
+            // dropObject(mGameCircleButton);
+
+            // 
         }
         //each time the tween updates this function will be called.
         // function showTime() 
@@ -925,7 +941,10 @@
 
         function getUserName()
         {
-            var parameters = location.search.substring(1).split("&");
+            // decodeURIComponent(location.search);
+            // console.log("中文測試："+decodeURIComponent(location.search));
+            var UTF8String = decodeURIComponent(location.search);
+            var parameters = UTF8String.substring(1).split("&");
             if(parameters.length == 0)
             {
                 return "路人";
@@ -971,9 +990,9 @@
         // 登入
         function parseLogin(username, password)
         {
-            var currentUser = Parse.User.current();
-            if (currentUser == null) 
-            {
+            // var currentUser = Parse.User.current();
+            // if (currentUser == null) 
+            // {
                 // do stuff with the user
                 console.log("登入玩家");
                 Parse.User.logIn(username, password, {
@@ -990,7 +1009,7 @@
                         parseSignup(username, password);
                     }
                 });
-            }
+            // }
         }
 
         // 登出
@@ -1002,7 +1021,7 @@
 
         function parseSignup(username, password)
         { 
-            console.log("註冊玩家");
+            console.log("註冊玩家:"+username);
             // 
             var user = new Parse.User();
             user.set("username", username);
@@ -1031,7 +1050,7 @@
 
         function parseGetPlayersNumber()
         {
-            var object = Parse.Object.extend("User");
+            var object = Parse.Object.extend("GameRecord");
             var query = new Parse.Query(object);
             query.count(
             {
@@ -1093,6 +1112,41 @@
                     return null;
                 }
             });
+        }
+
+        // 暫時的做法
+        function parseAllGameRecord(myscore)
+        {
+            var object = Parse.Object.extend("GameRecord");
+            var query = new Parse.Query(object);
+            query.find(
+            {
+                success: function(result) 
+                {
+                    // alert("Successfully retrieved " + result.length + " scores.");
+                    if(result != null)
+                    {
+                        var ranks = [0,0,0,0,0,0,0,0];
+                        for(var j=0; j<result.length; j++)
+                        {
+                            var score = result[j].get("score");
+                            console.log("分數："+score);
+                            var index = 7-Math.round(score/3);
+                            ranks[index] = ranks[index]+1; 
+                        }
+                    }
+
+                    addRankCircleBoard(myscore, ranks);
+                },
+                error: function(error)
+                {
+                    // alert("Error: " + error.code + " " + error.message);
+                    return null;
+                }
+            });
+
+
+
         }
 
         function saveGameRecord(username, score, rate)

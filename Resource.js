@@ -50,6 +50,10 @@ function startLoading(){
 
         {src:"ui/rank_button.png", id:"rank_button"},
         {src:"ui/close_button.png", id:"close_button"},
+        {src:"ui/close_circle_button.png", id:"close_circle_button"},
+        
+
+        {src:"ui/me.png", id:"me"},
 
         {src:"ui/question_img.png", id:"question_img"},
 
@@ -178,6 +182,9 @@ function handleComplete(event)
 
     mScoreContainer = new createjs.Container();
     stage.addChild(mScoreContainer);
+
+    mRankCircleContainer = new createjs.Container();
+    stage.addChild(mRankCircleContainer); 
 
     addPlayersNumber();
 
@@ -319,6 +326,9 @@ function handleComplete(event)
                     // 移除Tween
                     createjs.Tween.removeTweens(mStartButton);
                     hideObject(mStartButton, startGame);
+
+                    mPlayersNumberBorder.visible = false;
+                    mPlayersNumber.visible = false;
                 });    
                 // dropObject(mStartButton, 1000);              
                 break;
@@ -340,8 +350,11 @@ function handleComplete(event)
                 mStartGameButton.addEventListener("click", function(evt) 
                 {
                     playClickSound();
+
+
                     // 移除Tween
                     createjs.Tween.removeTweens(mStartGameButton);
+
                     hideObject(mHelp);
                     hideObject(mHelpTimeLimit);
                     hideObject(mGameRuleTitle);
@@ -369,6 +382,10 @@ function handleComplete(event)
                         return;
                     }
                     playClickSound();
+
+                    // 取得遊戲人數
+                    parseGetPlayersNumber();
+
                     // hideObject(mRankButton, startGame);
                     showRankList();
 
@@ -379,7 +396,7 @@ function handleComplete(event)
                 mRankBoard = new createjs.Shape();
                 mRankBoard.graphics.beginFill("#feebca").drawRect(0,0,440,600);
                 mRankBoard.x = screenWidth/2;
-                mRankBoard.y = screenHeight/2;   
+                mRankBoard.y = screenHeight/2 + 50;   
                 mRankBoard.regX = 440/2;
                 mRankBoard.regY = 600/2;
                 mRankBoard.visible = false;
@@ -400,17 +417,36 @@ function handleComplete(event)
                     var rank = new createjs.Text(rankNumber+":- - -(00題/00.0%)", "32px Arial", "#362e2b"); 
                     // rank.outline = 4;
                     rank.x = 80;
-                    rank.y = 80 + 52*j;
+                    rank.y = 150 + 52*j;
                     mGameContainer.addChild(rank);
                     mRanksArray[j] = rank;
                     rank.visible = false;
                 }
                 break;
+           case "close_circle_button":
+                mCloseCircleButton = new createjs.Bitmap(result);    
+                mCloseCircleButton.x = 185;
+                mCloseCircleButton.y = 104;   
+                mCloseCircleButton.regX = 283/2;
+                mCloseCircleButton.regY = 62/2;
+
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mCloseCircleButton.hitArea = buttonHitArea;  
+                mCloseCircleButton.addEventListener("click", function(evt) 
+                {
+                    mRankCircleContainer.removeAllChildren();
+                    mRankCircleContainer.visible = false;
+                    mCloseCircleButton.visible = false;
+
+                    // disappearObject(mBlackShape);
+                    location = location;
+                });
+                break;             
             case "close_button":
-                mCloseButton = new createjs.Bitmap(result);
-                stage.addChild(mCloseButton);    
-                mCloseButton.x = 154;
-                mCloseButton.y = 34;   
+                mCloseButton = new createjs.Bitmap(result);   
+                mCloseButton.x = 175;
+                mCloseButton.y = 104;   
                 mCloseButton.regX = 263/2;
                 mCloseButton.regY = 62/2;
 
@@ -452,6 +488,9 @@ function handleComplete(event)
                 mGameAgainButton.addEventListener("click", function(evt) 
                 {
                     playClickSound();
+
+                    parseAllGameRecord(0);
+
                     // 移除Tween
                     createjs.Tween.removeTweens(mGameAgainButton);
                     hideObject(mGameAgainButton);
@@ -463,8 +502,7 @@ function handleComplete(event)
                     hideObject(mGameResultTime);
 
                     disappearObject(mBlackShape);
-                    // hideObject(mStartGameButton, startGameTimer);
-                    location = location;
+                    // location = location;
 
                 });
                 mGameAgainButton.visible = false;
@@ -511,24 +549,24 @@ function handleComplete(event)
                 mQuestion20 = new createjs.Bitmap(result);
                 mQuestion20.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
                 stage.addChild(mQuestion20);
-                mQuestion20.regX = 354/2;
-                mQuestion20.regY = 226/2;
+                mQuestion20.regX = 200/2;
+                mQuestion20.regY = 128/2;
                 mQuestion20.x = screenWidth-110;
                 mQuestion20.y = 90;
                 mQuestion20.rotation = 22.5;
-                // dropObject(mQuestion20, 200);   
+                mQuestion20.visible = false;
                 appearObject(mQuestion20);
                 break;
             case "time100":
                 mTime100 = new createjs.Bitmap(result);
                 mTime100.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
                 stage.addChild(mTime100);
-                mTime100.regX = 354/2;
-                mTime100.regY = 226/2;
+                mTime100.regX = 200/2;
+                mTime100.regY = 128/2;
                 mTime100.x = 120;
                 mTime100.y = 90; 
-                // dropObject(mTime100, 300);                    
-                appearObject(mTime100);                    
+                mTime100.visible = false;
+                appearObject(mTime100);
                 break;                
             case "orange":
                 mOrange = new createjs.Bitmap(result);
@@ -634,6 +672,11 @@ function handleComplete(event)
                 addCurrentPuzzle(id, result, 0, 1, currentPuzzleContainer);
                 addNormalPuzzle(id, result, 4, 1, blackPuzzleContainer, 1.2);                
             break;
+            case "me":
+                mMe = new createjs.Bitmap(result);
+                mMe.regX = 100/2;
+                mMe.regY = 100/2;
+            break;  
             case "puzzle_1_2":
                 addCurrentPuzzle(id, result, 0, 2, currentPuzzleContainer);
                 addNormalPuzzle(id, result, 22.5, 2, blackPuzzleContainer, 1);                
@@ -742,7 +785,7 @@ function handleComplete(event)
             break;        
             case "puzzle_1_16_black":
                 addBlackPuzzle(id, result, 337.5, 16, blackPuzzleContainer, 0.9);  
-            break;                                                                                                                                    
+            break;                                                                                                                                
         }
 
     }   
@@ -780,6 +823,11 @@ function handleComplete(event)
         mQuestionBoard.addQuestionText();
 
         resize();
+
+        // 要慢一拍
+        createjs.Tween.get(stage) 
+        .wait(1000)
+        .call(parseGetPlayersNumber); 
     }
 
     function addBlackShape()
@@ -795,6 +843,92 @@ function handleComplete(event)
         mBlackShape.visible = false;
     }
 
+    function addRankCircleBoard(score, ranks)
+    {
+        mRankCircleContainer.removeAllChildren();
+
+        // mCloseCircleButton.visible = true;
+
+
+        // 建立排行板子
+        mRankCircleBoard = new createjs.Shape();
+        mRankCircleBoard.graphics.beginFill("#feebca").drawRect(0,0,440,600);
+        mRankCircleBoard.x = screenWidth/2;
+        mRankCircleBoard.y = screenHeight/2 + 50;   
+        mRankCircleBoard.regX = 440/2;
+        mRankCircleBoard.regY = 600/2;
+        // mRankCircleBoard.visible = false;
+        mRankCircleContainer.addChild(mRankCircleBoard);
+
+        // 找出陣列最大值
+        var max_value = 0;
+        for (var i = 0 ; i < ranks.length ; i++) 
+        {
+          if (ranks[i] > max_value) 
+          {
+            max_value = ranks[i];
+          }
+        }
+
+        var userIndex = 7-Math.round(score/3);
+        console.log("userIndex:"+userIndex);
+
+        addRankLine(60, 160, ranks[0], max_value, (userIndex == 0), "    20");
+        addRankLine(60, 220, ranks[1], max_value, (userIndex == 1), "17~19");
+        addRankLine(60, 280, ranks[2], max_value, (userIndex == 2), "14~16");
+        addRankLine(60, 340, ranks[3], max_value, (userIndex == 3), "11~13");
+        addRankLine(60, 400, ranks[4], max_value, (userIndex == 4), "  8~10");
+        addRankLine(60, 460, ranks[5], max_value, (userIndex == 5), "  5~7");
+        addRankLine(60, 520, ranks[6], max_value, (userIndex >= 6), "  0~4");         
+
+        // mCloseCircleButton.visible = true;
+        mRankCircleContainer.addChild(mCloseCircleButton);
+    }
+
+    function addRankLine(x, y, value, max, youarehere, label)
+    {
+        console.log("youarehere:"+youarehere);
+
+        var color = "#2f6cb5";
+        if(youarehere == true)
+        {
+            console.log("設定顏色");
+            color = "#32b16c";
+        }
+
+        var rankFrame = new createjs.Shape();
+        rankFrame.graphics.beginFill("#aaaaaa").drawRect(x + 100, y, 300, 50);
+        mRankCircleContainer.addChild(rankFrame);
+
+        var length = (value / max) * 300;
+        var rankValue = new createjs.Shape();
+        rankValue.graphics.beginFill(color).drawRect(x + 100, y, length, 50);
+        mRankCircleContainer.addChild(rankValue);
+
+        var valueA = new createjs.Text(value, "32px Arial", "#FFFFFF");
+        valueA.x = x + 8 + 100;
+        valueA.y = y + 8;
+        mRankCircleContainer.addChild(valueA);
+
+
+        var label = new createjs.Text(label, "24px Arial", "#000000");
+        label.x = x;
+        label.y = y + 8;
+        mRankCircleContainer.addChild(label);        
+
+        if(youarehere == true)
+        {
+            mRankCircleContainer.addChild(mMe);
+            mMe.x = x + 420;
+            mMe.y = y + 8;
+
+            console.log("設定文字");
+            var you = new createjs.Text("你在這裡", "16px Arial", "#000000");
+            you.x = x + 320;
+            you.y = y + 10;
+            mRankCircleContainer.addChild(you);
+        }
+    }
 
     // function addUserName(name)
     // {
@@ -856,20 +990,20 @@ function handleComplete(event)
 
     function addPlayersNumber()
     {
-        mPlayersNumberBorder = new createjs.Text("已挑戰人數：0人", "20px Arial", "#0000FF");
-        mPlayersNumberBorder.x = screenWidth/2 - 80;
-        mPlayersNumberBorder.y = screenHeight - 20;
+        mPlayersNumberBorder = new createjs.Text("已挑戰人次：0人", "20px Arial", "#0000FF");
+        mPlayersNumberBorder.x = 10;
+        mPlayersNumberBorder.y = 10;
         mPlayersNumberBorder.outline = 6;
         stage.addChild(mPlayersNumberBorder);
 
-        mPlayersNumber = new createjs.Text("已挑戰人數：0人", "20px Arial", "#FFFFFF");
-        mPlayersNumber.x = screenWidth/2 - 80;
-        mPlayersNumber.y = screenHeight - 20;
+        mPlayersNumber = new createjs.Text("已挑戰人次：0人", "20px Arial", "#FFFFFF");
+        mPlayersNumber.x = 10;
+        mPlayersNumber.y = 10;
         stage.addChild(mPlayersNumber);
 
 
         // 取得遊戲人數
-        parseGetPlayersNumber();
+        // parseGetPlayersNumber();
     }
 
     function addCurrentPuzzle (name, result, rotation, puzzleId, container) 

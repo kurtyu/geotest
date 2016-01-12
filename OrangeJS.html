@@ -345,8 +345,8 @@
             bgBar.graphics.setStrokeStyle(1).beginStroke(loaderColor).drawRect(-padding/2, -padding/2, barWidth+padding, barHeight+padding);        
 
             loaderBar = new createjs.Container();
-            loaderBar.x = (480 - barWidth)>>1;
-            loaderBar.y = (480 - barHeight)>>1; 
+            loaderBar.x = (window.innerWidth - barWidth)>>1;
+            loaderBar.y = (window.innerHeight - barHeight)>>1; 
             loaderBar.addChild(bar, bgBar);     
             // loaderBar.visible = false;
 

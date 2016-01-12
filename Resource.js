@@ -129,7 +129,7 @@ function handleSoundLoad()
 
 function handleProgress(event) 
 {
-    // console.log("handleProgress...");
+    // console.log("handleProgress...")    
     bar.scaleX = event.loaded * barWidth;  // event.loaded 是個百分比浮點數
     stage.update();
 }

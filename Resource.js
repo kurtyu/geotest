@@ -311,6 +311,10 @@ function handleComplete(event)
                 mStartButton.hitArea = buttonHitArea;  
                 mStartButton.addEventListener("click", function(evt) 
                 {
+                    if(mRankBoard.visible == true)
+                    {
+                        return;
+                    }
                     playClickSound();
                     // 移除Tween
                     createjs.Tween.removeTweens(mStartButton);
@@ -360,6 +364,10 @@ function handleComplete(event)
                 mRankButton.hitArea = buttonHitArea;  
                 mRankButton.addEventListener("click", function(evt) 
                 {
+                    if(mRankBoard.visible == true)
+                    {
+                        return;
+                    }
                     playClickSound();
                     // hideObject(mRankButton, startGame);
                     showRankList();
@@ -419,6 +427,9 @@ function handleComplete(event)
                     mCloseButton.visible = false;
                     appearObject(mTime100);
                     appearObject(mQuestion20);
+
+                    appearObject(mStartButton);
+                    appearObject(mRankButton);
                 });
                 mGameContainer.addChild(mCloseButton);
                 mCloseButton.visible = false;

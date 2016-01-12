@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <meta name="viewport" content="width=520; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
     <style type="text/css">
 
         /* Remove margins and HTML scrollbars */
@@ -90,8 +90,6 @@
         var mGameTimer;
 
         // 地圖背景圖
-        var backgroundBitmap;
-
         var puzzle03Bitmap;
 
         var puzzleLine4x4Bitmap;
@@ -99,7 +97,7 @@
         // 玩家陣列
         var role;
 
-        var myPuzzleContainer;
+        // var myPuzzleContainer;
 
         // 地圖容器
         var mapContainer;
@@ -228,20 +226,54 @@
             init();
         };
 
-    
-
         //  註冊畫面大小改變
         window.addEventListener('resize', resize, false);
         function resize()
         {
+            // 螢幕寬高
             stage.canvas.width = window.innerWidth;                  
             stage.canvas.height = window.innerHeight; 
 
-            var rate = stage.canvas.width / screenWidth;
-            stage.canvas.height = screenHeight * rate;
+            // if(stage.canvas.width < screenWidth)
+            // {
+            //     var rate = stage.canvas.height / screenHeight;
+            //     stage.canvas.width = screenWidth * rate;
+            //     stage.scaleY = stage.canvas.height / screenHeight;
+            //     stage.scaleX = stage.scaleY; 
+            //     // 修改之後發現超過了 再退回去
+            //     if(stage.canvas.width > screenWidth)
+            //     {
+            //         var rate = stage.canvas.width / screenWidth;
+            //         stage.canvas.height = screenHeight * rate;
+            //         stage.scaleX = stage.canvas.width / screenWidth;
+            //         stage.scaleY = stage.scaleX; 
+            //     }
+            // }
+            // else
+            // {
+            //     var rate = stage.canvas.width / screenWidth;
+            //     stage.canvas.height = screenHeight * rate;
+            //     stage.scaleX = stage.canvas.width / screenWidth;
+            //     stage.scaleY = stage.scaleX; 
+            //     // 修改之後發現超過了 再退回去
+            //     if(stage.canvas.height > screenHeight)
+            //     {
+            //         var rate = stage.canvas.height / screenHeight;
+            //         stage.canvas.width = screenWidth * rate;
+            //         stage.scaleY = stage.canvas.height / screenHeight;
+            //         stage.scaleX = stage.scaleY; 
+            //     }
+            // }
 
-            stage.scaleX = stage.canvas.width / screenWidth;
-            stage.scaleY = stage.scaleX;            
+
+            if(mGameContainer != null)
+            {
+                stage.x = window.innerWidth/2 - screenWidth/2;
+            }
+
+            // stage.x = (window.innerWidth - stage.canvas.width)/2;
+
+            console.log("螢幕大小改變");       
         }
 
     	function init() 
@@ -1019,13 +1051,13 @@
               success: function(gameScore) 
               {
                 // Execute any logic that should take place after the object is saved.
-                alert('New object created with objectId: ' + gameScore.id);
+                // alert('New object created with objectId: ' + gameScore.id);
               },
               error: function(gameScore, error) 
               {
                 // Execute any logic that should take place if the save fails.
                 // error is a Parse.Error with an error code and message.
-                alert('Failed to create new object, with error code: ' + error.message);
+                // alert('Failed to create new object, with error code: ' + error.message);
               }
             });
         }

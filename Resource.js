@@ -173,8 +173,8 @@ function handleComplete(event)
     mQuestionBoard.y = 10;
     // questionBoard.visible = false;
 
-    myPuzzleContainer = new createjs.Container();
-    stage.addChild(myPuzzleContainer); 
+    // myPuzzleContainer = new createjs.Container();
+    // stage.addChild(myPuzzleContainer); 
 
     mScoreContainer = new createjs.Container();
     stage.addChild(mScoreContainer);
@@ -266,7 +266,7 @@ function handleComplete(event)
                 // role.scaleY = 0.6;
             break;
             case "background":
-                backgroundBitmap = new createjs.Bitmap(result);
+                var backgroundBitmap = new createjs.Bitmap(result);
                 mapContainer.addChild(backgroundBitmap);       
                 backgroundBitmap.regX = 667/2;
                 backgroundBitmap.regY = 667/2;
@@ -771,7 +771,7 @@ function handleComplete(event)
     function addBlackShape()
     {
         mBlackShape = new createjs.Shape();
-        mBlackShape.graphics.beginFill("#000").drawRect(0,0,screenWidth,screenHeight);
+        mBlackShape.graphics.beginFill("#000").drawRect(-screenWidth,-screenHeight,screenWidth*3,screenHeight*3);
         mBlackShape.alpha = 0.5;
         mBlackShape.regX = screenWidth/2;
         mBlackShape.regY = screenHeight/2;

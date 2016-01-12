@@ -489,7 +489,7 @@ function handleComplete(event)
                 {
                     playClickSound();
 
-                    parseAllGameRecord(0);
+                    parseAllGameRecord(mCorrectAnswerCount);
 
                     // 移除Tween
                     createjs.Tween.removeTweens(mGameAgainButton);

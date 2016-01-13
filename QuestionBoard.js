@@ -51,6 +51,8 @@ this.geogame = this.geogame||{};
                             "芭樂","葡萄", "橘子", 3, false], 
                     ["","Q.請問下列哪一個是台灣的遊戲廠商？",
                             "遊戲蓮霧","遊戲橘子", "遊戲蘋果", 2, false], 
+                    ["","Q.請問開發這個轉轉橘子問答遊戲的廠商是？",
+                            "農委會","遊戲橘子", "究心公益科技", 3, false],                            
                     ["","Q.下列哪一個不是橘子的品種？",
                             "桶柑","雙聖", "茂谷", 2, false],                                                                                                         
                             ];
@@ -362,6 +364,7 @@ this.geogame = this.geogame||{};
 
     p.showQuestion = function(questionId)
     {
+        console.log("questionId:"+questionId);
         this.mQuestionText.text = this.mQuestions[questionId][1]+"\n\n\n";
         this.mQuestionText.text += "(A)"+this.mQuestions[questionId][2]+"\n\n";
         this.mQuestionText.text += "(B)"+this.mQuestions[questionId][3]+"\n\n";

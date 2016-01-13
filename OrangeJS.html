@@ -37,7 +37,7 @@
 	<script>
         var screenWidth = 520;
         var screenHeight = 640;
-        var set_gametime = 99;
+        var set_gametime = 999;
 
         // 舞台
         var stage;
@@ -577,41 +577,23 @@
             // 2 正確選擇答案            
             // 0 初始化
 
+
+
             // 正確選擇拼圖 or 正確選擇答案
             if(result == 1 || result == 2)
             {
                 mCorrectCount++;
 
-                switch(mCorrectCount)
+                if(mCorrectCount%2==0)
                 {
-                    case 2:
-                    case 4:
-                    case 6:
-                    case 8:
-                    case 10:
-                    case 12:
-                    case 14:
-                    case 16:
-                    case 18:
-                    case 20:
-                    case 22:
-                    case 24:
-                    case 26:
-                    case 28:
-                    case 30:
-                    case 32:
-                    case 34:
-                    case 36:
-                    case 38:
-                    case 40:
-                        stopGameTimer();
-                        mQuestionBoard.dropQuestion();
-                        updateGameScore();
-                        mTouchLock = true;
-                        break;
-                    default:
-                        dropCurrentPuzzle();  
-                        break;
+                    stopGameTimer();
+                    mQuestionBoard.dropQuestion();
+                    updateGameScore();
+                    mTouchLock = true;
+                }
+                else
+                {
+                    dropCurrentPuzzle(); 
                 }
 
                 if(result == 2)
@@ -664,7 +646,7 @@
 
 
             // 遊戲結束(達成問題回答數)
-            if(mQuestionBoard.mQuestionIndex >= 100)
+            if(mQuestionBoard.mQuestionIndex >= 20)
             {
                 // 遊戲結束
                 stopGameTimer();

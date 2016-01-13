@@ -36,6 +36,9 @@ function startLoading(){
         {src:"ui/questions20.png", id:"questions20"},
         {src:"ui/time100.png", id:"time100"},
 
+        {src:"ui/sound_on.png", id:"sound_on"},
+        {src:"ui/sound_off.png", id:"sound_off"},
+
         {src:"ui/gamerule_title.png", id:"gamerule_title"},
         
         {src:"ui/start_game_button.png", id:"start_game_button"},
@@ -129,6 +132,23 @@ function handleSoundLoad()
         mSoundBackground.stop();
     }
     mSoundBackground =  createjs.Sound.play("get_outside", {loop:-1});
+    mSoundBackground.volume = 0.5;
+}
+
+function stopMusic()
+{
+    if(mSoundBackground!=null)
+    {
+        mSoundBackground.stop();
+    }
+}
+
+function playMusic()
+{
+    if(mSoundBackground!=null)
+    {
+        mSoundBackground.play("get_outside", createjs.Sound.INTERRUPT_NONE);
+    }
 }
 
 function handleProgress(event) 
@@ -331,6 +351,54 @@ function handleComplete(event)
                     mPlayersNumber.visible = false;
                 });    
                 // dropObject(mStartButton, 1000);              
+                break;
+            case "sound_on":
+                mSoundOnButton = new createjs.Bitmap(result);
+                mSoundOnButton.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
+                stage.addChild(mSoundOnButton);    
+                mSoundOnButton.x = 40;
+                mSoundOnButton.y = screenHeight - 40;   
+                mSoundOnButton.regX = 60/2;
+                mSoundOnButton.regY = 60/2;
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mSoundOnButton.hitArea = buttonHitArea; 
+                mSoundOnButton.addEventListener("click", function(evt) 
+                {
+                    if(mSoundOnButton.visible == false)
+                    {
+                        return;
+                    }
+                    playClickSound();
+                    mSoundOnButton.visible = false;
+                    mSoundOffButton.visible = true;
+                    stopMusic();
+                }); 
+                break;
+            case "sound_off":
+                mSoundOffButton = new createjs.Bitmap(result);
+                mSoundOffButton.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
+                stage.addChild(mSoundOffButton);    
+                mSoundOffButton.x = 40;
+                mSoundOffButton.y = screenHeight - 40;    
+                mSoundOffButton.regX = 60/2;
+                mSoundOffButton.regY = 60/2;   
+                mSoundOffButton.visible = false; 
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mSoundOffButton.hitArea = buttonHitArea;    
+                mSoundOffButton.addEventListener("click", function(evt) 
+                {
+                    if(mSoundOffButton.visible == false)
+                    {
+                        return;
+                    }
+                    playClickSound();
+                    mSoundOnButton.visible = true;
+                    mSoundOffButton.visible = false;
+
+                    playMusic();
+                });     
                 break;
             case "start_game_button":
                 mStartGameButton = new createjs.Bitmap(result);

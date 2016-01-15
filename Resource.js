@@ -33,6 +33,8 @@ function startLoading(){
         {src:"ui/subtitle.png", id:"subtitle"},
         {src:"ui/geothings.png", id:"geothings"},
 
+
+
         {src:"ui/questions20.png", id:"questions20"},
         {src:"ui/time100.png", id:"time100"},
 
@@ -92,6 +94,10 @@ function startLoading(){
         {src:"puzzle1/puzzle_1_14_black.png", id:"puzzle_1_14_black"},        
         {src:"puzzle1/puzzle_1_15_black.png", id:"puzzle_1_15_black"},  
         {src:"puzzle1/puzzle_1_16_black.png", id:"puzzle_1_16_black"}, 
+
+
+        {src:"ui/left_arrow.png", id:"left_arrow"},
+        {src:"ui/right_arrow.png", id:"right_arrow"},
     ];
 
 
@@ -355,7 +361,7 @@ function handleComplete(event)
             case "sound_on":
                 mSoundOnButton = new createjs.Bitmap(result);
                 mSoundOnButton.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
-                stage.addChild(mSoundOnButton);    
+                mGameContainer.addChild(mSoundOnButton);    
                 mSoundOnButton.x = 40;
                 mSoundOnButton.y = screenHeight - 40;   
                 mSoundOnButton.regX = 60/2;
@@ -378,7 +384,7 @@ function handleComplete(event)
             case "sound_off":
                 mSoundOffButton = new createjs.Bitmap(result);
                 mSoundOffButton.shadow = new createjs.Shadow("rgba(0,0,0,0.7)",8,8,10);
-                stage.addChild(mSoundOffButton);    
+                mGameContainer.addChild(mSoundOffButton);    
                 mSoundOffButton.x = 40;
                 mSoundOffButton.y = screenHeight - 40;    
                 mSoundOffButton.regX = 60/2;
@@ -454,7 +460,9 @@ function handleComplete(event)
                     // 取得遊戲人數
                     parseGetPlayersNumber();
 
+                    console.log("遊戲排行榜");
                     // hideObject(mRankButton, startGame);
+                    mRankIndex = 0;
                     showRankList();
 
                     mCloseButton.visible = true;
@@ -464,7 +472,7 @@ function handleComplete(event)
                 mRankBoard = new createjs.Shape();
                 mRankBoard.graphics.beginFill("#feebca").drawRect(0,0,440,600);
                 mRankBoard.x = screenWidth/2;
-                mRankBoard.y = screenHeight/2 + 50;   
+                mRankBoard.y = screenHeight/2 + 20;   
                 mRankBoard.regX = 440/2;
                 mRankBoard.regY = 600/2;
                 mRankBoard.visible = false;
@@ -485,7 +493,7 @@ function handleComplete(event)
                     var rank = new createjs.Text(rankNumber+":- - -(00題/00.0%)", "32px Arial", "#362e2b"); 
                     // rank.outline = 4;
                     rank.x = 80;
-                    rank.y = 150 + 52*j;
+                    rank.y = 130 + 48*j;
                     mGameContainer.addChild(rank);
                     mRanksArray[j] = rank;
                     rank.visible = false;
@@ -514,7 +522,7 @@ function handleComplete(event)
             case "close_button":
                 mCloseButton = new createjs.Bitmap(result);   
                 mCloseButton.x = 175;
-                mCloseButton.y = 104;   
+                mCloseButton.y = 74;   
                 mCloseButton.regX = 263/2;
                 mCloseButton.regY = 62/2;
 
@@ -529,6 +537,8 @@ function handleComplete(event)
                     }
                     mRankBoard.visible = false;
                     mCloseButton.visible = false;
+                    mLeftArrow.visible = false;
+                    mRightArrow.visible = false;
                     appearObject(mTime100);
                     appearObject(mQuestion20);
 
@@ -537,6 +547,84 @@ function handleComplete(event)
                 });
                 mGameContainer.addChild(mCloseButton);
                 mCloseButton.visible = false;
+                break;
+            case "left_arrow":
+                mLeftArrow = new createjs.Bitmap(result);
+                mGameContainer.addChild(mLeftArrow);    
+                mLeftArrow.x = screenWidth/2 + 100;
+                mLeftArrow.y = 70;   
+                mLeftArrow.regX = 52/2;
+                mLeftArrow.regY = 52/2;
+                mLeftArrow.visible = false;
+
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mLeftArrow.hitArea = buttonHitArea;  
+                mLeftArrow.addEventListener("click", function(evt) 
+                {
+                    playClickSound();
+                    if(mLeftArrow.visible)
+                    {
+                        mRankIndex--;
+                        mRankNext = showRankListByIndex(mRankIndex);
+
+                        if(mRankIndex <= 0)
+                        {
+                            mLeftArrow.visible = false;
+                        }
+                        else
+                        {
+                            mLeftArrow.visible = true;
+                        }
+                        if(mRankNext)
+                        {
+                            mRightArrow.visible = true;
+                        }
+                        else
+                        {
+                            mRightArrow.visible = false;
+                        }
+                    }
+                });
+                break;
+            case "right_arrow":
+                mRightArrow = new createjs.Bitmap(result);
+                mGameContainer.addChild(mRightArrow);    
+                mRightArrow.x = screenWidth/2 + 180;
+                mRightArrow.y = 70;   
+                mRightArrow.regX = 52/2;
+                mRightArrow.regY = 52/2;
+                mRightArrow.visible = false;
+
+                var buttonHitArea = new createjs.Shape();
+                buttonHitArea.graphics.beginFill("#F00").drawRect(0,0,result.width,result.height);
+                mRightArrow.hitArea = buttonHitArea;  
+                mRightArrow.addEventListener("click", function(evt) 
+                {
+                    playClickSound();
+                    if(mRightArrow.visible)
+                    {
+                        mRankIndex++;
+                        mRankNext = showRankListByIndex(mRankIndex);
+
+                        if(mRankIndex <= 0)
+                        {
+                            mLeftArrow.visible = false;
+                        }
+                        else
+                        {
+                            mLeftArrow.visible = true;
+                        }
+                        if(mRankNext)
+                        {
+                            mRightArrow.visible = true;
+                        }
+                        else
+                        {
+                            mRightArrow.visible = false;
+                        }
+                    }
+                });
                 break;
             case "again_button":
                 mGameAgainButton = new createjs.Bitmap(result);

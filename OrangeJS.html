@@ -79,6 +79,7 @@
         var mRankButton;
         var mRankBoard;
         var mRanksArray;
+        var mRankObjectArray;
         var mCloseButton;
 
         // 分數區間
@@ -233,7 +234,14 @@
 
         var mMe;
 
-        var mSoundButton;
+        var mSoundOnButton;
+        var mSoundOffButton;
+
+        var mLeftArrow;
+        var mRightArrow;
+
+        var mRankIndex;
+        var mRankNext;
 
         window.onload = function () 
         {
@@ -325,6 +333,9 @@
 
             mPuzzleLevel = 0;
 
+            mRankNext = false;
+            mRankIndex = 0;
+
             // Image陣列物件
             assets = [];
             iconAssets = [];
@@ -344,6 +355,7 @@
 
             // 排行榜分數
             mRanksArray = [];
+            mRankObjectArray = [];
 
 
     		// Stage物件：Display List 最底層的物件
@@ -562,7 +574,6 @@
 
             hideObject(mStartButton);
             hideObject(mRankButton);
-            
         }
 
         // 遊戲繼續進行
@@ -1065,7 +1076,7 @@
             var object = Parse.Object.extend("GameRecord");
             var query = new Parse.Query(object);
             query.descending("score");
-            query.limit(10);
+            // query.limit(10);
             query.find(
             {
                 success: function(result) 
@@ -1074,22 +1085,33 @@
 
                     if(result != null)
                     {
-                        // 顯示前10名就好
-                        for(var j=0; j<result.length; j++)
-                        {
-                            console.log(result[j].get("score")+" = "+result[j].get("rate"));
+                        // for(var j=0; j<result.length; j++)
+                        // {
+                            mRankObjectArray = result;
 
-                            if((j+1)<10)
-                            {
-                                rankNumber = "0"+(j+1);
-                            }
-                            else
-                            {
-                                rankNumber = (j+1);
-                            }
-                            var rank = mRanksArray[j];
-                            rank.text = rankNumber+":"+result[j].get("playername")+
-                            "("+result[j].get("score")+"題/"+result[j].get("rate")+"%)"; 
+                            // console.log(result[j].get("score")+" = "+result[j].get("rate"));
+
+                            // if((j+1)<10)
+                            // {
+                            //     rankNumber = "0"+(j+1);
+                            // }
+                            // else
+                            // {
+                            //     rankNumber = (j+1);
+                            // }
+                            // var rank = mRanksArray[j];
+                            // rank.text = rankNumber+":"+result[j].get("playername")+
+                            // "("+result[j].get("score")+"題/"+result[j].get("rate")+"%)"; 
+                        // }
+
+                        mRankNext = showRankListByIndex(mRankIndex);
+                        if(mRankNext)
+                        {
+                            mRightArrow.visible = true;
+                        }
+                        else
+                        {
+                            mRightArrow.visible = false;
                         }
                     }
 
@@ -1101,6 +1123,68 @@
                     return null;
                 }
             });
+        }
+
+        function showRankListByIndex(index)
+        {
+            var rankNumber = "";   
+            for(var j=index*10; j<(index*10)+10; j++)
+            {
+                if((j+1)<10)
+                {
+                    rankNumber = "0"+(j+1);
+                }
+                else
+                {
+                    rankNumber = (j+1);
+                }
+
+                console.log("j = "+j);
+                console.log("rankNumber = "+rankNumber);
+                // console.log("mRankObjectArray.length = "+mRankObjectArray.length);
+
+                var rank = mRanksArray[j%10];
+                if(j >= mRankObjectArray.length)
+                {
+                    rank.text = rankNumber+":- - -(00題/00.0%)";
+                }
+                else
+                {
+                    // console.log(mRankObjectArray[j].get("score")+" = "+mRankObjectArray[j].get("rate"));
+
+                    console.log("OBJECT = "+mRankObjectArray[j]);
+                    
+                    var playname = mRankObjectArray[j].get("playername");
+
+                    if((playname == undefined) || (playname == "undefined"))
+                    {
+                        playname = "玩家";
+                    }
+
+                    var score = mRankObjectArray[j].get("score");
+                    if(score == undefined || (score == "undefined"))
+                    {
+                        score = "0";
+                    }
+
+                    var rate = mRankObjectArray[j].get("rate");
+                    if(rate == undefined || (rate == "undefined"))
+                    {
+                        rate = "0";
+                    }                    
+
+                    rank.text = rankNumber+":"+playname+"("+score+"題/"+rate+"%)"; 
+                }
+
+            
+            }
+
+            if(j >= mRankObjectArray.length)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         // 暫時的做法

@@ -1001,6 +1001,10 @@ function handleComplete(event)
 
     function addRankCircleBoard(score, ranks)
     {
+        if(mRankCircleContainer == null)
+        {
+            return;
+        }
         mRankCircleContainer.removeAllChildren();
 
         // mCloseCircleButton.visible = true;

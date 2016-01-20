@@ -1200,11 +1200,26 @@
                     if(result != null)
                     {
                         var ranks = [0,0,0,0,0,0,0,0];
+                        var index = 7;
                         for(var j=0; j<result.length; j++)
                         {
                             var score = result[j].get("score");
                             console.log("分數："+score);
-                            var index = 7-Math.round(score/3);
+
+                            if((score == undefined) || (score == "undefined"))
+                            {
+                                score = 0;
+                            }
+
+                            if(score == 0)
+                            {
+                                index = 6;
+                            }      
+                            else
+                            {
+                                index = 7-Math.round(score/3);
+                            }                      
+                            console.log("索引："+index);
                             ranks[index] = ranks[index]+1; 
                         }
                     }
